@@ -1,15 +1,15 @@
+import { Box } from '@material-ui/core'
 import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './Pages/Home/Home';
+import Navbar from './components/Navbar/Navbar'
+import Home from './Pages/Home/Home'
 
 const App = () => {
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<Home />} />
-        </Routes>
-      </BrowserRouter>
+      <Navbar />
+      <Box>
+        <Home />
+      </Box>
     </>
   )
 }

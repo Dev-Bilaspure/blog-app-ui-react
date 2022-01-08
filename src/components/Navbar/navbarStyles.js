@@ -2,9 +2,9 @@ import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
     navbar: {
-        paddingTop: 9,
+        paddingTop: 5,
         background: '#fff',
-        height: 86,
+        height: 76,
         display: 'flex',
         boxShadow: 'none',
         borderBottom: '1px solid black',
@@ -12,10 +12,9 @@ const useStyles = makeStyles({
     },
     logo: {
       color: '#000000',
-      marginLeft: 60,
+      marginLeft: '3rem',
       fontFamily: `'Abril Fatface', 'cursive'`,
       flex: 1,
-      fontSize: 35
     },
     buttons: {
       flex: 3,
@@ -48,6 +47,16 @@ const useStyles = makeStyles({
         color: '#000000',
         border: '1px solid black',
       }
+    },
+    reverseTxt: {
+      transform: 'scale(-1, 1)',
+      '-moz-transform': 'scale(-1, 1)',
+      '-webkit-transform': 'scale(-1, 1)',
+      '-o-transform': 'scale(-1, 1)',
+      '-ms-transform': 'scale(-1, 1)',
+      transform: 'scale(-1, 1)',
+      float: 'left',
+      marginRight: 6
     }
 })
 
