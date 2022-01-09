@@ -21,7 +21,7 @@ const useStyles  = makeStyles({
 const Home = () => {
   const classes = useStyles();
   return (
-    <Box> 
+    <Box style={{overflowX: 'hidden'}}> 
       <Banner className={classes.banner}/>
       <Grid container className={classes.belowBanner}>
         <Grid item lg={3} md={3} xs={12} sm={12}>

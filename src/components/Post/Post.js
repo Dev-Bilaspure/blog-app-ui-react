@@ -5,8 +5,10 @@ import React from 'react'
 const useStyle = makeStyles({
   paper: {
     padding: 20,
-    paddingTop: 20,
-    borderRadius: 10
+    paddingTop: 0,
+    borderRadius: 10,
+    paddingRight: 0,
+    paddingLeft: 0
   }
 })
 const Post = () => {
@@ -42,15 +44,17 @@ const Post = () => {
             <hr />
             <span className="postDate">1 hour ago</span>
           </div>
-          <p className="postDesc">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda
-            officia architecto deserunt deleniti? Labore ipsum aspernatur magnam
-            fugiat, reprehenderit praesentium blanditiis quos cupiditate ratione
-            atque, exercitationem quibusdam, reiciendis odio laboriosam? m dolor sit amet, consectetur adipisicing elit. Assumenda
-            officia architecto deserunt deleniti? Labore ipsum aspernatur magnam
-            fugiat, reprehenderit praesentium blanditiis quos cupiditate ratione
-            atque, exercitationem quibusdam, reiciendis odio laboriosam?
-          </p>
+          <div className='descWraper'>
+            <p className="postDesc">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda
+              officia architecto deserunt deleniti? Labore ipsum aspernatur magnam
+              fugiat, reprehenderit praesentium blanditiis quos cupiditate ratione
+              atque, exercitationem quibusdam, reiciendis odio laboriosam? m dolor sit amet, consectetur adipisicing elit. Assumenda
+              officia architecto deserunt deleniti? Labore ipsum aspernatur magnam
+              fugiat, reprehenderit praesentium blanditiis quos cupiditate ratione
+              atque, exercitationem quibusdam, reiciendis odio laboriosam?
+            </p>
+          </div>
         </div>
       </Paper>
     </Box>

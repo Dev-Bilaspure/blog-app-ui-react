@@ -10,7 +10,7 @@ const useStyles = makeStyles({
     padding: 25,
     paddingRight: 0,
     paddingBottom: 10,
-    // background: 'rgb(255, 249, 242)',
+    background: 'rgb(255, 249, 242)',
     paddingLeft: 20,
     paddingTop: 20
   },

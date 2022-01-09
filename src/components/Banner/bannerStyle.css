@@ -1,0 +1,9 @@
+.image {
+    height: '65vh';
+    width: '100%';
+    object-fit: 'cover';
+    color: '#fff';
+    padding-left: 70;
+    padding-top: 20;
+    background-size: 'cover';
+}
