@@ -7,7 +7,7 @@ const useStyle = makeStyles({
   image: {
     background: `url(${require('./../../utils/bannerImg.jpg')})  center/100% repeat-x #000`,
     height: '66vh',
-    width: '100%',
+    width: '100%',      
     objectFit: 'cover',
     color: '#fff',
     paddingLeft: 40,

@@ -7,6 +7,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import './blogStyle.css'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import RelatedPosts from '../../components/RelatedPosts/RelatedPosts';
+
 
 const useStyle = makeStyles({
   textContent: {
@@ -15,28 +17,42 @@ const useStyle = makeStyles({
     lineHeight: 1.5, 
     letterSpacing: 0.7
   },
-  followButton: {
-    background: 'rgb(27,137,22)', 
+  smallFollowButton: {
+    background: 'rgb(118,136,144)', 
     color: '#fff', 
     borderRadius: 30, 
     textTransform: 'none', 
-    fontSize: 11, 
+    fontSize: 14, 
     padding: 0, width: 0,
     height: 22,
     float: 'right',
     marginTop: 3,
     marginLeft: 10,
-    border: '1px solid #000000',
+    width: 73,
+    height: 25,
     '&:hover': {
-      background: 'rgb(27,137,22)',
-      border: '0px solid #000000',
+      background: 'rgb(101, 116, 122)',
+      
     }
   }, 
   likeFollowBookmark: {
     marginTop: 30,
     margin: 'auto',
     // background: '#000000',
-    width: 180
+    width: 180,
+    marginBottom: 30,
+  },
+  largeFollowButton: {
+    textTransform: 'none', 
+    background: 'rgb(118,136,144)', 
+    borderRadius: 30, 
+    color: '#fff', 
+    width: 90, 
+    height: 45,
+    '&:hover': {
+      background: 'rgb(101, 116, 122)',
+    },
+    margin: 'auto'
   }
 })
 const Blog = () => {
@@ -46,6 +62,8 @@ const Blog = () => {
   const [likes, setLikes] = useState(500);
   const [isLiked, setIsLiked] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [isMyself, setIsMyself] = useState(true);
   const handleLikeButton = (e) => {
     e.preventDefault();
     if(isLiked) 
@@ -58,16 +76,20 @@ const Blog = () => {
     e.preventDefault();
     setIsBookmarked(!isBookmarked);
   }
+  const handleFollowButton = (e) => {
+    e.preventDefault();
+    setIsFollowing(!isFollowing);
+  }
   return (
     <Grid container style={{marginTop: 30}}>
-      <Grid item lg={3}>
+      <Grid item lg={3} md={3} sm={12} xs={12}>
         <Box className={classes.likeFollowBookmark}>
-          <Button style={{textTransform: 'none', background: 'rgb(27,137,22)', borderRadius: 30, color: '#fff', width: 75}}>
-            Follow
+          <Button onClick={handleFollowButton} className={classes.largeFollowButton}>
+            {isFollowing ? 'Following' : 'Follow' }
           </Button>
-          <Box style={{marginTop: 15, borderTop: '1px solid rgb(240,240,241)', paddingTop: 10, paddingLeft: 6}}>
+          <Box style={{ marginTop: 15, borderTop: '1px solid rgb(240,240,241)', paddingTop: 10, paddingLeft: 6}}>
             <Grid container style={{ fontSize: 18}}>
-              <Grid item style={{ float: 'left', color: 'rgb(246,55,55)'}} >
+              <Grid item style={{ float: 'left', color: 'rgb(246,55,55)', fontSize: 20}} >
                 {
                   isLiked 
                   ? <i class="fas fa-heart" style={{marginRight: 6}} onClick={handleLikeButton}></i> 
@@ -75,7 +97,7 @@ const Blog = () => {
                 }
                 {likes}
               </Grid>
-              <Grid item style={{color: 'rgb(27,137,22)'}}>
+              <Grid item style={{color: 'rgb(27,137,22)', fontSize: 20}}>
                 {
                   isBookmarked 
                   ? <i class="fas fa-bookmark" style={{marginLeft: 40}} onClick={handleBookmarkButton}></i>
@@ -87,11 +109,11 @@ const Blog = () => {
           </Box>
         </Box>
       </Grid>
-      <Grid item lg={6} style={{width: '100%'}}>
+      <Grid item lg={6} md={6} sm={12} xs={12} style={{width: '100%'}} >
         <Typography style={{fontSize: 48, lineHeight: '60px'}}>
           How to use React Router in your React js project.
         </Typography>
-        <Box style={{marginTop: 26}}>
+        <Box style={{marginTop: 26, marginBottom: 40}}>
           <Grid container style={{height: 'auto'}}>
             <Grid item>
               <Avatar
@@ -105,8 +127,8 @@ const Blog = () => {
                 <TableHead>
                   <TableRow>
                     <Typography style={{fontSize: 15, marginTop: 3, float: 'left'}}>Dev Bilaspure</Typography>
-                    <Button className={classes.followButton}>
-                      Follow
+                    <Button className={classes.smallFollowButton} onClick={handleFollowButton}>
+                      {isFollowing ? 'Following' : 'Follow' }
                     </Button>
                   </TableRow>
                   <TableRow>
@@ -115,14 +137,6 @@ const Blog = () => {
                 </TableHead>
               </Table>
             </Grid>
-            {/* <Grid item >
-              <Button variant="outlined" startIcon={<EditIcon />} className={classes.editButton}>
-                Edit
-              </Button>
-              <Button variant="outlined" startIcon={<DeleteIcon />} className={classes.deleteButton} >
-                Delete
-              </Button>
-            </Grid> */}
           </Grid>
           <Box style={{marginTop: 30}}>
             <img 
@@ -141,8 +155,32 @@ const Blog = () => {
           </Box>
         </Box>
       </Grid>
-      <Grid item lg={3}>
+      <Grid item lg={3}  md={3} sm={12} xs={12}>
+        {
+          isMyself && 
+          <Box style={{width: '90%',paddingLeft: 20, marginTop: 10, marginBottom: 50}}>
+            <Typography style={{marginBottom: 10, fontFamily: `'Merriweather', 'serif'`, fontSize: 20}}>
+              Author Controls
+            </Typography>
+            <Box style={{paddingTop: 20, borderTop: '1px solid rgb(227, 227, 228)'}}>
+              <Button variant="outlined" startIcon={<EditIcon />} style={{marginBottom: 15, width: '40%', color: 'rgb(101, 116, 122)', border: '1px solid rgb(101, 116, 122)'}}>
+                Edit
+              </Button><br />
+              <Button variant="outlined" startIcon={<DeleteIcon />} style={{width: '40%', color: 'rgb(216,63,53)', border: '1px solid rgb(216,63,53)'}}>
+                Delete
+              </Button>
+            </Box>
+          </Box>
+        }
         
+        <Box style={{width: '90%', paddingLeft: 20, marginTop: 60}}>
+          <Typography style={{fontFamily: `'Merriweather', 'serif'`, fontSize: 20, marginBottom: 10}}>
+            Related:
+          </Typography>
+          <Box style={{paddingTop: 20, borderTop: '1px solid rgb(227, 227, 228)'}}>
+            <RelatedPosts />
+          </Box>
+        </Box>
       </Grid>
     </Grid>
   )
