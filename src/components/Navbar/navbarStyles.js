@@ -21,13 +21,13 @@ const useStyles = makeStyles({
       marginRight: 70,
     },
     writeButton: {
-      marginRight: 50,
+      marginRight: 40,
       color: '#000000',
       float: 'right',
       paddingTop: 11,
     },
     signInButton: {
-      marginRight: 50,
+      marginRight: 40,
       float: 'right',
       color: '#000000',
       paddingTop: 11,

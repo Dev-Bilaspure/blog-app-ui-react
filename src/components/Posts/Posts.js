@@ -11,32 +11,16 @@ const useStyle = makeStyles({
 
 const Posts = () => {
   const { paper } = useStyle();
+  const arr = [1,2,3,4,5,6,7,8,9,10];
   return (
     <Grid container>
-      <Grid item lg={6} md={6} xs={12} sm={12}>
-        <Post />
-      </Grid>
-      <Grid item lg={6} md={6} xs={12} sm={12}>
-        <Post />
-      </Grid>
-      <Grid item lg={6} md={6} xs={12} sm={12}>
-        <Post />
-      </Grid>
-      <Grid item lg={6} md={6} xs={12} sm={12}>
-        <Post />
-      </Grid>
-      <Grid item lg={6} md={6} xs={12} sm={12}>
-        <Post />
-      </Grid>
-      <Grid item lg={6} md={6} xs={12} sm={12}>
-        <Post />
-      </Grid>
-      <Grid item lg={6} md={6} xs={12} sm={12}>
-        <Post />
-      </Grid>
-      <Grid item lg={6} md={6} xs={12} sm={12}>
-        <Post />
-      </Grid>
+      {
+        arr.map(ele => (
+          <Grid item lg={6} md={6} xs={12} sm={12}>
+            <Post id={ele}/>
+          </Grid>
+        ))
+      }
     </Grid>
   )
 }

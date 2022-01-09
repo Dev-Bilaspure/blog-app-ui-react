@@ -10,7 +10,7 @@ const useStyle = makeStyles({
     width: '100%',
     objectFit: 'cover',
     color: '#fff',
-    paddingLeft: 70,
+    paddingLeft: 40,
     paddingTop: 20,
     backgroundSize: 'cover'
   },
@@ -18,10 +18,11 @@ const useStyle = makeStyles({
     fontSize: '4rem', 
     lineHeight: 1.1, 
     textShadow: '0px 0px 7px #000000', 
-    fontFamily: `'Roboto Slab', 'serif'`
+    fontFamily: `'Roboto Slab', 'serif'`,
+    marginRight: 60
   },
   subHeading: {
-    width: '90%', 
+    width: '75%', 
     fontSize: '1.3rem', 
     paddingTop: 20, 
     textShadow: '0px 0px 18px #000000'
@@ -43,11 +44,11 @@ const Banner = () => {
   return (
     <Box className={classes.image}>
       <Grid container>
-        <Grid item lg={6}>
+        <Grid item lg={7}>
           <Typography className={classes.heading}>
             Maadhyam: A paltform to read, write and connect
           </Typography>
-          <Hidden xsDown smDown mdDown>
+          <Hidden xsDown smDown >
             <Typography className={classes.subHeading}>
               If you have a story to tell, knowledge to share, or a perspective to offer — welcome home.
             </Typography>
