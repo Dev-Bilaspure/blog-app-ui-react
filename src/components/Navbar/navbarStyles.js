@@ -8,7 +8,7 @@ const useStyles = makeStyles({
         display: 'flex',
         boxShadow: 'none',
         borderBottom: '1px solid black',
-        position: 'sticky'
+        position: 'sticky',
     },
     logo: {
       color: '#000000',
