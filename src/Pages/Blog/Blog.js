@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Grid, Table, TableHead, TableRow, Typography } from '@material-ui/core';
+import { Avatar, Box, Button, Grid, Table, TableHead, TableRow, Typography, Hidden } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
@@ -81,35 +81,38 @@ const Blog = () => {
     setIsFollowing(!isFollowing);
   }
   return (
-    <Grid container style={{marginTop: 30}}>
+    <Grid container style={{marginTop: 10, padding: 20, paddingRight: 0}}>
       <Grid item lg={3} md={3} sm={12} xs={12}>
-        <Box className={classes.likeFollowBookmark}>
-          <Button onClick={handleFollowButton} className={classes.largeFollowButton}>
-            {isFollowing ? 'Following' : 'Follow' }
-          </Button>
-          <Box style={{ marginTop: 15, borderTop: '1px solid rgb(240,240,241)', paddingTop: 10, paddingLeft: 6}}>
-            <Grid container style={{ fontSize: 18}}>
-              <Grid item style={{ float: 'left', color: 'rgb(246,55,55)', fontSize: 20}} >
-                {
-                  isLiked 
-                  ? <i class="fas fa-heart" style={{marginRight: 6}} onClick={handleLikeButton}></i> 
-                  : <i class="far fa-heart" style={{marginRight: 6}} onClick={handleLikeButton}></i>
-                }
-                {likes}
-              </Grid>
-              <Grid item style={{color: 'rgb(27,137,22)', fontSize: 20}}>
-                {
-                  isBookmarked 
-                  ? <i class="fas fa-bookmark" style={{marginLeft: 40}} onClick={handleBookmarkButton}></i>
-                  : <i class="far fa-bookmark" style={{marginLeft: 40}} onClick={handleBookmarkButton}></i>
-                }
-              </Grid>
-            </Grid> 
-            
+        <Hidden xsDown smDown>
+          <Box className={classes.likeFollowBookmark}>
+            <Button onClick={handleFollowButton} className={classes.largeFollowButton}>
+              {isFollowing ? 'Following' : 'Follow' }
+            </Button>
+            <Box style={{ marginTop: 15, borderTop: '1px solid rgb(240,240,241)', paddingTop: 10, paddingLeft: 6}}>
+              <Grid container style={{ fontSize: 18}}>
+                <Grid item style={{ float: 'left', color: 'rgb(246,55,55)', fontSize: 20}} >
+                  {
+                    isLiked 
+                    ? <i class="fas fa-heart" style={{marginRight: 6}} onClick={handleLikeButton}></i> 
+                    : <i class="far fa-heart" style={{marginRight: 6}} onClick={handleLikeButton}></i>
+                  }
+                  {likes}
+                </Grid>
+                <Grid item style={{color: 'rgb(27,137,22)', fontSize: 20}}>
+                  {
+                    isBookmarked 
+                    ? <i class="fas fa-bookmark" style={{marginLeft: 40}} onClick={handleBookmarkButton}></i>
+                    : <i class="far fa-bookmark" style={{marginLeft: 40}} onClick={handleBookmarkButton}></i>
+                  }
+                </Grid>
+              </Grid> 
+              
+            </Box>
           </Box>
-        </Box>
+        </Hidden>
+        
       </Grid>
-      <Grid item lg={6} md={6} sm={12} xs={12} style={{width: '100%'}} >
+      <Grid item lg={6} md={6} sm={12} xs={12} style={{width: '100%', paddingRight: 20}} >
         <Typography style={{fontSize: 48, lineHeight: '60px'}}>
           How to use React Router in your React js project.
         </Typography>
@@ -152,28 +155,49 @@ const Blog = () => {
                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum ad alias enim ipsa illo voluptatum dolores suscipit animi inventore corporis aspernatur rem nulla modi ipsam facere quo, eos adipisci, rerum aut nemo mollitia et praesentium. Officia dignissimos ullam assumenda explicabo velit nulla. Facilis animi dolorem earum libero eum nam minus inventore voluptatum tenetur. Voluptates nihil tempora alias, nam quo expedita architecto nisi minima facilis non! Qui voluptas odio, itaque soluta dolores repellat tempore earum hic commodi aliquid laboriosam id. Sint.
               </Typography>
             </Box>
+            <Box>
+              <Hidden mdUp>
+              <Grid container style={{ fontSize: 18, padding: 30, marginTop: 50, borderTop: '1px solid rgb(227, 227, 228)',  borderBottom: '1px solid rgb(227, 227, 228)'}}>
+                  <Grid item style={{ float: 'left', color: 'rgb(246,55,55)', fontSize: 20}} >
+                    {
+                      isLiked 
+                      ? <i class="fas fa-heart" style={{marginRight: 6}} onClick={handleLikeButton}></i> 
+                      : <i class="far fa-heart" style={{marginRight: 6}} onClick={handleLikeButton}></i>
+                    }
+                    {likes}
+                  </Grid>
+                  <Grid item style={{color: 'rgb(27,137,22)', fontSize: 20}}>
+                    {
+                      isBookmarked 
+                      ? <i class="fas fa-bookmark" style={{marginLeft: 40}} onClick={handleBookmarkButton}></i>
+                      : <i class="far fa-bookmark" style={{marginLeft: 40}} onClick={handleBookmarkButton}></i>
+                    }
+                  </Grid>
+                </Grid> 
+              </Hidden>
+            </Box>
           </Box>
         </Box>
       </Grid>
       <Grid item lg={3}  md={3} sm={12} xs={12}>
         {
           isMyself && 
-          <Box style={{width: '90%',paddingLeft: 20, marginTop: 10, marginBottom: 50}}>
+          <Box style={{width: '80%',paddingLeft: 20, marginTop: 10, marginBottom: 50}}>
             <Typography style={{marginBottom: 10, fontFamily: `'Merriweather', 'serif'`, fontSize: 20}}>
               Author Controls
             </Typography>
             <Box style={{paddingTop: 20, borderTop: '1px solid rgb(227, 227, 228)'}}>
-              <Button variant="outlined" startIcon={<EditIcon />} style={{marginBottom: 15, width: '40%', color: 'rgb(101, 116, 122)', border: '1px solid rgb(101, 116, 122)'}}>
+              <Button variant="outlined" startIcon={<EditIcon />} style={{marginBottom: 15, width: 140, color: 'rgb(101, 116, 122)', border: '1px solid rgb(101, 116, 122)'}}>
                 Edit
               </Button><br />
-              <Button variant="outlined" startIcon={<DeleteIcon />} style={{width: '40%', color: 'rgb(216,63,53)', border: '1px solid rgb(216,63,53)'}}>
+              <Button variant="outlined" startIcon={<DeleteIcon />} style={{width: 140, color: 'rgb(216,63,53)', border: '1px solid rgb(216,63,53)'}}>
                 Delete
               </Button>
             </Box>
           </Box>
         }
         
-        <Box style={{width: '90%', paddingLeft: 20, marginTop: 60}}>
+        <Box style={{width: '80%', paddingLeft: 20, marginTop: 60}}>
           <Typography style={{fontFamily: `'Merriweather', 'serif'`, fontSize: 20, marginBottom: 10}}>
             Related:
           </Typography>
