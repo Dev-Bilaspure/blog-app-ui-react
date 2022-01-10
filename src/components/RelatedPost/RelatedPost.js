@@ -4,7 +4,7 @@ import React from 'react'
 const useStyle = makeStyles({
   container: {
     height: 65,
-    marginBottom: 10
+    marginBottom: 20
   },
   title: {
     
