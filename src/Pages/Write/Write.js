@@ -12,11 +12,11 @@ const Write = () => {
   const [discription, setDiscription] = useState('');
   const blogImg = `https://miro.medium.com/max/1400/1*TVd_sNhpc7JDPBHAsAOQZg.jpeg`;
   return (
-    <Grid container style={{marginTop: 10, padding: 20, paddingRight: 0, marginBottom: 120}}>
+    <Grid container style={{marginTop: 10, padding: 20, paddingRight: 0, marginBottom: 70, paddingLeft: 10}}>
       <Grid item lg={3} md={3} sm={12} xs={12}>
 
       </Grid>
-      <Grid item lg={6} md={6} sm={12} xs={12} style={{width: '100%', paddingRight: 20}} >
+      <Grid item lg={6} md={6} sm={12} xs={12} style={{width: '100%', paddingRight: 10}} >
         <TextareaAutosize 
           placeholder='Title' 
           className={classes.titleField} 
@@ -59,7 +59,7 @@ const Write = () => {
           />
         </Box>
       </Grid>
-      <Grid item lg={3}  md={3} sm={12} xs={12}>
+      <Grid item lg={3}  md={3} sm={12} xs={12} style={{paddingLeft: 30}}>
         <RightSideBar />
       </Grid>
     </Grid>

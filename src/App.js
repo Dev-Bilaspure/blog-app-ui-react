@@ -5,12 +5,14 @@ import Home from './Pages/Home/Home'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Blog from './Pages/Blog/Blog';
 import Write from './Pages/Write/Write';
+import ScrollToTop from './components/ScrollToTop';
 
 const App = () => {
   return (
     <>
       <BrowserRouter>
         <Navbar />
+        <ScrollToTop />
         <Routes>
           <Route exact path='/' element={<Home />} />
           <Route exact path='/write' element={<Write />} />

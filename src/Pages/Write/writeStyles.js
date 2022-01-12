@@ -8,10 +8,15 @@ const useStyle = makeStyles({
       fontSize: 50,
       '&:focus': {
         outline: 'none !important',
+        borderLeft: '0px solid rgb(172, 172, 172)',
+        borderBottom: '1px solid rgb(105, 105, 105)',
+        width: '99%',
       },
       fontFamily: `'Lora', 'serif'`,
       lineHeight: '60px',
-      resize: 'none'
+      resize: 'none',
+      borderLeft: '1px solid rgb(105, 105, 105)',
+      paddingLeft: 3,
     },
     imageUploadButton: {
       display: 'none',
@@ -37,13 +42,17 @@ const useStyle = makeStyles({
       border: 'none',
       '&:focus': {
         outline: 'none !important',
+        borderLeft: '1px solid rgb(158, 158, 158)',
+        borderRight: '1px solid rgb(158, 158, 158)',
+        width: '99%'
       },
       resize: 'none',
       fontFamily: `'Faustina', 'serif'`,
       fontSize: 21,
       lineHeight: 1.5, 
       letterSpacing: 0.7,
-      minHeight: 400
+      minHeight: 500,
+      marginBottom: 60,
     },
     rightSideBar: {
       width: '85%',
