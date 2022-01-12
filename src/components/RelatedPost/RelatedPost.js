@@ -25,16 +25,16 @@ const RelatedPost = () => {
   return (
     <div class={classes.container}>
       <Grid container>
-        <Grid item lg={3}  md={3} sm={3} xs={3}>
+        <Grid item lg={3}  md={3} sm={2} xs={2}>
           <img 
             src="https://miro.medium.com/max/1400/1*TVd_sNhpc7JDPBHAsAOQZg.jpeg" 
             alt="blog-post-image" 
             style={{ width: '100%', height: 58}}
           />
         </Grid>
-        <Grid item lg={9}  md={9} sm={9} xs={9}>
+        <Grid item lg={9}  md={9} sm={10} xs={10}>
           <Box style={{ height: 65, marginLeft: 7}}>
-            <Typography className={classes.title}>
+            <Typography className={classes.title} >
               {title} 
             </Typography>
           </Box>

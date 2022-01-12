@@ -29,10 +29,10 @@ const Blog = () => {
         <LeftSideBar  isFollowing={isFollowing} handleFollowButton={handleFollowButton}/>
       </Grid>
       <Grid item lg={6} md={6} sm={12} xs={12} style={{width: '100%', paddingRight: 20}} >
-        <Typography style={{fontSize: 48, lineHeight: '60px'}}>
+        <Typography style={{fontSize: 50, lineHeight: '60px', fontFamily: `'Lora', 'serif'`,}}>
           How to use React Router in your React js project.
         </Typography>
-        <Box style={{marginTop: 26, marginBottom: 40}}>
+        <Box style={{marginTop: 40, marginBottom: 40}}>
           <MiddleBanner isFollowing={isFollowing} handleFollowButton={handleFollowButton}/>
           <Box style={{marginTop: 30}}>
             {
@@ -43,7 +43,7 @@ const Blog = () => {
                   style={{objectFit: 'cover', width: '100%'}}
                 />
             }
-            <Box style={{marginTop: 35}}>
+            <Box style={{marginTop: 35, marginBottom: 30}}>
               <Typography className={classes.textContent}>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Error, laboriosam repudiandae voluptatibus, harum accusantium corporis earum quas, consectetur necessitatibus labore quis repellat iste magnam nulla? Quisquam fugit dignissimos aperiam error, fuga veritatis enim earum blanditiis nemo. Non saepe quod alias, aliquid accusamus voluptatum laborum laboriosam totam architecto. Officiis, praesentium quibusdam provident culpa, mollitia sint quas quae deleniti, placeat fugit totam?
                   <br />
@@ -53,7 +53,9 @@ const Blog = () => {
             </Box>
             <Box>
               <Hidden mdUp>
-                <LikeNBookmark isFollowing={isFollowing} setIsFollowing={setIsFollowing}/>
+                <Box style={{borderTop: '1px solid rgb(227, 227, 228)', paddingTop: 30}}>
+                  <LikeNBookmark isFollowing={isFollowing} setIsFollowing={setIsFollowing}/>
+                </Box>
               </Hidden>
             </Box>
           </Box>
@@ -131,7 +133,7 @@ const RightSideBar = () => {
     <Box>
       {
         isMyself && 
-        <Box style={{width: '80%',paddingLeft: 20, marginTop: 10, marginBottom: 50}}>
+        <Box style={{width: '90%',paddingLeft: 10, marginTop: 10, marginBottom: 50}}>
           <Typography style={{marginBottom: 10, fontFamily: `'Merriweather', 'serif'`, fontSize: 20}}>
             Author Controls
           </Typography>
@@ -146,7 +148,7 @@ const RightSideBar = () => {
         </Box>
       }
         
-      <Box style={{width: '80%', paddingLeft: 20, marginTop: 60}}>
+      <Box style={{width: '90%', paddingLeft: 10, marginTop: 60}}>
         <Typography style={{fontFamily: `'Merriweather', 'serif'`, fontSize: 20, marginBottom: 10}}>
           Related:
         </Typography>
