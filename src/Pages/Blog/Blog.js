@@ -24,12 +24,13 @@ const Blog = () => {
   }
   const blogImg = `https://miro.medium.com/max/1400/1*TVd_sNhpc7JDPBHAsAOQZg.jpeg`;
   return (
-    <Grid container style={{marginTop: 10, padding: 20, paddingRight: 0}}>
+    <Box className='blogWrapper'>
+      <Grid container style={{marginTop: 10, padding: 20, paddingRight: 0}}>
       <Grid item lg={3} md={3} sm={12} xs={12}>
         <LeftSideBar  isFollowing={isFollowing} handleFollowButton={handleFollowButton}/>
       </Grid>
       <Grid item lg={6} md={6} sm={12} xs={12} style={{width: '100%', paddingRight: 20}} >
-        <Typography style={{fontSize: 50, lineHeight: '60px', fontFamily: `'Lora', 'serif'`,}}>
+        <Typography style={{fontSize: 45, lineHeight: '60px', fontFamily: `'Lora', 'serif'`,}}>
           How to use React Router in your React js project.
         </Typography>
         <Box style={{marginTop: 40, marginBottom: 40}}>
@@ -65,6 +66,8 @@ const Blog = () => {
         <RightSideBar />
       </Grid>
     </Grid>
+    </Box>
+    
   )
 }
 
@@ -89,10 +92,10 @@ const LikeNBookmark = () => {
   return(
     <Box>
       <Grid container style={{ fontSize: 18}}>
-          <Grid item className={classes.likeOrFollow} style={{ float: 'left', color: 'rgb(246,55,55)', fontSize: 20}} >
+          <Grid item className={classes.likeOrFollow} style={{ float: 'left', fontSize: 20}} >
             {
               isLiked 
-              ? <i class="fas fa-heart" style={{marginRight: 6}} onClick={handleLikeButton}></i> 
+              ? <i class="fas fa-heart" style={{marginRight: 6, color: 'rgb(219, 61, 61)'}} onClick={handleLikeButton}></i> 
               : <i class="far fa-heart" style={{marginRight: 6}} onClick={handleLikeButton}></i>
             }
             {likes}

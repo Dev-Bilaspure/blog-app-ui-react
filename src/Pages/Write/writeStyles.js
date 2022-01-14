@@ -5,7 +5,7 @@ const useStyle = makeStyles({
       overflowWrap: 'break-word',
       width: '100%',
       border: 'none',
-      fontSize: 50,
+      fontSize: 45,
       '&:focus': {
         outline: 'none !important',
         borderLeft: '0px solid rgb(172, 172, 172)',

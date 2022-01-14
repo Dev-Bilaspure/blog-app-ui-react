@@ -8,7 +8,7 @@ const useStyle = makeStyles({
       letterSpacing: 0.7
     },
     smallFollowButton: {
-      background: 'rgb(118,136,144)', 
+      background: 'rgb(26,136,22)', 
       color: '#fff', 
       borderRadius: 30, 
       textTransform: 'none', 
@@ -34,7 +34,7 @@ const useStyle = makeStyles({
     },
     largeFollowButton: {
       textTransform: 'none', 
-      background: 'rgb(118,136,144)', 
+      background: 'rgb(26,136,22)', 
       borderRadius: 30, 
       color: '#fff', 
       width: 90, 

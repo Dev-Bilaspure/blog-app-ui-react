@@ -4,6 +4,7 @@ import Banner from '../../components/Banner/Banner';
 import Categories from '../../components/Categories/Categories';
 import Posts from '../../components/Posts/Posts';
 // import useStyles from './homeStyles'
+import './homeStyle.css'
 
 const useStyles  = makeStyles({
   banner: {
@@ -21,7 +22,7 @@ const useStyles  = makeStyles({
 const Home = () => {
   const classes = useStyles();
   return (
-    <Box style={{overflowX: 'hidden'}}> 
+    <Box style={{overflowX: 'hidden'}} className='homePageWrapper'> 
       <Banner className={classes.banner}/>
       <Grid container className={classes.belowBanner}>
         <Grid item lg={3} md={3} xs={12} sm={12}>
