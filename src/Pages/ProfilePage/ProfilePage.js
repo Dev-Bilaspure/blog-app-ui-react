@@ -59,7 +59,7 @@ const TopMostBarForShortScreen = () => {
             </Link>
           </Box>
         </Grid>
-        <Grid item sm={10} xs={10} style={{position: 'absolute', right: 0, paddingRight: 30}}>
+        <Grid item sm={10} xs={10} className='rightSideOfTopMostBarSmlScr' style={{position: 'absolute', right: 0}}>
           <Grid container>
             <Grid item>
               <Typography  style={{color: 'rgb(26,136,22)', fontSize: 15, lineHeight: 2.3}}>
@@ -199,7 +199,7 @@ const TopBar = ({isFollowing, handleFollowBntClick}) => {
             <Grid container>
               <Grid item>
                 <Typography className={classes.topName}>
-                  Dev Bilaspure
+                  Devaditya Bilaspure
                 </Typography>
               </Grid>
               <Grid item>
