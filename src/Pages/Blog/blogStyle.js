@@ -21,7 +21,7 @@ const useStyle = makeStyles({
       width: 73,
       height: 25,
       '&:hover': {
-        background: 'rgb(101, 116, 122)',
+        background: 'rgb(26,136,22)',
         
       }
     }, 
@@ -40,14 +40,30 @@ const useStyle = makeStyles({
       width: 90, 
       height: 45,
       '&:hover': {
-        background: 'rgb(101, 116, 122)',
+        background: 'rgb(26,136,22)',
       },
       margin: 'auto'
     },
     likeOrFollow: {
       '&:hover': {
-        cursor: 'pointer'
+        cursor: 'pointer',
+        // textShadow: '0px 0px 4px rgb(27,137,22)'
       }
+    },
+    categoryTag: {
+      boxShadow: 'none',
+      fontSize: 12, 
+      borderRadius: 40, 
+      textTransform: 'none', 
+      height: 17, 
+      marginRight: 10, 
+      paddingRight: 7, 
+      paddingLeft: 7,
+      '&:active': {
+        boxShadow: 'none',
+        background: 'rgb(163, 163, 163)'
+      },
+      marginBottom: 8,
     }
   })
 

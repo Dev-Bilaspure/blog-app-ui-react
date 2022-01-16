@@ -12,13 +12,13 @@ const useStyles = makeStyles({
     },
     logo: {
       color: '#000000',
-      marginLeft: '3rem',
+      marginLeft: '20px',
       fontFamily: `'Abril Fatface', 'cursive'`,
       flex: 1,
     },
     buttons: {
       flex: 3,
-      marginRight: 70,
+      marginRight: 20,
     },
     writeButton: {
       marginRight: 40,

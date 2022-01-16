@@ -55,15 +55,13 @@ const useStyle = makeStyles({
       marginBottom: 60,
     },
     rightSideBar: {
-      width: '85%',
-      paddingLeft: 5, 
-      borderTop: '1px solid rgb(227, 227, 228)', 
-      paddingTop: 20,
-      marginTop: 10, 
+      paddingLeft: 0, 
+      // borderTop: '1px solid rgb(227, 227, 228)',
+
       marginBottom: 50, 
-      paddingRight: 0, 
+      paddingRight: 30, 
       paddingBottom: 40, 
-      borderBottom: '1px solid rgb(227, 227, 228)',
+      // borderBottom: '1px solid rgb(227, 227, 228)',
     },
     wordCount: {
       textAlign: 'right', 

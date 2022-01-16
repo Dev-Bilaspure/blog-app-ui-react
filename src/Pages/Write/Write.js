@@ -1,11 +1,13 @@
-import { Box, Typography, Grid, TextareaAutosize, Button } from '@material-ui/core'
+import { Typography, Grid, TextareaAutosize, Button, Chip, Hidden } from '@material-ui/core'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import SaveAsIcon from '@mui/icons-material/SaveAs';
 import PublishIcon from '@mui/icons-material/Publish';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useStyle from './writeStyles';
-import './writeStyle.css';
+import Box from '@mui/material/Box';
 
+import './writeStyle.css';
+import SelectedCategory from '../../components/SelectCategory/SelectCategory';
 const Write = () => {
   const classes = useStyle();
   const [title, setTitle] = useState('');
@@ -15,9 +17,13 @@ const Write = () => {
     <Box className='writeWrapper'>
       <Grid container style={{marginTop: 10, padding: 20, paddingRight: 0, marginBottom: 70, paddingLeft: 10}}>
         <Grid item lg={3} md={3} sm={12} xs={12}>
-
+          <Hidden smDown>
+            <div  style={{ border: '1px solid rgb(227, 227, 228)', marginTop: 5, paddingTop: 20, paddingBottom: 20, width: 201, marginLeft: 10, borderRadius: 5}}>
+              <PublishOrDraft />
+            </div>
+          </Hidden>
         </Grid>
-        <Grid item lg={6} md={6} sm={12} xs={12} style={{width: '100%', paddingRight: 10}} >
+        <Grid item lg={6} md={6} sm={12} xs={12} style={{width: '100%', paddingRight: 10, paddingBottom: 20,marginBottom: 40, borderBottom: '1px solid rgb(227, 227, 228)'}} >
           <TextareaAutosize 
             placeholder='Title' 
             className={classes.titleField} 
@@ -48,7 +54,7 @@ const Write = () => {
               className={classes.imageUploadButton}
             />
           </Box>
-          <Box style={{marginTop: 30}}>
+          <Box style={{marginTop: 10}}>
             <Box className={classes.wordCount}>
               { discription ? discription.split(' ').length : discription.length} Words
             </Box>
@@ -60,38 +66,82 @@ const Write = () => {
             />
           </Box>
         </Grid>
-        <Grid item lg={3}  md={3} sm={12} xs={12} style={{paddingLeft: 30}}>
+        <Grid item lg={3}  md={3} sm={12} xs={12} style={{paddingLeft: 10}}>
           <RightSideBar />
         </Grid>
       </Grid>
     </Box>
   )
 }
-
+const AddCategories = () => {
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [fakeSelectedCategories, setFakeSelectedCategories] = useState([]);
+  useEffect(() => {
+    if(fakeSelectedCategories.length<5)
+      setSelectedCategories(fakeSelectedCategories);
+  }, [fakeSelectedCategories])
+  const handleChange = (e) => {
+    setFakeSelectedCategories([... e.target.value]);
+  }
+  console.log(selectedCategories);
+  return(
+    <div>
+      <div style={{color: 'rgb(54, 54, 54)', paddingTop: 6, paddingLeft: 7, fontSize: 23, lineHeight: 1.2, paddingBottom: 20, fontFamily: `'Titillium Web', 'sans-serif'`}}>
+        Add categories for your post <Typography style={{paddingTop: 4}}>(maximum 4):</Typography>
+      </div>
+      <div style={{paddingBottom: 20, paddingTop: 10, paddingLeft: 7}}>
+        {
+          selectedCategories.map(selCat => (
+            <Chip style={{marginRight: 5, marginBottom: 10}} label={selCat} variant="outlined" onDelete={e => {
+              setSelectedCategories(selectedCategories.filter(cat => cat!==selCat));
+            }} />
+          ))
+        }
+      </div>
+      <div style={{marginRight: 30, paddingLeft: 0, marginLeft: 0}}>
+        <SelectedCategory selectedCategories={selectedCategories} handleChange={handleChange}/>
+      </div>
+    </div>
+  );
+}
+const PublishOrDraft = () => {
+  return(
+    <div>
+      <Box style={{marginBottom: 8, paddingLeft: 20}}>
+            <Button 
+              variant="contained" 
+              startIcon={<PublishIcon />} 
+              style={{width: 115, color: '#ffff', background: 'rgb(26,136,22)', textTransform: 'none', borderRadius: 100}}
+            >
+              Publish
+            </Button>
+          </Box>
+          <br/>
+          <Box style={{ paddingTop: 10, paddingLeft: 20}}>
+            <Button 
+              variant="contained" 
+              startIcon={<SaveAsIcon />} 
+              style={{width: 160, color: '#fff', background: 'rgb(133, 133, 133)', textTransform: 'none', borderRadius: 100}}
+            >
+              Save To Drafts
+            </Button>
+          </Box>
+    </div>
+  );
+}
 const RightSideBar = () => {
   const classes = useStyle();
   return(
     <Box className={classes.rightSideBar}>
-      <Box style={{paddingTop: 20, width: 210}}>
-        <Box style={{marginBottom: 8, paddingLeft: 0}}>
-          <Button 
-            variant="contained" 
-            startIcon={<PublishIcon />} 
-            style={{width: 180, color: '#ffff', background: '#2bc226'}}
-          >
-            Publish
-          </Button>
-        </Box>
-        <br/>
-        <Box style={{borderTop: '1px solid rgb(227, 227, 228)', paddingTop: 23, paddingLeft: 0}}>
-          <Button 
-            variant="contained" 
-            startIcon={<SaveAsIcon />} 
-            style={{width: 180, color: '#fff', background: 'rgb(133, 133, 133)'}}
-          >
-            Save To Draft
-          </Button>
-        </Box>
+      <Box style={{paddingTop: 0}}>
+        <div style={{ marginBottom: 40, borderBottom: '1px solid rgb(227, 227, 228)', paddingBottom: 35}}>
+          <AddCategories />
+        </div>
+        <Hidden mdUp>
+          <div style={{border: '1px solid rgb(227, 227, 228)', paddingTop: 20, paddingBottom: 20, width: 201, marginLeft: 10, borderRadius: 5}}>
+            <PublishOrDraft />
+          </div>
+        </Hidden>
       </Box>
     </Box>
   );

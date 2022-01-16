@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Grid, Table, TableHead, TableRow, Typography, Hidden } from '@material-ui/core';
+import { Avatar, Box, Button, Grid, Table, TableHead, TableRow, Typography, Hidden,Chip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
@@ -11,73 +11,94 @@ import useStyle from './blogStyle';
 
 
 const Blog = () => {
-  const location = useLocation();
-  console.log(location);
   const classes = useStyle();
-  
   const [isFollowing, setIsFollowing] = useState(false);
-  
-  
+  const [title, setTitle] = useState('How to use React Router in your React js project.');
+  const [description, setDiscription] = useState(`Lorem ipsum dolor sit amet consectetur adipisicing elit. Error, 
+  laboriosam repudiandae voluptatibus, harum accusantium corporis earum 
+  quas, consectetur necessitatibus labore quis repellat iste magnam nulla? 
+  Quisquam fugit dignissimos aperiam error, fuga veritatis enim earum bland
+  itiis nemo. Non saepe quod alias, aliquid accusamus voluptatum laborum la
+  boriosam totam architecto. Officiis, praesentium quibusdam provident culpa
+  , mollitia sint quas quae deleniti, placeat fugit totam?
+  Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum ad alias 
+  enim ipsa illo voluptatum dolores suscipit animi inventore corporis aspern
+  atur rem nulla modi ipsam facere quo, eos adipisci, rerum aut nemo mollitia
+   et praesentium. Officia dignissimos ullam assumenda explicabo velit nulla.
+    Facilis animi dolorem earum libero eum nam minus inventore voluptatum tene
+    tur. Voluptates nihil tempora alias, nam quo expedita architecto nisi minim
+    a facilis non! Qui voluptas odio, itaque soluta dolores repellat tempore ea
+    rum hic commodi aliquid laboriosam id. Sint.`);
+  const [categories, setCategories] = useState(['Programming', 'Technology', 'React', 'Education']);
   const handleFollowButton = (e) => {
-    e.preventDefault();
     setIsFollowing(!isFollowing);
   }
   const blogImg = `https://miro.medium.com/max/1400/1*TVd_sNhpc7JDPBHAsAOQZg.jpeg`;
   return (
     <Box className='blogWrapper'>
-      <Grid container style={{marginTop: 10, padding: 20, paddingRight: 0}}>
-      <Grid item lg={3} md={3} sm={12} xs={12}>
-        <LeftSideBar  isFollowing={isFollowing} handleFollowButton={handleFollowButton}/>
-      </Grid>
-      <Grid item lg={6} md={6} sm={12} xs={12} style={{width: '100%', paddingRight: 20}} >
-        <Typography style={{fontSize: 45, lineHeight: '60px', fontFamily: `'Lora', 'serif'`,}}>
-          How to use React Router in your React js project.
-        </Typography>
-        <Box style={{marginTop: 40, marginBottom: 40}}>
-          <MiddleBanner isFollowing={isFollowing} handleFollowButton={handleFollowButton}/>
-          <Box style={{marginTop: 30}}>
-            {
-              blogImg 
-              && <img 
-                  src={blogImg}
-                  alt="blog-post-image" 
-                  style={{objectFit: 'cover', width: '100%'}}
-                />
-            }
-            <Box style={{marginTop: 35, marginBottom: 30}}>
-              <Typography className={classes.textContent}>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Error, laboriosam repudiandae voluptatibus, harum accusantium corporis earum quas, consectetur necessitatibus labore quis repellat iste magnam nulla? Quisquam fugit dignissimos aperiam error, fuga veritatis enim earum blanditiis nemo. Non saepe quod alias, aliquid accusamus voluptatum laborum laboriosam totam architecto. Officiis, praesentium quibusdam provident culpa, mollitia sint quas quae deleniti, placeat fugit totam?
-                  <br />
-                  <br />
-                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum ad alias enim ipsa illo voluptatum dolores suscipit animi inventore corporis aspernatur rem nulla modi ipsam facere quo, eos adipisci, rerum aut nemo mollitia et praesentium. Officia dignissimos ullam assumenda explicabo velit nulla. Facilis animi dolorem earum libero eum nam minus inventore voluptatum tenetur. Voluptates nihil tempora alias, nam quo expedita architecto nisi minima facilis non! Qui voluptas odio, itaque soluta dolores repellat tempore earum hic commodi aliquid laboriosam id. Sint.
-              </Typography>
-            </Box>
-            <Box>
-              <Hidden mdUp>
-                <Box style={{borderTop: '1px solid rgb(227, 227, 228)', paddingTop: 30}}>
-                  <LikeNBookmark isFollowing={isFollowing} setIsFollowing={setIsFollowing}/>
-                </Box>
-              </Hidden>
+      <Grid container style={{marginTop: 10, padding: 20, paddingRight: 0, paddingLeft: 15}}>
+        <Grid item lg={3} md={3} sm={12} xs={12}>
+          <LeftSideBar  isFollowing={isFollowing} handleFollowButton={handleFollowButton}/>
+        </Grid>
+        <Grid item lg={6} md={6} sm={12} xs={12} style={{width: '100%', paddingRight: 15}} >
+          <Typography style={{fontSize: 45, lineHeight: '58px', fontFamily: `'Lora', 'serif'`,}}>
+            {title}
+          </Typography>
+          <div style={{paddingTop: 13}}>
+            <CategoryTags categories={categories}/>
+          </div>
+          <Box style={{marginTop: 35, marginBottom: 40}}>
+            <MiddleBanner isFollowing={isFollowing} handleFollowButton={handleFollowButton}/>
+            <Box style={{marginTop: 25}}>
+              {
+                blogImg 
+                && <img 
+                    src={blogImg}
+                    alt="blog-post-image" 
+                    style={{objectFit: 'cover', width: '100%'}}
+                  />
+              }
+              <Box style={{marginTop: 25, marginBottom: 30}}>
+                <Typography className={classes.textContent}>
+                  {description}
+                </Typography>
+              </Box>
+              <Box>
+                <Hidden mdUp>
+                  <Box style={{borderTop: '1px solid rgb(227, 227, 228)', paddingTop: 30}}>
+                    <LikeNBookmark isFollowing={isFollowing} setIsFollowing={setIsFollowing}/>
+                  </Box>
+                </Hidden>
+              </Box>
             </Box>
           </Box>
-        </Box>
+        </Grid>
+        <Grid item lg={3}  md={3} sm={12} xs={12}>
+          <RightSideBar />
+        </Grid>
       </Grid>
-      <Grid item lg={3}  md={3} sm={12} xs={12}>
-        <RightSideBar />
-      </Grid>
-    </Grid>
     </Box>
     
   )
 }
-
+export const CategoryTags = ({categories}) => {
+  const classes = useStyle();
+  return(
+    <div>
+      {
+        categories.map(cat => (
+          <Button className={classes.categoryTag} variant='contained' >{cat}</Button>
+        ))
+      }
+    </div>
+  );
+}
 
 const LikeNBookmark = () => {
   const [likes, setLikes] = useState(500);
   const [isLiked, setIsLiked] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const handleLikeButton = (e) => {
-    e.preventDefault();
     if(isLiked) 
       setLikes(likes-1);
     else
@@ -85,7 +106,6 @@ const LikeNBookmark = () => {
     setIsLiked(!isLiked);
   }
   const handleBookmarkButton = (e) => {
-    e.preventDefault();
     setIsBookmarked(!isBookmarked);
   }
   const classes = useStyle();

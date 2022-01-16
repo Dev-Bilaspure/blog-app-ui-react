@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import './profilePageStyle.css';
 import { Link } from 'react-router-dom';
 import useStyle from './profilePageStyles';
+import {CategoryTags} from './../Blog/Blog'
 
 const personImg = 'https://miro.medium.com/fit/c/131/131/2*1L5DSsWtYoQVm1TxThM4vQ.jpeg';
 const des = '4x Best-Selling Author, Speaker, & Futurist. Founder of FutureOfWorkUniversity.com. Exploring Leadership, Employee Experience, & The Future of Work';
@@ -116,6 +117,7 @@ const PostByUser = () => {
   const [likes, setLikes] = useState(300);
   const [isLiked, setIsLiked] = useState(false);
   const [isBookMarked, setIsBookMarked] = useState(false);
+  const [categories, setCategories] = useState(['Lifestyle', 'Health', 'Food']);
   const handleCLickLikes = () => {
     if(isLiked)
       setLikes(likes-1);
@@ -136,7 +138,10 @@ const PostByUser = () => {
           10 Guiding Principles to Better Serve Your Customers
         </Link>
       </Typography>
-      <Box style={{paddingTop: 25}}>
+      <div style={{paddingTop: 5}}>
+        <CategoryTags categories={categories}/>
+      </div>
+      <Box style={{paddingTop: 28}}>
         <Link to='/blog/1' style={{textDecoration: 'none', color: 'inherit'}}>
           <img 
             src='https://miro.medium.com/max/1400/1*827xBJJ3qwJ3Usbmwj7MoA.jpeg' 
