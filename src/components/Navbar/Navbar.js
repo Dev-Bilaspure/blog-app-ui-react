@@ -11,7 +11,7 @@ const Navbar = () => {
   return (
     <Box className='navbarWrapper'>
       {
-        pathname!=='/profile' &&
+        (pathname!=='/profile' && pathname!=='/signin' && pathname!=='/signup') &&
         <AppBar className={navbar}>
           <Toolbar>
             <Link to='/' style={{ textDecoration: 'none' }}>

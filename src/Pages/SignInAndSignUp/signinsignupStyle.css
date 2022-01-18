@@ -1,0 +1,10 @@
+
+
+    @media only screen and (min-width: 1370px) {
+        .signinandsignupWrapper {
+          width: 1300px;
+          margin: auto;
+          border-left: 1px solid rgb(231,231,230);
+          border-right: 1px solid rgb(231,231,230);
+        }
+      }
