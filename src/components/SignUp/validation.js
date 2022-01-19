@@ -29,3 +29,4 @@ export const validateEmail = (eml) => {
     return(0);
   return(2);
 }
+

@@ -46,7 +46,8 @@ const SignUp = ({handleTabChange}) => {
   const [confirmPasswordError, setConfirmPasswordError] = useState(0);
 
   const handleName = (e) => {
-    setName(e.target.value);
+    if(!(e.target.value.length>21))
+      setName(e.target.value);
   }
   const handleUsername = (e) => {
     setUsername(e.target.value);
@@ -75,7 +76,7 @@ const SignUp = ({handleTabChange}) => {
 
     if(name==='')
       setNameError(true);
-    if(username==='')
+    if(username.length<3)
       setUsernameError(true);
       
     // email validation
@@ -100,11 +101,11 @@ const SignUp = ({handleTabChange}) => {
       <form onSubmit={handleSubmit} autoComplete='off'>
         <TextField label='Name' placeholder='Name'  value={name} onChange={handleName} fullWidth required style={{marginTop: 17}}
           error={nameError}
-          helperText={nameError && 'Name is required'}
+          helperText={nameError && 'Name is required. Max 20 characters'}
         />
         <TextField label='Username' placeholder='Username'  value={username} onChange={handleUsername} fullWidth required style={{marginTop: 17}}
           error={usernameError}
-          helperText={usernameError && 'Username is required'}
+          helperText={usernameError && 'Username is required. Min 3 characters with no space.'}
         />
         <TextField label='Email' placeholder='E-mail address'  value={email} onChange={handleEmail} fullWidth required style={{marginTop: 17}}
           error={emailError===1 || emailError===2}

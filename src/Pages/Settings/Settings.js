@@ -174,7 +174,7 @@ const Settings = () => {
 const NameEditPart = ({handleSave, setNameEdit, nameEdit, setNewName, newName}) => {
   const classes = useStyle();
   const handleNewNameOnChange = (e) => {
-    if(!(e.target.value.length>20))
+    if(!(e.target.value.length>21))
       setNewName(e.target.value);
   }
   return(
