@@ -103,11 +103,19 @@ const UserDescriptionForSmallScreen = () => {
 }
 
 const PostsByUser = () => {
-  const arr = [1,2,3,4,5,6];
+  const postsArr = [1,2,3,4,5,6];
   return(
-    <Box>
-      {arr.map(ele => <PostByUser key={ele} />)}
-    </Box>
+    <div>
+      {
+        postsArr.length
+        ? postsArr.map(ele => <PostByUser key={ele} />)
+        : <div style={{width: 134, margin: 'auto'}}>
+            <Typography style={{color: 'rgb(81,81,81)', fontSize: 19, fontWeight: 'bold'}}>
+              No stories yet.
+            </Typography>
+          </div>
+      }
+    </div>
   );
 }
 

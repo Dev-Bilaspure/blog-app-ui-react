@@ -92,7 +92,7 @@ const Settings = () => {
         <Grid item lg={6} md={8} sm={8} xs={12} > 
           <div style={{paddingTop: 50, paddingRight: 20, paddingLeft: 30}}>
             <div style={{paddingBottom: 10, borderBottom: '1px solid rgb(242,242,242)'}}>
-              <Typography style={{fontSize: 23, fontWeight: 'bold'}}>
+              <Typography style={{fontSize: 23, fontWeight: 'bold',color: 'rgb(41,41,41)'}}>
                 About you
               </Typography>
             </div>
@@ -179,7 +179,7 @@ const NameEditPart = ({handleSave, setNameEdit, nameEdit, setNewName, newName}) 
   }
   return(
     <div>
-      <Typography style={{ fontSize: 19, fontWeight: 'bold'}} >Name</Typography>
+      <Typography style={{ fontSize: 19, fontWeight: 900, color: 'rgb(41,41,41)'}} >Name</Typography>
       <div style={{paddingTop: 5}}>
         <Grid justifyContent='space-between' container spacing={12} >
           <Grid item > 
@@ -249,7 +249,7 @@ const ShortBioPart = ({handleSave, shortBioEdit, setShortBioEdit, newShortBio, s
   }
   return(
     <div>
-      <Typography style={{ fontSize: 19, fontWeight: 'bold'}} >Short Bio</Typography>
+      <Typography style={{ fontSize: 19, fontWeight: 'bold',color: 'rgb(41,41,41)'}} >Short Bio</Typography>
       <div style={{paddingTop: 5}}>
         <Grid justifyContent='space-between' container spacing={12}>
           <Grid item >
@@ -409,7 +409,7 @@ const UsernameEditPart = ({usernameEdit, setUsernameEdit, newUsername, setNewUse
   }
   return(
     <div>
-      <Typography style={{ fontSize: 19, fontWeight: 'bold', marginBottom: 5}} >Username & URL</Typography>
+      <Typography style={{ fontSize: 19, fontWeight: 'bold', marginBottom: 5, color: 'rgb(41,41,41)'}} >Username & URL</Typography>
       <div style={{paddingTop: 5}}>
         <Grid justifyContent='space-between' container spacing={12} >
           <Grid item > 
@@ -494,13 +494,13 @@ const EmailEditPart = ({emailEdit, setEmailEdit, newEmail, setNewEmail, handleSa
   }
   return(
     <div>
-      <Typography style={{ fontSize: 19, fontWeight: 'bold'}} >Email</Typography>
+      <Typography style={{ fontSize: 19, fontWeight: 'bold',color: 'rgb(41,41,41)',}} >Email</Typography>
       <div style={{paddingTop: 5}}>
         <Grid justifyContent='space-between' container spacing={12} >
           <Grid item > 
             <TextareaAutosize placeholder='Email' readOnly={!emailEdit} onChange={handleEmailOnChange} value={newEmail} className={classes.nameField}/>
             <Typography style={{marginTop: 18,width: '440px', fontSize: 13, color: 'rgb(59, 59, 59)', marginBottom: 20}}>
-              You will recieve trending articles, announcements and audience related notification on this email address. It is required field. Must be a valid e-mail address.
+              You will recieve trending stories, announcements and audience related notification on this email address. It is required field. Must be a valid e-mail address.
             </Typography>
             <Hidden mdUp>
               <EmailPartButtonSet 
@@ -608,7 +608,7 @@ const ResetPasswordPart = ({newPassword, setNewPassword, passwordEdit, setPasswo
   }
   return(
     <div>
-      <Typography style={{ fontSize: 19, fontWeight: 'bold', marginBottom: 5}} >Reset Password</Typography>
+      <Typography style={{ fontSize: 19, fontWeight: 'bold', marginBottom: 5,color: 'rgb(41,41,41)'}} >Reset Password</Typography>
       <div style={{paddingTop: 5}}>
         <Grid justifyContent='space-between' container spacing={12} >
           <Grid item > 
@@ -625,8 +625,8 @@ const ResetPasswordPart = ({newPassword, setNewPassword, passwordEdit, setPasswo
                   <div onClick={e => {setVisiblePassword(!visiblePassword)}}>
                     {
                       visiblePassword
-                      ? <VisibilityIcon style={{color: 'rgb(117,117,117)'}}/>
-                      : <VisibilityOffIcon style={{color: 'rgb(117,117,117)'}}/>
+                      ? <VisibilityIcon className={classes.passwordVisibilityIcon}/>
+                      : <VisibilityOffIcon className={classes.passwordVisibilityIcon}/>
                     }
                   </div>
                 </Grid>
@@ -645,8 +645,8 @@ const ResetPasswordPart = ({newPassword, setNewPassword, passwordEdit, setPasswo
                   <div onClick={e => {setVisibleConfirmPassword(!visibleConfirmPassword)}}>
                     {
                       visibleConfirmPassword
-                      ? <VisibilityIcon  style={{color: 'rgb(117,117,117)'}}/>
-                      : <VisibilityOffIcon  style={{color: 'rgb(117,117,117)'}}/>
+                      ? <VisibilityIcon  className={classes.passwordVisibilityIcon}/>
+                      : <VisibilityOffIcon  className={classes.passwordVisibilityIcon}/>
                     }
                   </div>
                 </Grid>

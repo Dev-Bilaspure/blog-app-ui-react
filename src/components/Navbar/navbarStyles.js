@@ -11,7 +11,7 @@ const useStyles = makeStyles({
         position: 'sticky',
     },
     logo: {
-      color: '#000000',
+      color: 'rgb(41,41,41)',
       marginLeft: '20px',
       fontFamily: `'Abril Fatface', 'cursive'`,
       flex: 1,
@@ -35,7 +35,7 @@ const useStyles = makeStyles({
     getStartedButton: {
       height: 44,
       borderRadius: 30,
-      background: '#000000',
+      background: 'rgb(41,41,41)',
       color: '#fff',
       fontSize: 13,
       width: 125,

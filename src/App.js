@@ -8,6 +8,7 @@ import ScrollToTop from './components/ScrollToTop';
 import ProfilePage from './Pages/ProfilePage/ProfilePage';
 import SignInAndSignUp from './Pages/SignInAndSignUp/SignInAndSignUp';
 import Settings from './Pages/Settings/Settings';
+import MyStories from './Pages/MyStories/MyStories';
 
 const App = () => {
   return (
@@ -23,6 +24,8 @@ const App = () => {
           <Route exact path='/signin' element={<SignInAndSignUp val={0}/>} />
           <Route exact path='/signup' element={<SignInAndSignUp val={1}/>} />
           <Route exact path='/settings' element={<Settings />} />
+          <Route exact path='/draft' element={<MyStories val={0}/>} />
+          <Route exact path='/published' element={<MyStories val={1}/>} />
         </Routes>
       </BrowserRouter>
     </>

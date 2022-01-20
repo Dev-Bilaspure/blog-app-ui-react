@@ -55,6 +55,12 @@ const useStyle = makeStyles({
       filter: 'blur(1px)',
       '-webkit-filter': 'blur(1px)',
     },
+  },
+  passwordVisibilityIcon: {
+    '&:hover': {
+      cursor: 'pointer'
+    },
+    color: 'rgb(117,117,117)'
   }
 })
 

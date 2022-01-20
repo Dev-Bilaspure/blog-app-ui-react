@@ -11,11 +11,12 @@ import { validateEmail, validatePassword } from './validation';
 
 const useStyle = makeStyles({
   bottomSignInBtn: {
-    color: 'rgb(48,63,159)', 
+    color: 'rgb(61,61,61)', 
     float: 'right',
     '&:hover': {
       cursor: 'pointer',
-    }
+    },
+    textDecoration: 'underline'
   },
   termsNCondition: {
     textDecoration: 'none',
@@ -128,7 +129,7 @@ const SignUp = ({handleTabChange}) => {
           error={passwordError===1 || passwordError===2}
           helperText={passwordError===1 ? 'Password is required' : (passwordError===2 && 'Must be 8 characters or more, needs at least one number, one letter and one special charater')}
         />
-        <TextField label='Confirm Password'   placeholder='Confirm Password' value={confirmPassword} onChange={handleConfirmPassword} fullWidth required style={{marginTop: 17}}
+        <TextField label='Confirm Password'   placeholder='Confirm Password' value={confirmPassword} onChange={handleConfirmPassword} fullWidth required style={{marginTop: 17, marginBottom: 40}}
           type={showConfirmPassword ? 'text' : 'password'}
           InputProps={{ // <-- This is where the toggle button is added.
             endAdornment: (
@@ -145,18 +146,7 @@ const SignUp = ({handleTabChange}) => {
           error={confirmPasswordError===1 || confirmPasswordError===2}
           helperText={confirmPasswordError===1 ? 'Password confirmation is required' : (confirmPasswordError===2 && 'The passwords you entered do not match.')}
         />
-        <FormControlLabel
-          control={
-            <Checkbox
-              name="checkedB"
-              color="primary"
-            />
-          }
-          label = "I accept all Terms and Conditions"
-          style={{marginBottom:30, marginTop: 17}}
-          required
-        />
-        <Button type='submit' onClick={handleSignUpClick} color='primary' variant="contained" fullWidth >Sign Up</Button>
+        <Button type='submit' onClick={handleSignUpClick} style={{background: 'rgb(51,51,51)', color: '#fff'}} variant="contained" fullWidth >Sign Up</Button>
       </form>
       
 

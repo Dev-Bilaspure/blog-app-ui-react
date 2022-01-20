@@ -13,10 +13,11 @@ const useStyle = makeStyles({
     textDecoration: 'none',
     '&:hover': {
       textDecoration: 'underline',
-      color: 'rgb(63,81,181)',
+      color: 'rgb(61,61,61)',
       cursor: 'pointer'
     },
     color: 'inherit',
+    float: 'right'
   },
 })
 const SignIn = ({handleTabChange}) => {
@@ -75,31 +76,17 @@ const SignIn = ({handleTabChange}) => {
           helperText={passwordError && 'Password is required'}
           required
         />
-        <Grid container style={{marginBottom:30, marginTop: 17}}>
-          <Grid item lg={7} md={7} sm={7} xs={7}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  name="checkedB"
-                  color="primary"
-                />
-              }
-              label="Remember me"
-            />
-          </Grid>
-          <Grid item lg={5} md={5} sm={5} xs={5} style={{textAlign: 'right', paddingTop: 1}}>
-            <Link to='/forgotpassword' className={classes.forgotPassword}>
-              <Typography style={{lineHeight: 2.5}}>Forgot password</Typography>
-            </Link>
-          </Grid>
-        </Grid>
-        <Button type='submit' color='primary' variant="contained"  onClick={handleSignInClick} fullWidth>Sign In</Button>
+        <Link to='/forgotpassword' className={classes.forgotPassword}>
+          <Typography style={{lineHeight: 2.5}}>Forgot password</Typography>
+        </Link>
+
+        <Button type='submit' style={{background: 'rgb(51,51,51)', color: '#fff', marginTop: 30}} variant="contained"  onClick={handleSignInClick} fullWidth>Sign In</Button>
       </form>  
 
       <Typography style={{width: 234, margin: 'auto', paddingTop: 10, paddingBottom: 30}} onClick={e => {
           handleTabChange(e, 1);
         }}>
-        Don't have an account? <Link to='/signup' style={{textDecoration: 'none', color: 'rgb(48,63,159)'}}>Sign Up</Link>
+        Don't have an account? <Link to='/signup' style={{color: 'rgb(61,61,61)'}}>Sign Up</Link>
       </Typography>
     </div>
   );
