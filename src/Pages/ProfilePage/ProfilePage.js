@@ -1,27 +1,48 @@
 import { Box, Grid, Typography, Button, Hidden } from '@material-ui/core'
 import React, { useState } from 'react'
 import './profilePageStyle.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useStyle from './profilePageStyles';
 import {CategoryTags} from './../Blog/Blog'
+import BasicMenu from './../../components/BasicMenu/BasicMenu';
 
 const personImg = 'https://miro.medium.com/fit/c/131/131/2*1L5DSsWtYoQVm1TxThM4vQ.jpeg';
 const des = '4x Best-Selling Author, Speaker, & Futurist. Founder of FutureOfWorkUniversity.com. Exploring Leadership, Employee Experience, & The Future of Work';
 
-const ProfilePage = () => {
+const ProfilePage = ({user}) => {
   const classes = useStyle();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isFollowing, setIsFollowing] = useState(false);
   const handleFollowBntClick = () => {
+    if(!user)
+      navigate('/signin', {state: {from: location}});
     setIsFollowing(!isFollowing);
+  }
+  const handleClickSignIn = () => {
+    navigate('/signin', {state: {from: location}});
+  }
+  const handleClickGetStarted = () => {
+    navigate('/signup', {state: {from: location}});
   }
   return (
     <Box className='profilePageWrapper'>
       <Hidden mdUp>
         <Box style={{borderBottom: '1px solid rgb(231,231,230)', paddingTop: 25, paddingBottom: 25}}>
-          <TopMostBarForShortScreen />
+          <TopMostBarForShortScreen 
+            user={user} 
+            handleClickSignIn={handleClickSignIn} 
+            handleClickGetStarted={handleClickGetStarted}
+          />
         </Box>
       </Hidden>
-      <TopBar isFollowing={isFollowing} handleFollowBntClick={handleFollowBntClick}/>
+      <TopBar 
+        user={user}  
+        isFollowing={isFollowing} 
+        handleFollowBntClick={handleFollowBntClick} 
+        handleClickSignIn={handleClickSignIn} 
+        handleClickGetStarted={handleClickGetStarted}
+      />
       <Box style={{borderTop: '1px solid rgb(231,231,230)'}}>
         <Grid container>
           <Hidden smDown>
@@ -36,7 +57,7 @@ const ProfilePage = () => {
               <UserDescriptionForSmallScreen />
             </Hidden>
             <Box style={{width: '100%', overflowWrap: 'break-word',paddingTop: 60, paddingLeft: 20}}>
-              <PostsByUser />
+              <PostsByUser user={user} location={location}/>
             </Box>
           </Grid>
           <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -48,8 +69,9 @@ const ProfilePage = () => {
   )
 }
 
-const TopMostBarForShortScreen = () => {
+const TopMostBarForShortScreen = ({user, handleClickSignIn, handleClickGetStarted}) => {
   const classes = useStyle();
+  
   return(
     <Box>
       <Grid container>
@@ -61,18 +83,26 @@ const TopMostBarForShortScreen = () => {
           </Box>
         </Grid>
         <Grid item sm={10} xs={10} className='rightSideOfTopMostBarSmlScr' style={{position: 'absolute', right: 0}}>
-          <Grid container>
-            <Grid item>
-              <Typography  style={{color: 'rgb(26,136,22)', fontSize: 15, lineHeight: 2.3}}>
-                Sign in
-              </Typography>
+          
+          {
+            user ?
+            <div>
+              <BasicMenu />
+            </div> :
+            <Grid container>
+              <Grid item>
+                <Typography className={classes.signInButton} style={{color: 'rgb(26,136,22)', fontSize: 15, lineHeight: 2.3}} onClick={handleClickSignIn}>
+                  Sign in
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Button variant="outlined" className={classes.getStartedButton} onClick={handleClickGetStarted}>
+                  Get Started
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Button variant="outlined" className={classes.getStartedButton}>
-                Get Started
-              </Button>
-            </Grid>
-          </Grid>
+          }
+          
         </Grid>
       </Grid>
     </Box>
@@ -102,13 +132,13 @@ const UserDescriptionForSmallScreen = () => {
   );
 }
 
-const PostsByUser = () => {
+const PostsByUser = ({user, location}) => {
   const postsArr = [1,2,3,4,5,6];
   return(
     <div>
       {
         postsArr.length
-        ? postsArr.map(ele => <PostByUser key={ele} />)
+        ? postsArr.map(ele => <PostByUser key={ele} user={user} location={location} />)
         : <div style={{width: 134, margin: 'auto'}}>
             <Typography style={{color: 'rgb(81,81,81)', fontSize: 19, fontWeight: 'bold'}}>
               No stories yet.
@@ -119,14 +149,17 @@ const PostsByUser = () => {
   );
 }
 
-const PostByUser = () => {
+const PostByUser = ({user, location}) => {
   const postImg = 'https://miro.medium.com/max/1400/1*827xBJJ3qwJ3Usbmwj7MoA.jpeg';
   const classes = useStyle();
+  const navigate = useNavigate();
   const [likes, setLikes] = useState(300);
   const [isLiked, setIsLiked] = useState(false);
   const [isBookMarked, setIsBookMarked] = useState(false);
   const [categories, setCategories] = useState(['Lifestyle', 'Health', 'Food']);
   const handleCLickLikes = () => {
+    if(!user)
+      navigate('/signin', {state: {from: location}});
     if(isLiked)
       setLikes(likes-1);
     else
@@ -134,6 +167,8 @@ const PostByUser = () => {
     setIsLiked(!isLiked);
   }
   const handleClickBookmark = () => {
+    if(!user)
+      navigate('/signin', {state: {from: location}});
     setIsBookMarked(!isBookMarked);
   }
   return(
@@ -141,7 +176,7 @@ const PostByUser = () => {
       <Typography style={{color: 'rgb(116,116,117)', fontSize: '14px', fontFamily: `'Merriweather', 'serif'`}}>
         16 hours ago
       </Typography>
-      <Typography style={{fontSize: 37, fontFamily: `'Signika', 'sans-serif'`, paddingTop: 15, lineHeight: 1.26}}>
+      <Typography style={{fontSize: 37, fontFamily: `'Signika', 'sans-serif'`, paddingTop: 15, lineHeight: 1.26, color: 'rgb(41,41,41)'}}>
         <Link to='/blog/1' style={{textDecoration: 'none', color: 'inherit'}}>
           10 Guiding Principles to Better Serve Your Customers
         </Link>
@@ -203,7 +238,7 @@ const PostByUser = () => {
 }
 
 
-const TopBar = ({isFollowing, handleFollowBntClick}) => {
+const TopBar = ({isFollowing, handleFollowBntClick, user, handleClickSignIn, handleClickGetStarted}) => {
   const classes = useStyle();
   return(
     <Box style={{paddingTop: 30}} className='containerForTopBar'>
@@ -241,21 +276,32 @@ const TopBar = ({isFollowing, handleFollowBntClick}) => {
               <Hidden smDown>
                 <Grid item lg={5} md={5} className='signToIcon' >
                   <Box style={{fontSize: 35}}>
-                    <Grid container>
-                      <Grid item >
-                        <Typography style={{lineHeight: '40px', color: 'rgb(26,136,22)', fontSize: 15}}>
-                          Sign In
-                        </Typography>
+                      <Grid container>
+                        {
+                          user ?
+                          <div>
+                            <BasicMenu />
+                          </div> :
+                          <>
+                            <Grid item >
+                              <Typography className={classes.signInButton} style={{lineHeight: '40px', color: 'rgb(26,136,22)', fontSize: 15}} onClick={handleClickSignIn}>
+                                Sign In
+                              </Typography>
+                            </Grid>
+                            <Grid item>
+                              <Button variant="outlined" className={classes.getStartedButton} onClick={handleClickGetStarted}>
+                                Get Started
+                              </Button>
+                            </Grid>
+                          </>
+                        }
+                        
+                        <Grid item>
+                          <Link to='/' style={{textDecoration: 'none', color: 'inherit'}}>
+                            <i class="fab fa-medium reverseTxt" ></i>
+                          </Link>
+                        </Grid>
                       </Grid>
-                      <Grid item>
-                        <Button variant="outlined" className={classes.getStartedButton}>
-                          Get Started
-                        </Button>
-                        <Link to='/' style={{textDecoration: 'none', color: 'inherit'}}>
-                          <i class="fab fa-medium reverseTxt" ></i>
-                        </Link>
-                      </Grid>
-                    </Grid>
                   </Box>
                 </Grid>
               </Hidden>

@@ -18,7 +18,7 @@ const Write = () => {
       <Grid container style={{marginTop: 10, padding: 20, paddingRight: 0, marginBottom: 70, paddingLeft: 10}}>
         <Grid item lg={3} md={3} sm={12} xs={12}>
           <Hidden smDown>
-            <div  style={{ border: '1px solid rgb(227, 227, 228)', marginTop: 5, paddingTop: 20, paddingBottom: 20, width: 201, marginLeft: 10, borderRadius: 5}}>
+            <div  style={{  marginTop: 5, paddingTop: 20, paddingBottom: 20, width: 201, marginLeft: 25, borderRadius: 5}}>
               <PublishOrDraft />
             </div>
           </Hidden>
@@ -107,25 +107,25 @@ const AddCategories = () => {
 const PublishOrDraft = () => {
   return(
     <div>
-      <Box style={{marginBottom: 8, paddingLeft: 20}}>
-            <Button 
-              variant="contained" 
-              startIcon={<PublishIcon />} 
-              style={{width: 115, color: '#ffff', background: 'rgb(26,136,22)', textTransform: 'none', borderRadius: 100}}
-            >
-              Publish
-            </Button>
-          </Box>
+      <Box style={{marginBottom: 30, paddingLeft: 0}}>
+        <Button 
+          variant="contained" 
+          startIcon={<PublishIcon />} 
+          style={{width: 160, color: '#ffff', background: 'rgb(26,136,22)', textTransform: 'none', borderRadius: 100}}
+        >
+          Publish
+        </Button>
+      </Box>
           <br/>
-          <Box style={{ paddingTop: 10, paddingLeft: 20}}>
-            <Button 
-              variant="contained" 
-              startIcon={<SaveAsIcon />} 
-              style={{width: 160, color: '#fff', background: 'rgb(133, 133, 133)', textTransform: 'none', borderRadius: 100}}
-            >
-              Save To Drafts
-            </Button>
-          </Box>
+      <Box style={{ paddingTop: 0, paddingLeft: 0}}>
+        <Button 
+          variant="contained" 
+          startIcon={<SaveAsIcon />}
+          style={{width: 160, color: '#fff', background: 'rgb(133, 133, 133)', textTransform: 'none', borderRadius: 100}}
+        >
+          Save To Drafts
+        </Button>
+      </Box>
     </div>
   );
 }
@@ -138,7 +138,7 @@ const RightSideBar = () => {
           <AddCategories />
         </div>
         <Hidden mdUp>
-          <div style={{border: '1px solid rgb(227, 227, 228)', paddingTop: 20, paddingBottom: 20, width: 201, marginLeft: 10, borderRadius: 5}}>
+          <div style={{ paddingTop: 20, paddingBottom: 20, width: 201, marginLeft: 0, borderRadius: 5}}>
             <PublishOrDraft />
           </div>
         </Hidden>

@@ -5,10 +5,10 @@ const useStyle = makeStyles({
     fontSize: 27, 
     marginBottom: 9,
     fontFamily: `'Source Sans Pro', 'sans-serif'`, 
-    letterSpacing: -0.5
+    letterSpacing: -0.5,
   },
   followButton: {
-    marginLeft: '20px',
+    marginLeft: '10px',
     marginTop: '2px',
     width: '80px',
     borderRadius: 25,
@@ -64,6 +64,11 @@ const useStyle = makeStyles({
     width: 80,
     '&:hover': {
       background: 'rgb(26,136,22)',
+    }
+  },
+  signInButton: {
+    '&:hover': {
+      cursor: 'pointer'
     }
   }
 })

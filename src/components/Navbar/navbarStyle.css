@@ -1,10 +1,27 @@
+.reverseText {
+  transform: scale(-1, 1);
+  -moz-transform: scale(-1, 1);
+  -webkit-transform: scale(-1, 1);
+  -o-transform: scale(-1, 1);
+  -ms-transform: scale(-1, 1);
+  font-size: 30px;
+}
 
 @media only screen and (min-width: 1370px) { 
+  .navbarWrapper {
+    width: 1251px;
+    margin: auto;
+    border-left: 1px solid rgb(231,231,230);
+    border-right: 1px solid rgb(231,231,230);
+  }
+}
+/* @media only screen and (max-width: 1370px) { 
   .navbarWrapper {
     width: 1300px;
     margin: auto;
     border-left: 1px solid rgb(231,231,230);
     border-right: 1px solid rgb(231,231,230);
   }
-}
+} */
+
 

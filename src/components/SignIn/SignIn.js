@@ -3,7 +3,7 @@ import { Grid,Paper, TextField, Button, Typography } from '@material-ui/core'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { makeStyles } from '@material-ui/styles';
-import {Link} from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { IconButton, InputAdornment } from '@mui/material';
@@ -20,8 +20,11 @@ const useStyle = makeStyles({
     float: 'right'
   },
 })
-const SignIn = ({handleTabChange}) => {
+const SignIn = ({handleTabChange, setUser}) => {
   const classes = useStyle();
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -37,7 +40,12 @@ const SignIn = ({handleTabChange}) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+    // console.log(location.state.from);
+    setUser(true);
+    if(location.state)
+      navigate(location.state.from)
+    else
+      navigate('/');
     console.log("form submitted");
     
   }
@@ -67,7 +75,7 @@ const SignIn = ({handleTabChange}) => {
                   aria-label="toggle password visibility"
                   onClick={handleClickShowPassword}
                 >
-                  {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                 </IconButton>
               </InputAdornment>
             )

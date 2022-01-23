@@ -625,8 +625,8 @@ const ResetPasswordPart = ({newPassword, setNewPassword, passwordEdit, setPasswo
                   <div onClick={e => {setVisiblePassword(!visiblePassword)}}>
                     {
                       visiblePassword
-                      ? <VisibilityIcon className={classes.passwordVisibilityIcon}/>
-                      : <VisibilityOffIcon className={classes.passwordVisibilityIcon}/>
+                      ? <VisibilityOffIcon className={classes.passwordVisibilityIcon}/>
+                      : <VisibilityIcon className={classes.passwordVisibilityIcon}/>
                     }
                   </div>
                 </Grid>
@@ -645,8 +645,8 @@ const ResetPasswordPart = ({newPassword, setNewPassword, passwordEdit, setPasswo
                   <div onClick={e => {setVisibleConfirmPassword(!visibleConfirmPassword)}}>
                     {
                       visibleConfirmPassword
-                      ? <VisibilityIcon  className={classes.passwordVisibilityIcon}/>
-                      : <VisibilityOffIcon  className={classes.passwordVisibilityIcon}/>
+                      ? <VisibilityOffIcon  className={classes.passwordVisibilityIcon}/>
+                      : <VisibilityIcon  className={classes.passwordVisibilityIcon}/>
                     }
                   </div>
                 </Grid>

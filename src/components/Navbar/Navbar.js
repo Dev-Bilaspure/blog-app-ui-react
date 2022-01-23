@@ -1,73 +1,80 @@
-import React from 'react'
-import {AppBar, Toolbar, Typography, Button, Hidden, Box } from '@material-ui/core';
-import { Link, useLocation } from 'react-router-dom';
-import useStyles from './navbarStyles';
+import React, { useState } from 'react';
+import { AppBar, Toolbar, Grid, Typography, Button } from '@material-ui/core';
 import './navbarStyle.css';
+import { Hidden } from '@mui/material';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import useStyle from './navbarStyles';
+import BasicMenu from '../BasicMenu/BasicMenu';
 
 
-const Navbar = () => {
-  const { navbar, logo, buttons, writeButton, signInButton, getStartedButton, reverseTxt } = useStyles();
-  const {pathname} = useLocation();
+const Navbar = ({user}) => {
+  const classes = useStyle();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const handleClickSignIn = () => {
+    navigate('/signin', {state: {from: location}});
+  }
+  const handleClickGetStarted = () => {
+    navigate('/signup', {state: {from: location}});
+  }
   return (
-    <Box className='navbarWrapper'>
-      {
-        (pathname!=='/profile' && pathname!=='/signin' && pathname!=='/signup') &&
-        <AppBar className={navbar}>
-          <Toolbar>
-            <Link to='/' style={{ textDecoration: 'none' }}>
-              <Typography variant='h4' className={logo}>
-                <Hidden>
-                  <div className={reverseTxt}>
-                    <i class="fab fa-medium" ></i>
-                  </div>
-                </Hidden> 
-                {pathname==='/' && <Hidden mdDown xsDown>Maadhyam</Hidden>}
-              </Typography>
-            </Link>
-            <div className={buttons}>
-              <Link to='/signup'>
-                <Button variant="contained" size="small" className={getStartedButton}>
-                  Get Started
-                </Button>
+    <AppBar className={classes.navbar}>
+      <Toolbar className='navbarWrapper'>
+        <div className={classes.logoAndLogoText}>
+          <Link to='/' style={{color: 'inherit', textDecoration: 'none'}}>
+            <i className="fab fa-medium reverseText"></i>
+          </Link>
+          <Hidden smDown>
+            <Typography className={classes.logoText}>
+              <Link to='/' style={{color: 'inherit', textDecoration: 'none'}}>
+                Maadhyam
               </Link>
-              <Hidden smDown xsDown>
-                <Link to='/signin' style={{ textDecoration: 'none' }}>
-                  <Typography className={signInButton}>
-                    Sign In
+            </Typography>
+          </Hidden>
+        </div>
+        <div style={{marginLeft: 'auto', marginRight: 0}}>
+          <Grid container>
+            <Hidden mdDown>
+            <Grid item>
+              <Link to='/write' style={{color: 'inherit', textDecoration: 'none'}}>
+                <Typography className={classes.writeBtn}>
+                  Contact us
+                </Typography>
+              </Link>
+            </Grid>
+            </Hidden>
+            <Hidden smDown>
+              <Grid item>
+                <Link to='/write' style={{color: 'inherit', textDecoration: 'none'}}>
+                  <Typography className={classes.writeBtn}>
+                    Write
                   </Typography>
                 </Link>
-              </Hidden>
-              {
-                pathname==='/' 
-                && 
-                <div>
-                  <Hidden xsDown smDown>
-                    <Link to='/write' style={{ textDecoration: 'none' }}>
-                      <Typography className={writeButton}>
-                        Write
-                      </Typography>
-                    </Link>
-                  </Hidden>
-                  
-                  <Hidden xsDown smDown>
-                    <Link to='/contact' style={{ textDecoration: 'none' }}>
-                      <Typography className={writeButton}>
-                        Contact Us
-                      </Typography>
-                    </Link>
-                </Hidden>
-                </div>
-                
-              }
-              
-            </div>
-          </Toolbar>
-        </AppBar>
-      }
-      
-    </Box>
-    
-  )
-}
+              </Grid>
+            </Hidden>
+            {
+              user ?
+              <Grid item style={{marginRight: 20}} >
+                <BasicMenu />
+              </Grid> :
+              <>
+                <Grid item>
+                  <Typography style={{color: '#000000', paddingRight: 35, paddingTop: 9}} onClick={handleClickSignIn}>
+                    Sign In
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Button variant='contained' className={classes.getStartedBnt} onClick={handleClickGetStarted}>
+                    Get Started
+                  </Button>
+                </Grid>
+              </>
+            }
+          </Grid>
+        </div>
+      </Toolbar>
+    </AppBar>
+  );
+};
 
-export default Navbar
+export default Navbar;

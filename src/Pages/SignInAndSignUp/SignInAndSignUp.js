@@ -7,7 +7,7 @@ import SignUp from '../../components/SignUp/SignUp';
 import { makeStyles } from '@material-ui/styles';
 import { Typography } from '@material-ui/core';
 import './signinsignupStyle.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const useStyle = makeStyles({
   reverseTxt: {
@@ -22,7 +22,7 @@ const useStyle = makeStyles({
     
   }
 })
-const SignInAndSignUp = ({val}) => {
+const SignInAndSignUp = ({val, setUser}) => {
   const classes = useStyle();
   const [value, setValue] = useState(val);
   const navigate = useNavigate();
@@ -74,12 +74,16 @@ const SignInAndSignUp = ({val}) => {
               <Grid container style={{width: 173, margin: 'auto'}}>
                 <Grid item>
                   <Typography className={classes.reverseTxt}>
-                    <i class="fab fa-medium" ></i>
+                    <Link to='/' style={{color: 'inherit', textDecoration: 'none'}}>
+                      <i class="fab fa-medium" ></i>
+                    </Link>
                   </Typography>
                 </Grid>
                 <Grid item>
                   <Typography style={{fontSize: 25, fontFamily: `'Abril Fatface', 'cursive'`, paddingTop: 3, paddingLeft: 5}}>
-                    Maadhyam
+                    <Link to='/' style={{color: 'inherit', textDecoration: 'none'}}>
+                      Maadhyam
+                    </Link>
                   </Typography>
                 </Grid>
               </Grid>
@@ -93,8 +97,8 @@ const SignInAndSignUp = ({val}) => {
               <div style={{paddingTop: 10}}>
                 {
                   value===0 
-                    ? <SignIn handleTabChange={handleTabChange}/> 
-                    : <SignUp handleTabChange={handleTabChange}/>
+                    ? <SignIn setUser={setUser} handleTabChange={handleTabChange}/> 
+                    : <SignUp setUser={setUser} handleTabChange={handleTabChange}/>
                 }
               </div>
             </div>

@@ -3,13 +3,14 @@ import { makeStyles } from '@material-ui/core';
 const useStyle = makeStyles({
     image: {
       background: `url(${require('./../../utils/bannerImg.jpg')})  center/100% repeat-x #000`,
-      height: '66vh',
+      height: '70vh',
       width: '100%',      
       objectFit: 'cover',
       color: '#fff',
       paddingLeft: 40,
-      paddingTop: 20,
-      backgroundSize: 'cover'
+      paddingTop: 40,
+      backgroundSize: 'cover',
+      // marginTop: 60
     },
     heading: {
       fontSize: '4rem', 
@@ -33,7 +34,12 @@ const useStyle = makeStyles({
       paddingRight: 10, 
       paddingLeft: 10, 
       boxShadow: '0px 0px 10px #000000', 
-      textTransform: 'none'
+      textTransform: 'none',
+      '&:hover': {
+        background: '#fff', 
+        color: '#000000', 
+        boxShadow: '0px 0px 3px #000000', 
+      },
     }
   })
 

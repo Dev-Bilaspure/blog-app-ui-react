@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { Paper, TextField, Button, Typography } from '@material-ui/core'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import {Link} from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -27,8 +27,12 @@ const useStyle = makeStyles({
     color: 'inherit',
   }
 })
-const SignUp = ({handleTabChange}) => {
+const SignUp = ({handleTabChange, setUser}) => {
   const classes = useStyle();
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
@@ -64,6 +68,13 @@ const SignUp = ({handleTabChange}) => {
   }
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    setUser(true);
+    if(location.state)
+      navigate(location.state.from)
+    else
+      navigate('/');
+
     console.log('SignUp form submitted');
   }
 
@@ -121,7 +132,7 @@ const SignUp = ({handleTabChange}) => {
                   aria-label="toggle password visibility"
                   onClick={handleClickShowPassword}
                 >
-                  {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                 </IconButton>
               </InputAdornment>
             )
@@ -138,7 +149,7 @@ const SignUp = ({handleTabChange}) => {
                   aria-label="toggle password visibility"
                   onClick={handleClickShowConfirmPassword}
                 >
-                  {showConfirmPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                  {showConfirmPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                 </IconButton>
               </InputAdornment>
             )

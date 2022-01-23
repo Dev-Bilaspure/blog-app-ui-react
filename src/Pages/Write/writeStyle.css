@@ -1,4 +1,6 @@
-
+.writeWrapper {
+  margin-top: 65px;
+}
 
 @media only screen and (min-width: 1370px) { 
   .writeWrapper {
@@ -6,6 +8,7 @@
     margin: auto;
     border-left: 1px solid rgb(231,231,230);
     border-right: 1px solid rgb(231,231,230);
+    margin-top: 65px
   }
 }
 

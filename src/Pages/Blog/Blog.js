@@ -1,18 +1,19 @@
 import { Avatar, Box, Button, Grid, Table, TableHead, TableRow, Typography, Hidden,Chip } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
 import React, { useState } from 'react'
-import { useLocation } from 'react-router-dom'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './blogStyle.css'
 import RelatedPosts from '../../components/RelatedPosts/RelatedPosts';
 import useStyle from './blogStyle';
 
 
 
-const Blog = () => {
+const Blog = ({user}) => {
   const classes = useStyle();
   const [isFollowing, setIsFollowing] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
   const [title, setTitle] = useState('How to use React Router in your React js project.');
   const [description, setDiscription] = useState(`Lorem ipsum dolor sit amet consectetur adipisicing elit. Error, 
   laboriosam repudiandae voluptatibus, harum accusantium corporis earum 
@@ -31,14 +32,19 @@ const Blog = () => {
     rum hic commodi aliquid laboriosam id. Sint.`);
   const [categories, setCategories] = useState(['Programming', 'Technology', 'React', 'Education']);
   const handleFollowButton = (e) => {
-    setIsFollowing(!isFollowing);
+    if(user)
+      setIsFollowing(!isFollowing);
+    else {
+      navigate('/signin', { state: {from: location}});
+    }
+    
   }
   const blogImg = `https://miro.medium.com/max/1400/1*TVd_sNhpc7JDPBHAsAOQZg.jpeg`;
   return (
     <Box className='blogWrapper'>
       <Grid container style={{marginTop: 10, padding: 20, paddingRight: 0, paddingLeft: 15}}>
         <Grid item lg={3} md={3} sm={12} xs={12}>
-          <LeftSideBar  isFollowing={isFollowing} handleFollowButton={handleFollowButton}/>
+          <LeftSideBar user={user} location={location} isFollowing={isFollowing} handleFollowButton={handleFollowButton}/>
         </Grid>
         <Grid item lg={6} md={6} sm={12} xs={12} style={{width: '100%', paddingRight: 15}} >
           <Typography style={{fontSize: 45, lineHeight: '58px', fontFamily: `'Lora', 'serif'`,}}>
@@ -66,7 +72,7 @@ const Blog = () => {
               <Box>
                 <Hidden mdUp>
                   <Box style={{borderTop: '1px solid rgb(227, 227, 228)', paddingTop: 30}}>
-                    <LikeNBookmark isFollowing={isFollowing} setIsFollowing={setIsFollowing}/>
+                    <LikeNBookmark user={user} isFollowing={isFollowing} setIsFollowing={setIsFollowing}/>
                   </Box>
                 </Hidden>
               </Box>
@@ -94,11 +100,14 @@ export const CategoryTags = ({categories}) => {
   );
 }
 
-const LikeNBookmark = () => {
+const LikeNBookmark = ({user, location}) => {
+  const navigate = useNavigate();
   const [likes, setLikes] = useState(500);
   const [isLiked, setIsLiked] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const handleLikeButton = (e) => {
+    if(!user)
+      navigate('/signin', {state: {from: location}});
     if(isLiked) 
       setLikes(likes-1);
     else
@@ -106,6 +115,8 @@ const LikeNBookmark = () => {
     setIsLiked(!isLiked);
   }
   const handleBookmarkButton = (e) => {
+    if(!user)
+      navigate('/signin', {state: {from: location}});
     setIsBookmarked(!isBookmarked);
   }
   const classes = useStyle();
@@ -132,7 +143,7 @@ const LikeNBookmark = () => {
   );
 }
 
-const LeftSideBar = ({ isFollowing, handleFollowButton }) => {
+const LeftSideBar = ({ isFollowing, handleFollowButton, user, location }) => {
   const classes = useStyle();
   return(
     <Box>
@@ -142,7 +153,7 @@ const LeftSideBar = ({ isFollowing, handleFollowButton }) => {
             {isFollowing ? 'Following' : 'Follow' }
           </Button>
           <Box style={{ marginTop: 15, borderTop: '1px solid rgb(240,240,241)', paddingTop: 10, paddingLeft: 6}}>
-            <LikeNBookmark />
+            <LikeNBookmark user={user} location={location}/>
           </Box>
         </Box>
       </Hidden>
