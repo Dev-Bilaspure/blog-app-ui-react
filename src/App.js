@@ -16,7 +16,7 @@ const App = () => {
   return (
     <>
       <BrowserRouter>
-        {/* <Navbar user={user}/> */}
+        <Navbar user={user}/>
         <ScrollToTop />
         <Routes>
           <Route exact path='/' element={<Home />} />
