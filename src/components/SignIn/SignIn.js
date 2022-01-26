@@ -60,7 +60,7 @@ const SignIn = ({handleTabChange, setUser}) => {
 
   return(
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} autoComplete='off'>
         <TextField label='Username'  placeholder='Enter username' value={username} onChange={handleUsername} fullWidth style={{marginTop: 17}}
           error={usernameError}
           helperText={usernameError && 'Username is required'}
@@ -85,13 +85,13 @@ const SignIn = ({handleTabChange, setUser}) => {
           required
         />
         <Link to='/forgotpassword' className={classes.forgotPassword}>
-          <Typography style={{lineHeight: 2.5}}>Forgot password</Typography>
+          <Typography style={{lineHeight: 2.5, fontSize: 15}}>Forgot password</Typography>
         </Link>
 
-        <Button type='submit' style={{background: 'rgb(51,51,51)', color: '#fff', marginTop: 30}} variant="contained"  onClick={handleSignInClick} fullWidth>Sign In</Button>
+        <Button type='submit' style={{background: 'rgb(51,51,51)', color: '#fff', marginTop: 25}} variant="contained"  onClick={handleSignInClick} fullWidth>Sign In</Button>
       </form>  
 
-      <Typography style={{width: 234, margin: 'auto', paddingTop: 10, paddingBottom: 30}} onClick={e => {
+      <Typography style={{width: 219, margin: 'auto', paddingTop: 10, paddingBottom: 30, fontSize: 15}} onClick={e => {
           handleTabChange(e, 1);
         }}>
         Don't have an account? <Link to='/signup' style={{color: 'rgb(61,61,61)'}}>Sign Up</Link>

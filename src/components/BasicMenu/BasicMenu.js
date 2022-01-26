@@ -41,6 +41,10 @@ const BasicMenu = () => {
     navigate('/published');
     setAnchorEl(null);
   }
+  const handleBookmarksClick = () => {
+    navigate('/bookmark');
+    setAnchorEl(null);
+  }
   const handleSettingsClick = () => {
     navigate('/settings');
     setAnchorEl(null);
@@ -99,6 +103,11 @@ const BasicMenu = () => {
         <MenuItem onClick={handleDraftClick}>
           <Typography style={{paddingLeft: 10, paddingTop: 5, paddingBottom: 3}}>
             My Stories
+          </Typography>
+        </MenuItem>
+        <MenuItem onClick={handleBookmarksClick}>
+          <Typography style={{paddingLeft: 10, paddingTop: 5, paddingBottom: 3}}>
+            Bookmarks
           </Typography>
         </MenuItem>
         <MenuItem onClick={handleSettingsClick}>

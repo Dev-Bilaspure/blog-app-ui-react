@@ -2,7 +2,7 @@ import { Avatar, Box, Button, Grid, Table, TableHead, TableRow, Typography, Hidd
 import React, { useState } from 'react'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import './blogStyle.css'
 import RelatedPosts from '../../components/RelatedPosts/RelatedPosts';
 import useStyle from './blogStyle';
@@ -32,11 +32,9 @@ const Blog = ({user}) => {
     rum hic commodi aliquid laboriosam id. Sint.`);
   const [categories, setCategories] = useState(['Programming', 'Technology', 'React', 'Education']);
   const handleFollowButton = (e) => {
-    if(user)
-      setIsFollowing(!isFollowing);
-    else {
+    if(!user)
       navigate('/signin', { state: {from: location}});
-    }
+    setIsFollowing(!isFollowing);
     
   }
   const blogImg = `https://miro.medium.com/max/1400/1*TVd_sNhpc7JDPBHAsAOQZg.jpeg`;
@@ -126,16 +124,16 @@ const LikeNBookmark = ({user, location}) => {
           <Grid item className={classes.likeOrFollow} style={{ float: 'left', fontSize: 20}} >
             {
               isLiked 
-              ? <i class="fas fa-heart" style={{marginRight: 6, color: 'rgb(219, 61, 61)'}} onClick={handleLikeButton}></i> 
-              : <i class="far fa-heart" style={{marginRight: 6}} onClick={handleLikeButton}></i>
+              ? <i className="fas fa-heart" style={{marginRight: 6, color: 'rgb(219, 61, 61)'}} onClick={handleLikeButton}></i> 
+              : <i className="far fa-heart" style={{marginRight: 6}} onClick={handleLikeButton}></i>
             }
             {likes}
           </Grid>
           <Grid item className={classes.likeOrFollow} style={{color: 'rgb(27,137,22)', fontSize: 20}}>
             {
               isBookmarked 
-              ? <i class="fas fa-bookmark" style={{marginLeft: 40}} onClick={handleBookmarkButton}></i>
-              : <i class="far fa-bookmark" style={{marginLeft: 40}} onClick={handleBookmarkButton}></i>
+              ? <i className="fas fa-bookmark" style={{marginLeft: 40}} onClick={handleBookmarkButton}></i>
+              : <i className="far fa-bookmark" style={{marginLeft: 40}} onClick={handleBookmarkButton}></i>
             }
           </Grid>
         </Grid> 
@@ -200,17 +198,23 @@ const MiddleBanner = ({ isFollowing, handleFollowButton }) => {
     <Box>
       <Grid container style={{height: 'auto'}}>
         <Grid item>
-          <Avatar
-            alt="author avatar"
-            src='https://picsum.photos/200'
-            style={{width: 53, height: 53}}
-          />
+          <Link to='/profile' style={{textDecoration: 'none', color: 'inherit'}}>
+            <Avatar
+              alt="author avatar"
+              src='https://picsum.photos/200'
+              style={{width: 53, height: 53}}
+            />
+          </Link>
         </Grid>
         <Grid item style={{marginLeft: 13}}>
           <Table>
             <TableHead>
               <TableRow>
-                <Typography style={{fontSize: 15, marginTop: 3, float: 'left'}}>Dev Bilaspure</Typography>
+                <Link to='/profile' style={{textDecoration: 'none', color: 'inherit'}}>
+                  <Typography style={{fontSize: 15, marginTop: 3, float: 'left'}}>
+                    Dev Bilaspure
+                  </Typography>
+                </Link>
                 <Button className={classes.smallFollowButton} onClick={handleFollowButton}>
                   {isFollowing ? 'Following' : 'Follow' }
                 </Button>

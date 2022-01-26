@@ -90,9 +90,9 @@ const Settings = () => {
           
         </Grid>
         <Grid item lg={6} md={8} sm={8} xs={12} > 
-          <div style={{paddingTop: 50, paddingRight: 20, paddingLeft: 30}}>
-            <div style={{paddingBottom: 10, borderBottom: '1px solid rgb(242,242,242)'}}>
-              <Typography style={{fontSize: 23, fontWeight: 'bold',color: 'rgb(41,41,41)'}}>
+          <div style={{paddingTop: 50, paddingRight: 10, paddingLeft: 20}}>
+            <div style={{paddingBottom: 10, borderBottom: '1px solid rgb(242,242,242)', marginBottom: 50}}>
+              <Typography style={{fontSize: 40, fontFamily: `'Outfit', 'sans-serif'`, color: 'rgb(41,41,41)'}}>
                 About you
               </Typography>
             </div>
@@ -361,7 +361,7 @@ const PhotoPartImgNButtonSet = ({photoEdit, setPhotoEdit, setNewPhoto, handleSav
           <label htmlFor='fileInput'>
             <div className={photoEdit && classes.uploadPhoto} style={{background: `url(${photo}) center/100%`,borderRadius: 100,  height: '92px', width: '92px'}}>
               <div className={classes.uploadImageBtn} >
-                {photoEdit && <i class="fas fa-camera"></i>}
+                {photoEdit && <i className="fas fa-camera"></i>}
               </div>
             </div>
           </label>

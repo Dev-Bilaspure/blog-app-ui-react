@@ -1,0 +1,15 @@
+/* bookmarkpostspage-wrapper */
+.bookmarkpostspage-wrapper {
+  margin-top: 70px;
+  padding-right: 10px;
+  overflow-wrap: break-word;
+}
+@media only screen and (min-width: 1370px) {
+  .bookmarkpostspage-wrapper {
+    width: 1280px;
+    margin: auto;
+    border-left: 1px solid rgb(231,231,230);
+    border-right: 1px solid rgb(231,231,230);
+    margin-top: 70px
+  }
+}

@@ -1,16 +1,17 @@
 import { Grid, Typography } from '@material-ui/core';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Draft from '../../components/Draft/Draft';
 import Published from '../../components/Published/Published';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import './myStoriesStyle.css';
 
 const MyStories = ({val}) => {
   const navigate = useNavigate();
+
   const [value, setValue] = useState(val);
   const handleTabChange = (event, newValue) => {
     if(newValue!==value) {
@@ -21,7 +22,6 @@ const MyStories = ({val}) => {
     }
     setValue(newValue);
   }
-
   // for styling tabs root component
   const AntTabs = styled(Tabs)({
     borderBottom: '1px solid #E6E6E6',

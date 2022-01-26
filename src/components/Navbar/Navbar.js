@@ -18,6 +18,7 @@ const Navbar = ({user}) => {
     navigate('/signup', {state: {from: location}});
   }
   return (
+    (location.pathname!=='/profile' && location.pathname!=='/signin' && location.pathname!=='/signup') &&
     <AppBar className={classes.navbar}>
       <Toolbar className='navbarWrapper'>
         <div className={classes.logoAndLogoText}>
@@ -59,7 +60,7 @@ const Navbar = ({user}) => {
               </Grid> :
               <>
                 <Grid item>
-                  <Typography style={{color: '#000000', paddingRight: 35, paddingTop: 9}} onClick={handleClickSignIn}>
+                  <Typography className={classes.signInBtn} style={{color: '#000000', paddingRight: 35, paddingTop: 9}} onClick={handleClickSignIn}>
                     Sign In
                   </Typography>
                 </Grid>

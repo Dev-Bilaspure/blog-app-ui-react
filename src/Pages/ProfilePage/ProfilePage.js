@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useStyle from './profilePageStyles';
 import {CategoryTags} from './../Blog/Blog'
 import BasicMenu from './../../components/BasicMenu/BasicMenu';
+import UserFollowers from './../../components/UserFollowers/UserFollowers';
 
 const personImg = 'https://miro.medium.com/fit/c/131/131/2*1L5DSsWtYoQVm1TxThM4vQ.jpeg';
 const des = '4x Best-Selling Author, Speaker, & Futurist. Founder of FutureOfWorkUniversity.com. Exploring Leadership, Employee Experience, & The Future of Work';
@@ -14,6 +15,18 @@ const ProfilePage = ({user}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isFollowing, setIsFollowing] = useState(false);
+
+  const [openDialogBox, setOpenDialogBox] = useState(false);
+  const [dialogBoxType, setDialogBoxType] = useState('');  //follower or following
+
+  const handleOpenDialogBox = (boxType) => {
+    setDialogBoxType(boxType);
+    setOpenDialogBox(true);
+  }
+  const handleCloseDialogBox = () => {
+    setOpenDialogBox(false);
+  } 
+
   const handleFollowBntClick = () => {
     if(!user)
       navigate('/signin', {state: {from: location}});
@@ -27,6 +40,12 @@ const ProfilePage = ({user}) => {
   }
   return (
     <Box className='profilePageWrapper'>
+      <UserFollowers 
+        openDialogBox={openDialogBox}
+        handleCloseDialogBox={handleCloseDialogBox}
+        dialogBoxType={dialogBoxType}
+        user={user}
+      />
       <Hidden mdUp>
         <Box style={{borderBottom: '1px solid rgb(231,231,230)', paddingTop: 25, paddingBottom: 25}}>
           <TopMostBarForShortScreen 
@@ -42,6 +61,7 @@ const ProfilePage = ({user}) => {
         handleFollowBntClick={handleFollowBntClick} 
         handleClickSignIn={handleClickSignIn} 
         handleClickGetStarted={handleClickGetStarted}
+        handleOpenDialogBox={handleOpenDialogBox}
       />
       <Box style={{borderTop: '1px solid rgb(231,231,230)'}}>
         <Grid container>
@@ -78,7 +98,7 @@ const TopMostBarForShortScreen = ({user, handleClickSignIn, handleClickGetStarte
         <Grid item sm={2} xs={2}>
           <Box style={{fontSize: 35}}>
             <Link to='/' style={{textDecoration: 'none', color: 'inherit'}}>
-              <i class="fab fa-medium reverseTxt" ></i>
+              <i className="fab fa-medium reverseTxt" ></i>
             </Link>
           </Box>
         </Grid>
@@ -194,7 +214,7 @@ const PostByUser = ({user, location}) => {
         </Link>
       </Box>
       <Box style={{paddingTop: 28}}>
-        <Typography  className='shortDecription' style={{fontFamily: `'Faustina', 'serif'`, fontSize: 21}}>
+        <Typography style={{fontFamily: `'Faustina', 'serif'`, fontSize: 21}} className='shortDecription'>
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Explicabo quisquam quasi doloribus mollitia ipsa expedita tempora optio odio fugit, dolores recusandae corporis repellendus libero totam ratione aperiam qui corrupti quo incidunt impedit iste? Omnis est error provident quos. Eligendi quasi natus nemo molestiae deserunt iste perspiciatis, consectetur delectus sint, ullam, eaque possimus eum culpa ipsum! Officia ipsum et odio. Sunt quia ea sint error nostrum. Quidem iste voluptatem beatae delectus eaque eveniet quia odio, mollitia tenetur quam placeat ad officiis. Minus corrupti nostrum voluptatibus magnam corporis necessitatibus aut, earum doloribus, commodi deserunt quibusdam dolorum. Vero iste ipsam totam consequatur dolorem?
         </Typography>
         <Box style={{paddingTop: 17}}>
@@ -212,8 +232,8 @@ const PostByUser = ({user, location}) => {
               <Grid item className={classes.likeOrBookmark} onClick={handleCLickLikes}>
                 {
                   isLiked
-                  ? <i class="fas fa-heart" style={{color: 'rgb(219, 61, 61)'}}></i>
-                  : <i class="far fa-heart"></i>
+                  ? <i className="fas fa-heart" style={{color: 'rgb(219, 61, 61)'}}></i>
+                  : <i className="far fa-heart"></i>
                 }
                 
               </Grid>
@@ -227,8 +247,8 @@ const PostByUser = ({user, location}) => {
           <Grid item style={{fontSize: 23, paddingLeft: 50}} onClick={handleClickBookmark} className={classes.likeOrBookmark}>
             {
               isBookMarked
-              ? <i class="fas fa-bookmark" style={{color: 'rgb(26,136,22)'}}></i>
-              : <i class="far fa-bookmark"></i>
+              ? <i className="fas fa-bookmark" style={{color: 'rgb(26,136,22)'}}></i>
+              : <i className="far fa-bookmark"></i>
             }
           </Grid>
         </Grid>
@@ -238,8 +258,16 @@ const PostByUser = ({user, location}) => {
 }
 
 
-const TopBar = ({isFollowing, handleFollowBntClick, user, handleClickSignIn, handleClickGetStarted}) => {
+const TopBar = (props) => {
   const classes = useStyle();
+  const {
+    isFollowing, 
+    handleFollowBntClick, 
+    user, 
+    handleClickSignIn, 
+    handleClickGetStarted,
+    handleOpenDialogBox
+  } = props;
   return(
     <Box style={{paddingTop: 30}} className='containerForTopBar'>
         <Grid container>
@@ -262,12 +290,12 @@ const TopBar = ({isFollowing, handleFollowBntClick, user, handleClickSignIn, han
               <Grid item lg={7} md={7}>
                 <Grid container>
                   <Grid item className='followerAndFollowing'>
-                    <Typography className='follwerCount' style={{fontSize: 15,lineHeight: '40px', color: 'rgb(116,116,117)'}} >
-                      11.1K Followers
+                    <Typography className='follwerCount'  onClick={() => {handleOpenDialogBox('follower')}} style={{fontSize: 15,lineHeight: '40px', color: 'rgb(116,116,117)'}}>
+                      12K Followers
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <Typography className='follwerCount' style={{fontSize: 15,lineHeight: '40px', color: 'rgb(116,116,117)',paddingLeft: 30}}>
+                    <Typography className='follwerCount' onClick={() => {handleOpenDialogBox('following')}} style={{fontSize: 15,lineHeight: '40px', color: 'rgb(116,116,117)',paddingLeft: 30}}>
                       101 Following
                     </Typography>
                   </Grid>
@@ -298,7 +326,7 @@ const TopBar = ({isFollowing, handleFollowBntClick, user, handleClickSignIn, han
                         
                         <Grid item>
                           <Link to='/' style={{textDecoration: 'none', color: 'inherit'}}>
-                            <i class="fab fa-medium reverseTxt" ></i>
+                            <i className="fab fa-medium reverseTxt" ></i>
                           </Link>
                         </Grid>
                       </Grid>

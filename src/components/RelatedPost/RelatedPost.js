@@ -23,7 +23,7 @@ const RelatedPost = () => {
   const classes = useStyle();
   const title = 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quis, deserunt assumenda dolorum nostrum nihil dicta?';
   return (
-    <div class={classes.container}>
+    <div className={classes.container}>
       <Grid container>
         <Grid item lg={3}  md={3} sm={2} xs={2}>
           <img 

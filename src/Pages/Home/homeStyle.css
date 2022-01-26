@@ -1,13 +1,21 @@
 
 .homePageWrapper {
-  margin-top: 65px
+  margin-top: 70px
 }
+.homePostDiscription {
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 @media only screen and (min-width: 1370px) { 
   .homePageWrapper {
     width: 1300px;
     margin: auto;
     border-left: 1px solid rgb(231,231,230);
     border-right: 1px solid rgb(231,231,230);
-    margin-top: 65px
+    margin-top: 70px
   }
 }

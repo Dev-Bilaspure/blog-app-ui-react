@@ -4,21 +4,22 @@ import {makeStyles} from '@material-ui/core';
 const useStyle = makeStyles({
   navbar: {
     background: '#fff',
-    height: 65,
+    height: 70,
     // marginLeft: 10,
     // marginRight: 40,
     boxShadow: 'none',
-    borderBottom: '1px solid rgb(150,150,150)'
+    borderBottom: '1px solid rgb(150,150,150)',
+    paddingTop: 2
   },
   logoAndLogoText: {
-    color: 'rgb(51,51,51)',
+    color: 'rgb(31,31,31)',
     marginRight: 30,
     marginLeft: 20,
   },
   logoText: {
     display: 'inline', 
     fontFamily: `'Abril Fatface', 'cursive'`, 
-    fontSize: 30, 
+    fontSize: 32, 
     paddingLeft: 10,
   },
   navbarBasicMenu: {
@@ -27,7 +28,7 @@ const useStyle = makeStyles({
   },
   getStartedBnt: {
     borderRadius: 100, 
-    background: 'rgb(51,51,51)', 
+    background: 'rgb(31,31,31)', 
     color: '#fff', 
     textTransform: 'none',
     fontSize: 14,
@@ -43,6 +44,11 @@ const useStyle = makeStyles({
     color: '#000000', 
     paddingRight: 45, 
     paddingTop: 10
+  },
+  signInBtn: {
+    '&:hover': {
+      cursor: 'pointer'
+    }
   }
 })
 

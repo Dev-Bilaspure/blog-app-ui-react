@@ -49,62 +49,74 @@ const SignInAndSignUp = ({val, setUser}) => {
   // for styling signin tab
   const AntTab1 = styled((props) => <Tab disableRipple {...props} />)(() => ({
     textTransform: 'none',
-    fontSize: 16,
+    fontSize: 15,
     color: value===0 ? '#000000' : 'rgb(117,117,117)',
     '&.Mui-focusVisible': {
       backgroundColor: '#d1eaff',
     },
+    paddingBottom: 5
   }));
 
   // for styling signup tab
   const AntTab2 = styled((props) => <Tab disableRipple {...props} />)(() => ({
     textTransform: 'none',
-    fontSize: 16,
+    fontSize: 15,
     color: value===1 ? '#000000' : 'rgb(117,117,117)',
     '&.Mui-focusVisible': {
       backgroundColor: '#d1eaff',
     },
+    paddingBottom: 5
   }));
   return (
     <div className='signinandsignupWrapper'>
-      <div style={{width: '500px', margin: 'auto', marginTop: 50, marginBottom: 80}}>
-        <Paper style={{width: '410px', marginRight: 30, marginLeft: 45,paddingTop: 15}} elevation={10}>
-          <div style={{width: '330px', margin: 'auto'}}>
-            <div style={{color: 'rgb(51,51,51)', textAlign: 'center', paddingBottom: 0, margin: 'auto', width: 230, paddingTop: 10, borderBottom: '1px solid rgb(71,71,71)', marginBottom: 35}}>
-              <Grid container style={{width: 173, margin: 'auto'}}>
-                <Grid item>
-                  <Typography className={classes.reverseTxt}>
-                    <Link to='/' style={{color: 'inherit', textDecoration: 'none'}}>
-                      <i class="fab fa-medium" ></i>
-                    </Link>
-                  </Typography>
+      <Grid container >
+        <Grid item lg={4} lg={4} md={3} sm={12} xs={12}> 
+
+        </Grid>
+        <Grid item lg={4} lg={4} md={6} sm={12} xs={12} style={{height: '100vh', paddingTop: 30, paddingBottom: 30}}>
+          <Paper style={{ margin: 'auto',paddingTop: 15, width: 340, background: '#fff'}}  elevation={10}>
+            <div style={{width: '280px', margin: 'auto'}}>
+              <div style={{color: 'rgb(51,51,51)', textAlign: 'center', paddingBottom: 0, margin: 'auto', width: 230, paddingTop: 10, borderBottom: '1px solid rgb(71,71,71)', marginBottom: 20}}>
+                <Grid container style={{width: 173, margin: 'auto'}}>
+                  <Grid item>
+                    <Typography className={classes.reverseTxt}>
+                      <Link to='/' style={{color: 'inherit', textDecoration: 'none'}}>
+                        <i className="fab fa-medium" ></i>
+                      </Link>
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography style={{fontSize: 25, fontFamily: `'Abril Fatface', 'cursive'`, paddingTop: 3, paddingLeft: 5}}>
+                      <Link to='/' style={{color: 'inherit', textDecoration: 'none'}}>
+                        Maadhyam
+                      </Link>
+                    </Typography>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <Typography style={{fontSize: 25, fontFamily: `'Abril Fatface', 'cursive'`, paddingTop: 3, paddingLeft: 5}}>
-                    <Link to='/' style={{color: 'inherit', textDecoration: 'none'}}>
-                      Maadhyam
-                    </Link>
-                  </Typography>
-                </Grid>
-              </Grid>
-              
-            </div>
-            <div>
-              <AntTabs value={value} onChange={handleTabChange} textColor='#000000' variant='fullWidth' centered>
-                <AntTab1 label="Sign In" />
-                <AntTab2 label="Sign Up" />
-              </AntTabs>
-              <div style={{paddingTop: 10}}>
-                {
-                  value===0 
-                    ? <SignIn setUser={setUser} handleTabChange={handleTabChange}/> 
-                    : <SignUp setUser={setUser} handleTabChange={handleTabChange}/>
-                }
+                
+              </div>
+              <div>
+                <AntTabs value={value} onChange={handleTabChange} textColor='#000000' variant='fullWidth' centered>
+                  <AntTab1 label="Sign In" />
+                  <AntTab2 label="Sign Up" />
+                </AntTabs>
+                <div style={{paddingTop: 10}}>
+                  {
+                    value===0 
+                      ? <SignIn setUser={setUser} handleTabChange={handleTabChange}/> 
+                      : <SignUp setUser={setUser} handleTabChange={handleTabChange}/>
+                  }
+                </div>
               </div>
             </div>
-          </div>
-        </Paper>
-      </div>
+          </Paper>
+          
+        </Grid>
+        <Grid item lg={4} lg={4} md={3} sm={12} xs={12}>
+
+        </Grid>
+      </Grid>
+        
     </div>
     
   )
