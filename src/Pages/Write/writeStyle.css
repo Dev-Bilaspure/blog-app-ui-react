@@ -1,5 +1,6 @@
 .writeWrapper {
-  margin-top: 65px;
+  margin-top: 70px;
+  padding-top: 10px
 }
 
 @media only screen and (min-width: 1370px) { 

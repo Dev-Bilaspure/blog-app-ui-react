@@ -6,7 +6,6 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import {CategoryTags} from './../Blog/Blog'
 import styled from '@emotion/styled';
-import Posts from '../../components/Posts/Posts';
 import {Link, useNavigate, useLocation} from 'react-router-dom';
 // import useStyles from './homeStyles'
 import './homeStyle.css'
@@ -177,7 +176,7 @@ const FollowingUsersPosts = ({user, setValue}) => {
   return(
     <div>
       {
-        !followingPostArray.length 
+        followingPostArray.length 
         ? followingPostArray.map(ele => (
             <Post user={user} key={ele}/>
           ))

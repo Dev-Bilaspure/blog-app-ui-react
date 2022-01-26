@@ -78,7 +78,7 @@ const Blog = ({user}) => {
           </Box>
         </Grid>
         <Grid item lg={3}  md={3} sm={12} xs={12}>
-          <RightSideBar />
+          <RightSideBar/>
         </Grid>
       </Grid>
     </Box>
@@ -161,19 +161,20 @@ const LeftSideBar = ({ isFollowing, handleFollowButton, user, location }) => {
 
 const RightSideBar = () => {
   const [isMyself, setIsMyself] = useState(true);
+  
   return(
     <Box>
       {
         isMyself && 
         <Box style={{width: '90%',paddingLeft: 10, marginTop: 10, marginBottom: 50}}>
-          <Typography style={{marginBottom: 10, fontFamily: `'Merriweather', 'serif'`, fontSize: 20}}>
+          <Typography style={{marginBottom: 10, fontFamily: `'Raleway', 'sans-serif'`, fontSize: 22}}>
             Author Controls
           </Typography>
           <Box style={{paddingTop: 20, borderTop: '1px solid rgb(227, 227, 228)'}}>
-            <Button variant="outlined" startIcon={<EditIcon />} style={{marginBottom: 15, width: 140, color: 'rgb(101, 116, 122)', border: '1px solid rgb(101, 116, 122)'}}>
+            <Button variant="outlined" startIcon={<EditIcon />} style={{borderRadius: 100, marginBottom: 25, width: 140, color: 'rgb(101, 116, 122)', border: '1px solid rgb(101, 116, 122)'}}>
                Edit
             </Button><br />
-            <Button variant="outlined" startIcon={<DeleteIcon />} style={{width: 140, color: 'rgb(216,63,53)', border: '1px solid rgb(216,63,53)'}}>
+            <Button variant="outlined" startIcon={<DeleteIcon />} style={{borderRadius: 100, width: 140, color: 'rgb(216,63,53)', border: '1px solid rgb(216,63,53)'}}>
               Delete
             </Button>
           </Box>
@@ -181,7 +182,7 @@ const RightSideBar = () => {
       }
         
       <Box style={{width: '90%', paddingLeft: 10, marginTop: 60}}>
-        <Typography style={{fontFamily: `'Merriweather', 'serif'`, fontSize: 20, marginBottom: 10}}>
+        <Typography style={{fontFamily: `'Raleway', 'sans-serif'`, fontSize: 22, marginBottom: 10}}>
           Related:
         </Typography>
         <Box style={{paddingTop: 20, borderTop: '1px solid rgb(227, 227, 228)'}}>
