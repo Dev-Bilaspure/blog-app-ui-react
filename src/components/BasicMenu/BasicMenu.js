@@ -45,6 +45,10 @@ const BasicMenu = () => {
     navigate('/bookmark');
     setAnchorEl(null);
   }
+  const handleLikedClick = () => {
+    navigate('/liked');
+    setAnchorEl(null);
+  }
   const handleSettingsClick = () => {
     navigate('/settings');
     setAnchorEl(null);
@@ -74,7 +78,7 @@ const BasicMenu = () => {
         MenuListProps={{
           'aria-labelledby': 'basic-button',
         }}
-        style={{marginTop: 10, marginRight: 5}}
+        style={{marginTop: 10, marginRight: 5, minHeight: 700}}
       >
         <MenuItem onClick={handleProfileClick} style={{paddingLeft: 30, paddingRight: 40, paddingTop: 20, paddingBottom: 20, borderBottom: '1px solid rgb(190,190,190)'}}>
           <Grid container>
@@ -96,32 +100,37 @@ const BasicMenu = () => {
           </Grid>
         </MenuItem>
         <MenuItem onClick={handleWriteClick}>
-          <Typography style={{paddingLeft: 10, paddingTop: 8, paddingBottom: 4}}>
+          <Typography style={{paddingLeft: 13, paddingTop: 8, paddingBottom: 4}}>
             Write a story
           </Typography>
         </MenuItem>
         <MenuItem onClick={handleDraftClick}>
-          <Typography style={{paddingLeft: 10, paddingTop: 5, paddingBottom: 3}}>
+          <Typography style={{paddingLeft: 13, paddingTop: 5, paddingBottom: 3}}>
             My Stories
           </Typography>
         </MenuItem>
         <MenuItem onClick={handleBookmarksClick}>
-          <Typography style={{paddingLeft: 10, paddingTop: 5, paddingBottom: 3}}>
+          <Typography style={{paddingLeft: 13, paddingTop: 5, paddingBottom: 3}}>
             Bookmarks
           </Typography>
         </MenuItem>
+        <MenuItem onClick={handleLikedClick}>
+          <Typography style={{paddingLeft: 13, paddingTop: 5, paddingBottom: 3}}>
+            Liked
+          </Typography>
+        </MenuItem>
         <MenuItem onClick={handleSettingsClick}>
-          <Typography style={{paddingLeft: 10, paddingTop: 7, paddingBottom: 3}}>
+          <Typography style={{paddingLeft: 13, paddingTop: 7, paddingBottom: 3}}>
             Settings
           </Typography>
         </MenuItem>
         <MenuItem onClick={handleContactUsClick}>
-          <Typography style={{paddingLeft: 10, paddingTop: 7, paddingBottom: 3}}>
+          <Typography style={{paddingLeft: 13, paddingTop: 7, paddingBottom: 3}}>
             Contact us
           </Typography>
         </MenuItem>
         <MenuItem onClick={handleClose} style={{marginBottom: 20}}>
-          <Typography style={{paddingLeft: 10, paddingTop: 6, paddingBottom: 3}}>
+          <Typography style={{paddingLeft: 13, paddingTop: 6, paddingBottom: 3}}>
             Logout 
           </Typography>
           <LogoutIcon style={{color: 'rgb(123,123,123)', float: 'right', paddingLeft: 8}}/>

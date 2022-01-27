@@ -61,6 +61,7 @@ const useStyle = makeStyles({
       marginBottom: 50, 
       paddingRight: 30, 
       paddingBottom: 40, 
+      // borderLeft: '1px solid #E6E6E6'
       // borderBottom: '1px solid rgb(227, 227, 228)',
     },
     wordCount: {

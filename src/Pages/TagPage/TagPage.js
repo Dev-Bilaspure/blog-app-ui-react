@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Button } from '@material-ui/core';
 import { Grid, Typography } from '@mui/material';
 import React from 'react';
 import { useLocation, useParams } from 'react-router-dom';
@@ -6,6 +6,8 @@ import Categories from '../../components/Categories/Categories';
 import Post from '../../components/Post/Post';
 import './tagpageStyle.css'
 import categoriesArray from './../../constants/categories'
+import TagsRightSidebar from '../../components/TagsRightSidebar/TagsRightSidebar';
+import {useNavigate} from 'react-router-dom'
 
 const useStyle = makeStyles({
   tagIconStyle: {
@@ -18,12 +20,28 @@ const useStyle = makeStyles({
     paddingBottom: 3, 
     borderRadius: 100, 
     marginRight: 5
+  },
+  browseRecommendedBtn: {
+    paddingLeft: 20, 
+    paddingRight: 20, 
+    background: 'rgb(26,137,23)', 
+    color: '#fff', 
+    borderRadius: 100, 
+    textTransform: 'none', 
+    boxShadow: 'none', 
+    margin: 'auto',
+    '&:hover': {
+      background: 'rgb(26,137,23)', 
+      color: '#fff', 
+    }
   }
 })
 const TagPage = () => {
   const classes = useStyle();
   const {category} = useParams();
   console.log(category); 
+  const categoryRelatedPostsArray = [1,2,3,4,5,6,7,8,9,10] 
+
   const categoryText = category[0].toUpperCase()+category.slice(1)
   console.log(categoriesArray);
   return(
@@ -44,7 +62,7 @@ const TagPage = () => {
                       </div>
                     </Grid>
                     <Grid item>
-                      <Typography style={{paddingLeft: 5, fontFamily: `'Outfit', 'sans-serif'`, fontSize: 45, color: 'rgb(31,31,31)'}}>
+                      <Typography style={{paddingLeft: 5, fontFamily: `'Outfit', 'sans-serif'`, fontSize: 45, color: 'rgb(31,31,31)', wordBreak: 'break-all'}}>
                         {categoryText}
                       </Typography>
                     </Grid>
@@ -53,7 +71,7 @@ const TagPage = () => {
                 <div style={{paddingTop: 50}}>
                   {
                     categoriesArray.indexOf(category)>-1 ?
-                    <CategoryRelatedPosts /> :
+                    <CategoryRelatedPosts categoryRelatedPostsArray={categoryRelatedPostsArray} categoryText={categoryText}/> :
                     <div style={{width: 111, margin: 'auto'}}>
                       <Typography style={{color: 'rgb(81,81,81)', fontSize: 19, fontWeight: 'bold'}}>
                         No such tag
@@ -73,20 +91,13 @@ const TagPage = () => {
           <div style={{ paddingTop: 40, paddingLeft: 20}}>
             <Grid container>
               <Grid item lg={1} md={1} sm={12} xs={12}>
-
+                {/* Empty */}
               </Grid>
               <Grid item lg={10} md={10} sm={12} xs={12}>
-                <div>
-                  <div>
-                    <Typography style={{fontFamily: `'Outfit', 'sans-serif'`, fontSize: 25, fontWeight: 'bold', borderBottom: '1px solid #E6E6E6', marginBottom: 50, paddingBottom: 8}}>
-                      Tags
-                    </Typography>
-                  </div>
-                  <Categories />
-                </div>
+                <TagsRightSidebar />
               </Grid> 
               <Grid item lg={1} md={1} sm={12} xs={12}>
-                
+                {/* Empty */}
               </Grid>
             </Grid>
           </div>
@@ -96,14 +107,30 @@ const TagPage = () => {
   );
 };
 
-const CategoryRelatedPosts = () => {
-  const arr = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+
+
+const CategoryRelatedPosts = ({categoryRelatedPostsArray, categoryText}) => {
+  const classes = useStyle();
+  const navigate = useNavigate();
   return(
+
     <div>
       {
-        arr.map(ele => (
+        categoryRelatedPostsArray.length
+        ? categoryRelatedPostsArray.map(ele => (
           <Post key={ele} /> 
         ))
+        :
+        <div style={{width: '60%', margin: 'auto'}}>
+          <Typography style={{color: 'rgb(51,51,51)', fontSize: 17}}>
+            No story available for "{categoryText}" tag yet
+          </Typography>
+          <div style={{width: 237, margin: 'auto', marginTop: 30}}>
+            <Button variant='contained' className={classes.browseRecommendedBtn} onClick={() => {navigate('/')}}>
+              Browse recommended stories
+            </Button> 
+          </div>
+        </div>
       }
     </div>
   );

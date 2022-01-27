@@ -1,0 +1,19 @@
+
+.likedpostspage-wrapper {
+  margin-top: 70px;
+  padding-right: 10px;
+  overflow-wrap: break-word;
+}
+
+.someBtn {
+  background: #000000;
+}
+@media only screen and (min-width: 1370px) {
+  .likedpostspage-wrapper {
+    width: 1290px;
+    margin: auto;
+    border-left: 1px solid rgb(231,231,230);
+    border-right: 1px solid rgb(231,231,230);
+    margin-top: 70px
+  }
+}

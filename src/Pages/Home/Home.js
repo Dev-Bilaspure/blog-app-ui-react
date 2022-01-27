@@ -11,6 +11,7 @@ import {Link, useNavigate, useLocation} from 'react-router-dom';
 import './homeStyle.css'
 import categoriesArray from '../../constants/categories';
 import Post from '../../components/Post/Post';
+import TagsRightSidebar from '../../components/TagsRightSidebar/TagsRightSidebar';
 
 const useStyles  = makeStyles({
   belowBanner: {
@@ -67,14 +68,7 @@ const Home = ({ user }) => {
 
               </Grid>
               <Grid item lg={10} md={10} sm={12} xs={12}>
-                <div>
-                  <div>
-                    <Typography style={{fontFamily: `'Outfit', 'sans-serif'`, fontSize: 25, fontWeight: 'bold', borderBottom: '1px solid #E6E6E6', marginBottom: 50, paddingBottom: 8}}>
-                      Tags
-                    </Typography>
-                  </div>
-                  <Categories />
-                </div>
+                <TagsRightSidebar />
               </Grid>
               <Grid item lg={1} md={1} sm={12} xs={12}>
                 

@@ -26,15 +26,15 @@ const SelectCategory = ({selectedCategories, handleChange}) => {
   return (
     <div>
       <FormControl sx={{ m: 1, width: 205 }}>
-        <InputLabel id="demo-multiple-checkbox-label">Add Category</InputLabel>
+        <InputLabel id="demo-multiple-checkbox-label">Add a tag</InputLabel>
         <Select
           labelId="demo-multiple-checkbox-label"
           id="demo-multiple-checkbox"
           multiple
           value={selectedCategories}
           onChange={handleChange}
-          input={<OutlinedInput label="Add Category" />}
-          renderValue={(selected) => (`${selected.length} Categories added`)}
+          input={<OutlinedInput label="Add a tag" />}
+          renderValue={(selected) => (`${selected.length} tags added`)}
           MenuProps={MenuProps}
         >
           {categories.map((category) => (

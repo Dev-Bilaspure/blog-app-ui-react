@@ -11,6 +11,7 @@ import Settings from './Pages/Settings/Settings';
 import MyStories from './Pages/MyStories/MyStories';
 import TagPage from './Pages/TagPage/TagPage';
 import BookmarkPosts from './Pages/BookmarkPosts/BookmarkPosts';
+import LikedPostsPage from './Pages/LikedPostsPage/LikedPostsPage';
 
 const App = () => {
   const [user, setUser] = useState(false);
@@ -31,6 +32,9 @@ const App = () => {
           <Route exact path='/published' element={user ? <MyStories val={1}/> : <Navigate to='/signin' state={{from: '/published'}}/>} />
           <Route exact path='/tag/:category' element={<TagPage />} />
           <Route exact path='/bookmark' element={user ? <BookmarkPosts /> : <Navigate to='/signin' state={{from: '/bookmark'}}/>} />
+          <Route exact path='/liked' element={user ? <LikedPostsPage /> : <Navigate to='/signin' state={{from: '/liked'}}/>} />
+          
+          
           {/* <Route exact path='/' element={<Home />} />
           <Route exact path='/:username' element={<Profile page={'home'}/>} />
           <Route exact path='/:username/followers' element={<Profile page={'followers'}/>} />
