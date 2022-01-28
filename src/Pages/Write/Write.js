@@ -87,7 +87,10 @@ const AddCategories = () => {
   return(
     <div style={{paddingLeft: 5}}>
       <div style={{color: 'rgb(54, 54, 54)', paddingTop: 6, paddingLeft: 7, fontSize: 25, lineHeight: 1.2, paddingBottom: 20, fontFamily: `'Raleway', 'sans-serif'`}}>
-        Add a tag: <Typography style={{paddingTop: 4, fontSize: 15}}>Add or change tags (up to 4) so readers know what your story is about</Typography>
+        Add a tag: 
+        <Typography style={{paddingTop: 4, fontSize: 15}}>
+          Add or change tags (up to 4) so readers know what your story is about
+        </Typography>
       </div>
       <div style={{paddingBottom: 20, paddingTop: 10, paddingLeft: 7}}>
         {

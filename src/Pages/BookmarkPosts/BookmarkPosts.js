@@ -65,7 +65,7 @@ const BookmarkPosts = () => {
                 </div>
                 <div style={{paddingTop: 50}}>
                   {
-                    !bookmarksPostsArray.length ?
+                    bookmarksPostsArray.length ?
                     <BookmarkedPosts bookmarksPostsArray={bookmarksPostsArray}/> :
                     <div style={{width: 310, margin: 'auto'}}>
                       <Typography style={{color: 'rgb(51,51,51)', fontSize: 17}}>

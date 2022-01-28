@@ -65,9 +65,9 @@ const LikedPostsPage = () => {
                 </div>
                 <div style={{paddingTop: 50}}>
                   {
-                    !likedPostsArray.length ?
+                    likedPostsArray.length ?
                     <LikedPosts likedPostsArray={likedPostsArray}/> :
-                    <div style={{width: 258, margin: 'auto'}}>
+                    <div style={{width: 256, margin: 'auto'}}>
                       <Typography style={{color: 'rgb(51,51,51)', fontSize: 17}}>
                         Stories you like will apprear here.
                       </Typography>

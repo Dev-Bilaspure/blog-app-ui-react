@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useStyle from './profilePageStyles';
 import {CategoryTags} from './../Blog/Blog'
 import BasicMenu from './../../components/BasicMenu/BasicMenu';
-import UserFollowers from './../../components/UserFollowers/UserFollowers';
+import UserFollowersFollowingsDialogBox from '../../components/UserFollowersFollowingsDialogBox/UserFollowersFollowingsDialogBox';
 
 const personImg = 'https://miro.medium.com/fit/c/131/131/2*1L5DSsWtYoQVm1TxThM4vQ.jpeg';
 const des = '4x Best-Selling Author, Speaker, & Futurist. Founder of FutureOfWorkUniversity.com. Exploring Leadership, Employee Experience, & The Future of Work';
@@ -40,7 +40,7 @@ const ProfilePage = ({user}) => {
   }
   return (
     <Box className='profilePageWrapper'>
-      <UserFollowers 
+      <UserFollowersFollowingsDialogBox
         openDialogBox={openDialogBox}
         handleCloseDialogBox={handleCloseDialogBox}
         dialogBoxType={dialogBoxType}

@@ -2,6 +2,7 @@
 .myStoriesWrapper {
   margin-top: 65px;
 }
+
 @media only screen and (min-width: 1370px) {
   .myStoriesWrapper {
     width: 1300px;

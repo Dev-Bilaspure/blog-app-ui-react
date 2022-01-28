@@ -6,6 +6,7 @@ import { useLocation, useNavigate, Link } from 'react-router-dom';
 import './blogStyle.css'
 import RelatedPosts from '../../components/RelatedPosts/RelatedPosts';
 import useStyle from './blogStyle';
+import DeletePostWarningDialogBox from '../../components/DeletePostWarningDialogBox/DeletePostWarningDialogBox';
 
 
 
@@ -31,15 +32,31 @@ const Blog = ({user}) => {
     a facilis non! Qui voluptas odio, itaque soluta dolores repellat tempore ea
     rum hic commodi aliquid laboriosam id. Sint.`);
   const [categories, setCategories] = useState(['Programming', 'Technology', 'React', 'Education']);
+  const [openDialogBox, setOpenDialogBox] = useState(false);
+  const postID = "postID of thiis particular post";
+
+  const handleOpenDialogBox = () => {
+    setOpenDialogBox(true);
+  }
+  const handleCloseDialogBox = () => {
+    setOpenDialogBox(false);
+  }
   const handleFollowButton = (e) => {
     if(!user)
       navigate('/signin', { state: {from: location}});
     setIsFollowing(!isFollowing);
-    
   }
   const blogImg = `https://miro.medium.com/max/1400/1*TVd_sNhpc7JDPBHAsAOQZg.jpeg`;
   return (
     <Box className='blogWrapper'>
+
+      <DeletePostWarningDialogBox
+        openDialogBox={openDialogBox}
+        handleCloseDialogBox={handleCloseDialogBox}
+        postID={postID}
+        afterDeleteNavigateLocation={'/published'}
+      />
+
       <Grid container style={{marginTop: 10, padding: 20, paddingRight: 0, paddingLeft: 15}}>
         <Grid item lg={3} md={3} sm={12} xs={12}>
           <LeftSideBar user={user} location={location} isFollowing={isFollowing} handleFollowButton={handleFollowButton}/>
@@ -78,7 +95,7 @@ const Blog = ({user}) => {
           </Box>
         </Grid>
         <Grid item lg={3}  md={3} sm={12} xs={12}>
-          <RightSideBar/>
+          <RightSideBar handleOpenDialogBox={handleOpenDialogBox}/>
         </Grid>
       </Grid>
     </Box>
@@ -159,7 +176,7 @@ const LeftSideBar = ({ isFollowing, handleFollowButton, user, location }) => {
   );
 }
 
-const RightSideBar = () => {
+const RightSideBar = ({handleOpenDialogBox}) => {
   const [isMyself, setIsMyself] = useState(true);
   
   return(
@@ -171,11 +188,16 @@ const RightSideBar = () => {
             Author Controls
           </Typography>
           <Box style={{paddingTop: 20, borderTop: '1px solid rgb(227, 227, 228)'}}>
-            <Button variant="outlined" startIcon={<EditIcon />} style={{borderRadius: 100, marginBottom: 25, width: 140, color: 'rgb(101, 116, 122)', border: '1px solid rgb(101, 116, 122)'}}>
-               Edit
+            <Button variant="outlined" startIcon={<EditIcon />} style={{paddingTop: 5, paddingBottom: 5, borderRadius: 100, marginBottom: 25, width: 110, color: 'rgb(101, 116, 122)', border: '1px solid rgb(101, 116, 122)', textTransform: 'none'}}>
+              <Typography style={{fontSize: 14}}>Edit</Typography>
             </Button><br />
-            <Button variant="outlined" startIcon={<DeleteIcon />} style={{borderRadius: 100, width: 140, color: 'rgb(216,63,53)', border: '1px solid rgb(216,63,53)'}}>
-              Delete
+            <Button 
+              variant="outlined" 
+              startIcon={<DeleteIcon />} 
+              style={{paddingTop: 5, paddingBottom: 5, borderRadius: 100, width: 110, color: 'rgb(216,63,53)', border: '1px solid rgb(216,63,53)', textTransform: 'none'}}
+              onClick={handleOpenDialogBox}
+            >
+              <Typography style={{fontSize: 14}}>Delete</Typography>
             </Button>
           </Box>
         </Box>

@@ -1,6 +1,6 @@
 .writeWrapper {
   margin-top: 70px;
-  padding-top: 10px
+  /* padding-top: 70px */
 }
 
 @media only screen and (min-width: 1370px) { 
@@ -9,7 +9,7 @@
     margin: auto;
     border-left: 1px solid rgb(231,231,230);
     border-right: 1px solid rgb(231,231,230);
-    margin-top: 65px
+    margin-top: 70px
   }
 }
 

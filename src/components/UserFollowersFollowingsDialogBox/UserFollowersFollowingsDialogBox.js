@@ -18,7 +18,7 @@ const useStyle = makeStyles({
   }
 })
 //follower or following
-const UserFollowers = ({openDialogBox, handleCloseDialogBox, dialogBoxType, user}) => {
+const UserFollowersFollowingsDialogBox = ({openDialogBox, handleCloseDialogBox, dialogBoxType, user}) => {
   const followerArray = [1,2,3,4,5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
   const followingArray = [1,2,3,4,5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
   console.log(dialogBoxType);
@@ -106,7 +106,7 @@ const UsersListItem = ({user}) => {
     </div>
   );
 }
-export default UserFollowers;
+export default UserFollowersFollowingsDialogBox;
 {/* <Button variant="contained" style={{background: 'rgb(26,136,22)', width: 80, textTransform: 'none', color: '#fff', borderRadius: 100, height: 35, marginTop: 5}}>
             {!isFollowing ? 'Follow' : 'Following'}
           </Button> */}
