@@ -104,11 +104,20 @@ const Blog = ({user}) => {
 }
 export const CategoryTags = ({categories}) => {
   const classes = useStyle();
+  const navigate = useNavigate();
   return(
     <div>
       {
         categories.map(cat => (
-          <Button className={classes.categoryTag} variant='contained' >{cat}</Button>
+          <Button 
+            className={classes.categoryTag} 
+            variant='contained' 
+            onClick={() => {
+              navigate(`/tag/${cat.toLowerCase()}`);
+            }}
+          >
+            {cat}
+          </Button>
         ))
       }
     </div>
