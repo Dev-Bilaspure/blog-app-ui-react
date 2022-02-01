@@ -87,16 +87,16 @@ const LikedPostsPage = () => {
             </Grid>
           </div> 
         </Grid>
-        <Grid item lg={4} md={3} sm={12} xs={12}  style={{borderLeft: '1px solid #E6E6E6', paddingLeft: 15}}>
+        <Grid item lg={4} md={3} sm={12} xs={12}  style={{borderLeft: '1px solid #E6E6E6', paddingLeft: 0}}>
           <div style={{ paddingTop: 40, paddingLeft: 20}}>
             <Grid container>
-              <Grid item lg={1} md={1} sm={12} xs={12}>
+              <Grid item lg={1} md={0} sm={12} xs={12}>
 
               </Grid>
-              <Grid item lg={10} md={10} sm={12} xs={12}>
+              <Grid item lg={10} md={12} sm={12} xs={12}>
                 <TagsRightSidebar />
               </Grid> 
-              <Grid item lg={1} md={1} sm={12} xs={12}>
+              <Grid item lg={1} md={0} sm={12} xs={12}>
                 
               </Grid>
             </Grid>
