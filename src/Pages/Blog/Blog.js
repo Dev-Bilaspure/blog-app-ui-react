@@ -106,7 +106,7 @@ export const CategoryTags = ({categories}) => {
   const classes = useStyle();
   const navigate = useNavigate();
   return(
-    <div>
+    <div style={{overflowWrap: 'break-word'}}>
       {
         categories.map(cat => (
           <Button 
