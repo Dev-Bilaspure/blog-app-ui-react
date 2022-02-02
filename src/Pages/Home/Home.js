@@ -1,5 +1,5 @@
 import { Box, Button, Grid, Hidden, makeStyles, Typography } from '@material-ui/core';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Banner from '../../components/Banner/Banner';
 import Categories from '../../components/Categories/Categories';
 import Tabs from '@mui/material/Tabs';
@@ -12,6 +12,7 @@ import './homeStyle.css'
 import categoriesArray from '../../constants/categories';
 import Post from '../../components/Post/Post';
 import TagsRightSidebar from '../../components/TagsRightSidebar/TagsRightSidebar';
+import axios from 'axios';
 
 const useStyles  = makeStyles({
   belowBanner: {
@@ -150,12 +151,11 @@ const TabsAndContent = ({user}) => {
 }
 
 const HomePagePosts = ({user}) => {
-  const categoryPostArray = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-
+  const [generalPosts, setGeneralPosts] = useState([1,2,3,4,5,6]);
   return(
     <div>
       {
-        categoryPostArray.map(ele => (
+        generalPosts.map(ele => (
           <Post user={user} key={ele}/>
         ))
       }
@@ -190,7 +190,6 @@ const FollowingUsersPosts = ({user, setValue}) => {
     </div>
   );
 }
-
 
 export default Home
 

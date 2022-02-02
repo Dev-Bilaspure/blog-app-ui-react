@@ -1,7 +1,7 @@
 import { Box, Grid, Typography, Button, Hidden } from '@material-ui/core'
 import React, { useState } from 'react'
 import './profilePageStyle.css';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import useStyle from './profilePageStyles';
 import {CategoryTags} from './../Blog/Blog'
 import BasicMenu from './../../components/BasicMenu/BasicMenu';
@@ -14,6 +14,8 @@ const ProfilePage = ({user}) => {
   const classes = useStyle();
   const navigate = useNavigate();
   const location = useLocation();
+  const {username} = useParams();
+  console.log(username);
   const [isFollowing, setIsFollowing] = useState(false);
 
   const [openDialogBox, setOpenDialogBox] = useState(false);
@@ -38,6 +40,11 @@ const ProfilePage = ({user}) => {
   const handleClickGetStarted = () => {
     navigate('/signup', {state: {from: location}});
   }
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const res = axios.get('http://localhost:5000/user/username/dev1')
+  //   }
+  // }, [])
   return (
     <Box className='profilePageWrapper'>
       <UserFollowersFollowingsDialogBox

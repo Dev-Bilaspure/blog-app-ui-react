@@ -1,9 +1,10 @@
 import { Box, makeStyles, Paper, Typography } from '@material-ui/core'
 import './postStyle.css';
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Grid, Hidden } from '@mui/material';
 import {Link, useNavigate, useLocation} from 'react-router-dom';
 import { CategoryTags } from '../../Pages/Blog/Blog';
+import axios from 'axios';
 
 const useStyles = makeStyles({
   bookmarkBtn: {
@@ -13,7 +14,7 @@ const useStyles = makeStyles({
   }
 })
 
-const Post = ({user}) => {
+const Post = ({user, postObj}) => {
   const classes = useStyles();
   const navigate = useNavigate();
   const location = useLocation();
@@ -25,12 +26,13 @@ const Post = ({user}) => {
   const authorName = 'Dev Bilaspure'
   const postDiscription = 'Lorem dolor sit amet consectetur adipisicing elit. Harum totam iste esse eius placeat consequuntur laborum eveniet iusto nihil rerum reprehenderit, explicabo culpa, amet quidem necessitatibus. Aut consectetur rem, fuga corporis doloribus fugit tempore, modi perferendis, deserunt ea necessitatibus corrupti officiis temporibus nisi? Accusamus dolorum voluptates fugiat cupiditate laborum vel!'
   const likesCnt = 60;
+  const [author, setAuthor] = useState({})
   const handleBookmark = () => {
     if(!user)
       navigate('/signin', {state: {from: location}});
     setIsBookmarked(!isBookmarked)
   }
-  
+  console.log(author);
   return(
     <div style={{marginBottom: 70}}>
       <Grid container style={{paddingBottom: 7}}>
@@ -40,7 +42,8 @@ const Post = ({user}) => {
               src={personImg} 
               alt="person image"
               style={{width: 25, height: 25, paddingLeft: 0, borderRadius: 7, objectFit: 'cover'}}
-            />
+              onClick={() => {navigate(`/user/@${author.username}`)}}
+            /> 
           </Link>
         </Grid>
         <Grid item>

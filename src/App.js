@@ -24,7 +24,7 @@ const App = () => {
           <Route exact path='/' element={<Home user={user}/>} />
           <Route exact path='/write' element={user ? <Write /> : <Navigate to='/signin' state={{from: '/write'}}/>} />
           <Route exact path='/blog/:id' element={<Blog user={user}/>} />
-          <Route exact path='/profile' element={<ProfilePage user={user}/>} />
+          <Route exact path='/profile/:username' element={<ProfilePage user={user}/>} />
           <Route exact path='/signin' element={!user ? <SignInAndSignUp setUser={setUser} val={0}/> : <Navigate to='/' />} />
           <Route exact path='/signup' element={!user ? <SignInAndSignUp setUser={setUser} val={1}/> : <Navigate to='/' />} />
           <Route exact path='/settings' element={user ? <Settings /> : <Navigate to='/signin' state={{from: '/settings'}}/>} />
