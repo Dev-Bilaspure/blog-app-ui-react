@@ -40,11 +40,6 @@ const ProfilePage = ({user}) => {
   const handleClickGetStarted = () => {
     navigate('/signup', {state: {from: location}});
   }
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     const res = axios.get('http://localhost:5000/user/username/dev1')
-  //   }
-  // }, [])
   return (
     <Box className='profilePageWrapper'>
       <UserFollowersFollowingsDialogBox
