@@ -360,7 +360,7 @@ const RightSideBar = ({handleOpenDialogBox, categories, postsUsersId, title, des
           Related:
         </Typography>
         <Box style={{paddingTop: 20, borderTop: '1px solid rgb(227, 227, 228)', paddingLeft: 10}}>
-          <RelatedPosts categories={categories}/>
+          <RelatedPosts categories={categories} posID={postID}/>
         </Box>
       </Box>
     </Box>
