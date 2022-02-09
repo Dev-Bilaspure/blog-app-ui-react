@@ -121,8 +121,8 @@ const Post = ({user, post}) => {
                       : <i className="far fa-heart" style={{color: 'rgb(117,117,117)', float: 'left', paddingRight: 5}}></i>
                     }
                     
-                    <Typography style={{color: 'rgb(117,117,117)', float: 'right', lineHeight: 1.2}}>
-                      {post.likes.length}
+                    <Typography style={{color: 'rgb(87,87,87)', float: 'right', lineHeight: 1.2, fontSize: 16}}>
+                      {post.likes.length} likes
                     </Typography>
                   </Link>
                 </Grid>
