@@ -1,8 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Typography} from '@mui/material';
-import WebFont from 'webfontloader';
 import { Link } from 'react-router-dom';
-import { Button, Grid, makeStyles, Menu, MenuItem } from '@material-ui/core';
+import { Grid, makeStyles, Menu, MenuItem } from '@material-ui/core';
 import DeletePostWarningDialogBox from '../DeletePostWarningDialogBox/DeletePostWarningDialogBox';
 import { UserContext } from '../../context/UserContext';
 import axios from 'axios';
@@ -35,7 +34,6 @@ const useStyle = makeStyles({
 })
 
 const Draft = () => {
-  const classes = useStyle();
   const {user} = useContext(UserContext);
   // const draftPosts = [1,2,3,4,5,6];
   const [draftPosts, setDraftPosts] = useState([]);
@@ -107,8 +105,7 @@ const DraftPost = ({draftPost}) => {
     }})
   }
 
-  const title = 'Untitled Story in the house';
-  const description = `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quaerat quasi doloribus vero nemo quo tempore alias placeat reiciendis minus cum?`
+
   const words = draftPost.desc.length ? draftPost.desc.split(' ').length : 0;
   return(
     <div>

@@ -2,7 +2,6 @@ import { makeStyles, Button } from '@material-ui/core';
 import { Grid, Typography } from '@mui/material';
 import React, {useState, useEffect} from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import Categories from '../../components/Categories/Categories';
 import Post from '../../components/Post/Post';
 import './tagpageStyle.css'
 import categoriesArray from './../../constants/categories'

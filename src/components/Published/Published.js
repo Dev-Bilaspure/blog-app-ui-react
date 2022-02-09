@@ -21,7 +21,6 @@ const useStyle = makeStyles({
     paddingTop: 2, 
     paddingBottom: 2, 
     color: 'rgb(117,117,117)',
-    color: 'rgb(117,117,117)',
     textOverflow: 'ellipsis',
     display: '-webkit-box',
     '-webkit-line-clamp': 2,
@@ -88,9 +87,6 @@ const PublishedPost = ({publishedPost}) => {
   const handleCloseDialogBox = () => {
     setOpenDialogBox(false);
   }
-  const title = 'Untitled Story in the house';
-  const description = `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quaerat quasi doloribus vero nemo quo tempore alias placeat reiciendis minus cum?`
-  const postID = "post id for this particular post"
 
   return(
     <div>
@@ -108,11 +104,9 @@ const PublishedPost = ({publishedPost}) => {
             </Link>
           </Typography>
           {
-            description &&
+            publishedPost.desc &&
             <Typography className={classes.publishPostDescription}>
-              <Link to='/blog/1' style={{color: 'inherit', textDecoration: 'none'}}>
                 {publishedPost.desc}
-              </Link>
             </Typography>
           }
           <Grid container>

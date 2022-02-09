@@ -1,4 +1,4 @@
-import { Box, makeStyles, Paper, Typography } from '@material-ui/core'
+import { makeStyles, Typography } from '@material-ui/core'
 import './postStyle.css';
 import React, {useContext, useEffect, useState} from 'react'
 import { Grid, Hidden } from '@mui/material';
@@ -27,7 +27,6 @@ const useStyles = makeStyles({
 const Post = ({user, post}) => {
   const {loginSuccess} = useContext(UserContext);
   const classes = useStyles();
-  const PF = 'http://localhost:5000/images/'
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,7 +34,7 @@ const Post = ({user, post}) => {
   const [profilePic, setProfilePic] = useState('');
   const [authorUsername, setAuthorUsername] = useState('');
 
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(user && user.bookmarks.includes(post._id));
 
   const handleBookmark = async() => {
     if(!user)
@@ -130,7 +129,7 @@ const Post = ({user, post}) => {
                 <Grid item style={{paddingLeft: 35}}>
                   <div onClick={handleBookmark} className={classes.bookmarkBtn}>
                     {
-                      user && user.bookmarks.includes(post._id) ?
+                      isBookmarked ?
                       <i className="fas fa-bookmark" style={{color: 'rgb(26,136,22)'}}></i> :
                       <i className="far fa-bookmark" style={{color: 'rgb(117,117,117)'}}></i>
                     }

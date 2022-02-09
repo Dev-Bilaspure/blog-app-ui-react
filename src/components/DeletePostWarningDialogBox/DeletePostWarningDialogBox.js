@@ -1,13 +1,11 @@
-import React, {useState} from "react";
+import React from "react";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import CloseIcon from "@mui/icons-material/Close";
-import { Avatar, Grid, Button, Typography} from "@material-ui/core";
+import { Grid, Button, Typography} from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const useStyle = makeStyles({

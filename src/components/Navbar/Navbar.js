@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { AppBar, Toolbar, Grid, Typography, Button } from '@material-ui/core';
 import './navbarStyle.css';
 import { Hidden } from '@mui/material';

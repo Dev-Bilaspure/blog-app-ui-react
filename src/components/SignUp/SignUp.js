@@ -1,8 +1,6 @@
 import React, {useContext, useState} from 'react'
-import { Paper, TextField, Button, Typography } from '@material-ui/core'
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import {Link, useLocation, useNavigate, Navigate} from 'react-router-dom';
+import { TextField, Button, Typography } from '@material-ui/core'
+import { useNavigate, Navigate} from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -34,7 +32,6 @@ const useStyle = makeStyles({
 const SignUp = ({handleTabChange}) => {
   const classes = useStyle();
   const {user} = useContext(UserContext)
-  const location = useLocation();
   const navigate = useNavigate();
 
   const [name, setName] = useState('');

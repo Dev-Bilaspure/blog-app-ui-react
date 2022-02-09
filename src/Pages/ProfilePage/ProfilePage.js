@@ -1,7 +1,7 @@
 import { Box, Grid, Typography, Button, Hidden } from '@material-ui/core'
 import React, { useContext, useEffect, useState } from 'react'
 import './profilePageStyle.css';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useStyle from './profilePageStyles';
 import {CategoryTags} from './../Blog/Blog'
 import BasicMenu from './../../components/BasicMenu/BasicMenu';
@@ -11,14 +11,11 @@ import { UserContext } from '../../context/UserContext';
 import CircularProgress from '@mui/material/CircularProgress';
 
 
-const personImg = 'https://miro.medium.com/fit/c/131/131/2*1L5DSsWtYoQVm1TxThM4vQ.jpeg';
-const des = '4x Best-Selling Author, Speaker, & Futurist. Founder of FutureOfWorkUniversity.com. Exploring Leadership, Employee Experience, & The Future of Work';
 const defaultUserPic = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
 const PF = 'http://localhost:5000/images/'
 
 
 const ProfilePage = ({user}) => {
-  const classes = useStyle();
   const navigate = useNavigate();
   const location = useLocation();
   

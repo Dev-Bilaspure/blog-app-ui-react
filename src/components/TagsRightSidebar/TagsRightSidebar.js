@@ -60,7 +60,7 @@ const TagsRightSidebar = ({user}) => {
       }
     }
     fetchRankedUsers();
-  }, [])
+  }, [user])
   return(
     <div>
       <div>

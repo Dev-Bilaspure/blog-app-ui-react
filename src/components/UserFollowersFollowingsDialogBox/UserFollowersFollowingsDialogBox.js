@@ -1,8 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Button, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -28,8 +26,6 @@ const useStyle = makeStyles({
 //follower or following
 const UserFollowersFollowingsDialogBox = (props) => {
   const {openDialogBox, handleCloseDialogBox, dialogBoxType, user, profileUsersId} = props;
-  const followerArray = [1,2,3,4,5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
-  const followingArray = [1,2,3,4,5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
   const [followings, setFollowings] = useState([]);
   const [followers, setFollowers] = useState([]);
   const [isFetching, setIsFectching] = useState(false);

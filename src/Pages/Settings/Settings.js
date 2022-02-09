@@ -11,20 +11,14 @@ import axios from 'axios'
 
 const PF = 'http://localhost:5000/images/'
 const defaultUserPic = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
-// const name='Dev Bilaspure'; 
-// const email='dev@mail.com';
-// const username='dev8305';
-// const shortBio='Hi I am a software engineer at Google';
-const photo = 'https://miro.medium.com/fit/c/131/131/2*1L5DSsWtYoQVm1TxThM4vQ.jpeg';
+
 const Settings = () => {
-  const classes = useStyle();
   const {user} = useContext(UserContext);
 
   const [newName, setNewName] = useState(user.name);
   const [newEmail, setNewEmail] = useState(user.email);
   const [newUsername, setNewUsername] = useState(user.username);
   const [newShortBio, setNewShortBio] = useState(user.shortBio);
-  // const [newPhoto, setNewPhoto] = useState(PF + user.profilePic);
   const [newPassword, setNewPassword] = useState('');
 
   
@@ -36,52 +30,6 @@ const Settings = () => {
   const [passwordEdit, setPasswordEdit] = useState(false);
   const [photoEdit, setPhotoEdit] = useState(false);
 
-  // const isValidName = (nm) => {
-  //   if(nm!=='')
-  //     return(true);
-  //   else {
-  //     setNameEdit(true);
-  //     return(false);
-  //   }
-  // }
-  // const isValidUsername = (usrnm) => {
-  //   let isValidUsername = (usrnm.indexOf(' ')===-1 && usrnm!=='' && usrnm.length>=3)
-  //   if(isValidUsername)
-  //     return(true);
-  //   else {
-  //     setUsernameEdit(true);
-  //     return(false);
-  //   }
-  // }
-  // const isValidEmail = (eml) => {
-  //   let isValidEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(eml);
-  //   if(isValidEmail)
-  //     return(true);
-  //   else {
-  //     setEmailEdit(true);
-  //     return(false);
-  //   }
-  // }
-  // const handleSave = (e) => {
-  //   const isEveryThingValid = (
-  //     isValidName(newName) && 
-  //     isValidUsername(newUsername) && 
-  //     isValidEmail(newEmail)
-  //   );
-  //   if(isEveryThingValid) {
-  //     const obj = {
-  //       name: newName,
-  //       email: newEmail,
-  //       username: newUsername,
-  //       shortBio: newShortBio
-  //     }
-  //     console.log('save btn clicked');
-  //     setNameEdit(false);
-  //     setUsernameEdit(false);
-  //     setShortBioEdit(false);
-  //     setPhotoEdit(false);
-  //   }
-  // }
   useEffect(() => {
     WebFont.load({
       google: {

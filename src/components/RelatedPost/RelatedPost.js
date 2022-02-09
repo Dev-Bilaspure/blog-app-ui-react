@@ -25,7 +25,6 @@ const useStyle = makeStyles({
 })
 const RelatedPost = ({post}) => {
   const classes = useStyle();
-  const title = 'Lorem ipsum, dolor sit amet cenda dolorum nostrum nihil dicta?';
   return (
     <div className={classes.container}>
       <Grid container>
