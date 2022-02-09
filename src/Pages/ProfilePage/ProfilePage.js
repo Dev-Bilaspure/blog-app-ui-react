@@ -288,8 +288,8 @@ const PostByUser = ({user, post}) => {
   const {loginSuccess} = useContext(UserContext);
 
   const [likes, setLikes] = useState(post.likes.length);
-  const [isLiked, setIsLiked] = useState(false);
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isLiked, setIsLiked] = useState(post.likes.includes(user._id));
+  const [isBookmarked, setIsBookmarked] = useState(user.bookmarks.includes(post._id));
   const [categories, setCategories] = useState(['Lifestyle', 'Health', 'Food']);
 
   const handleClickLike = async () => {
@@ -305,7 +305,7 @@ const PostByUser = ({user, post}) => {
           setLikes(likes-1);
         else
           setLikes(likes+1);
-        setIsLiked(post.likes.includes(user._id));
+        setIsLiked(!isLiked);
       })
     } catch(error) {
       console.log(error);
@@ -323,7 +323,7 @@ const PostByUser = ({user, post}) => {
       ).then(res => {
         loginSuccess(res.data);
         console.log(res.data);
-        setIsBookmarked(user.bookmarks.includes(post._id))
+        setIsBookmarked(!isBookmarked)
       })
     } catch(error) {
       console.log(error);

@@ -46,7 +46,7 @@ const Post = ({user, post}) => {
       ).then(res => {
         loginSuccess(res.data);
         console.log(res.data);
-        setIsBookmarked(user.bookmarks.includes(post._id));
+        setIsBookmarked(!isBookmarked);
       })
     } catch(error) {
       console.log(error);
