@@ -1,6 +1,7 @@
 .signinandsignupWrapper {
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
   background: rgb(230,230,230);
+  height: 130vh
 }
 @media only screen and (min-width: 1370px) {
   .signinandsignupWrapper {

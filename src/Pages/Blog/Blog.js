@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Grid, Table, TableHead, TableRow, Typography, Hidden,Chip } from '@material-ui/core';
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
@@ -7,33 +7,81 @@ import './blogStyle.css'
 import RelatedPosts from '../../components/RelatedPosts/RelatedPosts';
 import useStyle from './blogStyle';
 import DeletePostWarningDialogBox from '../../components/DeletePostWarningDialogBox/DeletePostWarningDialogBox';
+import axios from 'axios'
+import {UserContext} from './../../context/UserContext'
 
-
+const PF = 'http://localhost:5000/images/'
+const defaultUserPic = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
 
 const Blog = ({user}) => {
   const classes = useStyle();
-  const [isFollowing, setIsFollowing] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const [title, setTitle] = useState('How to use React Router in your React js project.');
-  const [description, setDiscription] = useState(`Lorem ipsum dolor sit amet consectetur adipisicing elit. Error, 
-  laboriosam repudiandae voluptatibus, harum accusantium corporis earum 
-  quas, consectetur necessitatibus labore quis repellat iste magnam nulla? 
-  Quisquam fugit dignissimos aperiam error, fuga veritatis enim earum bland
-  itiis nemo. Non saepe quod alias, aliquid accusamus voluptatum laborum la
-  boriosam totam architecto. Officiis, praesentium quibusdam provident culpa
-  , mollitia sint quas quae deleniti, placeat fugit totam?
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum ad alias 
-  enim ipsa illo voluptatum dolores suscipit animi inventore corporis aspern
-  atur rem nulla modi ipsam facere quo, eos adipisci, rerum aut nemo mollitia
-   et praesentium. Officia dignissimos ullam assumenda explicabo velit nulla.
-    Facilis animi dolorem earum libero eum nam minus inventore voluptatum tene
-    tur. Voluptates nihil tempora alias, nam quo expedita architecto nisi minim
-    a facilis non! Qui voluptas odio, itaque soluta dolores repellat tempore ea
-    rum hic commodi aliquid laboriosam id. Sint.`);
-  const [categories, setCategories] = useState(['Programming', 'Technology', 'React', 'Education']);
+  
+  const postID = location.pathname.split(('/'))[2];
+
+  const {loginSuccess} = useContext(UserContext);
+
+  const [title, setTitle] = useState('');
+  const [description, setDiscription] = useState('');
+  const [categories, setCategories] = useState([1,2,3,4]);
+  const [likes, setLikes] = useState(0);
+  const [postUpdatedAt, setPostUpdatedAt] = useState('');
+  const [blogImg, setBlogImg] = useState('')
   const [openDialogBox, setOpenDialogBox] = useState(false);
-  const postID = "postID of thiis particular post";
+
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(false);
+
+  const [postsUsersId, setPostsUsersId] = useState('');
+
+  const [authorName, setAuthorName] = useState('');
+  const [authorProfilePic, setAuthorProfilePic] = useState('');
+  const [authorUsername, setAuthorUsername] = useState('');
+
+  
+  useEffect(() => {
+    const fetchBlogData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/posts/${postID}`
+        ).then(res => {
+          setTitle(res.data.title);
+          setDiscription(res.data.desc);
+          setCategories(res.data.tags);
+          setLikes(res.data.likes.length);
+          setBlogImg(res.data.img);
+          setPostsUsersId(res.data.userId);
+          user && setIsLiked(res.data.likes.indexOf(user._id)>-1);
+          setPostUpdatedAt(res.data.updatedAt);
+          return(res.data.userId);
+        }).then(res => {
+          fetchAuthorInfo(res);
+        })
+      } catch(error) {
+        console.log(error);
+      }
+    }
+    fetchBlogData();
+
+    const fetchAuthorInfo = async(userId) => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/users/userbyid/${userId}`
+        ).then(res => {
+          setAuthorName(res.data.name);
+          setAuthorProfilePic(res.data.profilePicture);
+          setAuthorUsername(res.data.username);
+
+          setIsFollowing(user.followings.indexOf(userId)>-1);  
+        })
+      } catch(error) {
+        console.log(error);
+      }
+    }
+
+  }, [postID])
 
   const handleOpenDialogBox = () => {
     setOpenDialogBox(true);
@@ -41,42 +89,114 @@ const Blog = ({user}) => {
   const handleCloseDialogBox = () => {
     setOpenDialogBox(false);
   }
-  const handleFollowButton = (e) => {
+
+  const handleFollowButton = async() => {
     if(!user)
       navigate('/signin', { state: {from: location}});
-    setIsFollowing(!isFollowing);
+    else {
+      try {
+        const response = await axios.put(
+          `http://localhost:5000/api/users/${postsUsersId}/follow`,
+          {userId: user._id}
+        ).then(res => {
+          loginSuccess(res.data);
+          console.log(res.data);
+          setIsFollowing(!isFollowing);
+        })
+      } catch(error) {
+        console.log(error);
+      }
+    }
+    // setIsFollowing(!isFollowing);
   }
-  const blogImg = `https://miro.medium.com/max/1400/1*TVd_sNhpc7JDPBHAsAOQZg.jpeg`;
+
+  const handleClickLike = async () => {
+    if(!user)
+      navigate('/signin', {state: {from: location}});
+    else {
+      try {
+        const response = await axios.put(
+          `http://localhost:5000/api/posts/${postID}/like`,
+          {userId: user._id}
+        ).then(res => {
+          console.log(res.data);
+          if(isLiked)
+            setLikes(likes-1);
+          else
+            setLikes(likes+1);
+          setIsLiked(!isLiked);
+        })
+      } catch(error) {
+        console.log(error);
+      }
+    }
+  }
+
+  const handleClickBookmark = async() => {
+    if(!user)
+      navigate('/signin', {state: {from: location}});
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/posts/${postID}/bookmark`,
+        {userId: user._id}
+      ).then(res => {
+        loginSuccess(res.data);
+        console.log(res.data);
+        setIsBookmarked(user.bookmarks.includes(postID))
+      })
+    } catch(error) {
+      console.log(error);
+    }
+    // setIsBookmarked(!isBookmarked)
+  }
+
+
   return (
     <Box className='blogWrapper'>
 
       <DeletePostWarningDialogBox
         openDialogBox={openDialogBox}
         handleCloseDialogBox={handleCloseDialogBox}
-        postID={postID}
+        postId={postID}
         afterDeleteNavigateLocation={'/published'}
       />
 
-      <Grid container style={{marginTop: 10, padding: 20, paddingRight: 0, paddingLeft: 15}}>
+      <Grid container style={{marginTop: 10, paddingTop: 20, paddingRight: 0, paddingLeft: 0}}>
         <Grid item lg={3} md={3} sm={12} xs={12}>
-          <LeftSideBar user={user} location={location} isFollowing={isFollowing} handleFollowButton={handleFollowButton}/>
+          <LeftSideBar  
+            isLiked={isLiked}
+            likes={likes}
+            isFollowing={isFollowing} 
+            isBookmarked={isBookmarked}
+            handleFollowButton={handleFollowButton}
+            handleClickLike={handleClickLike}
+            handleClickBookmark={handleClickBookmark}
+            postID={postID}
+          />
         </Grid>
-        <Grid item lg={6} md={6} sm={12} xs={12} style={{width: '100%', paddingRight: 15}} >
-          <Typography style={{fontSize: 45, lineHeight: '58px', fontFamily: `'Lora', 'serif'`,}}>
+        <Grid item lg={6} md={6} sm={12} xs={12} style={{width: '100%', paddingRight: 10, paddingLeft: 10}} >
+          <Typography style={{fontSize: 44, lineHeight: '58px', fontFamily: `'Lora', 'serif'`, paddingRight: 3, paddingLeft: 0}}>
             {title}
           </Typography>
           <div style={{paddingTop: 13}}>
             <CategoryTags categories={categories}/>
           </div>
           <Box style={{marginTop: 35, marginBottom: 40}}>
-            <MiddleBanner isFollowing={isFollowing} handleFollowButton={handleFollowButton}/>
+            <MiddleBanner 
+              isFollowing={isFollowing} 
+              handleFollowButton={handleFollowButton} 
+              authorUsername={authorUsername}
+              authorProfilePic={authorProfilePic}
+              authorName={authorName}
+              postUpdatedAt={postUpdatedAt}
+            />
             <Box style={{marginTop: 25}}>
               {
                 blogImg 
                 && <img 
-                    src={blogImg}
+                    src={PF+blogImg}
                     alt="blog-post-image" 
-                    style={{objectFit: 'cover', width: '100%'}}
+                    style={{objectFit: 'cover', width: '100%', borderRadius: 5}}
                   />
               }
               <Box style={{marginTop: 25, marginBottom: 30}}>
@@ -87,7 +207,13 @@ const Blog = ({user}) => {
               <Box>
                 <Hidden mdUp>
                   <Box style={{borderTop: '1px solid rgb(227, 227, 228)', paddingTop: 30}}>
-                    <LikeNBookmark user={user} isFollowing={isFollowing} setIsFollowing={setIsFollowing}/>
+                    <LikeNBookmark 
+                      likes={likes}
+                      isLiked={isLiked}
+                      isBookmarked={isBookmarked}
+                      handleClickLike={handleClickLike}
+                      handleClickBookmark={handleClickBookmark}
+                    />
                   </Box>
                 </Hidden>
               </Box>
@@ -95,7 +221,15 @@ const Blog = ({user}) => {
           </Box>
         </Grid>
         <Grid item lg={3}  md={3} sm={12} xs={12}>
-          <RightSideBar handleOpenDialogBox={handleOpenDialogBox}/>
+          <RightSideBar 
+            handleOpenDialogBox={handleOpenDialogBox} 
+            categories={categories} 
+            postsUsersId={postsUsersId}
+            title={title}
+            description={description}
+            postID={postID}
+            blogImg={blogImg}
+          />
         </Grid>
       </Grid>
     </Box>
@@ -124,42 +258,25 @@ export const CategoryTags = ({categories}) => {
   );
 }
 
-const LikeNBookmark = ({user, location}) => {
-  const navigate = useNavigate();
-  const [likes, setLikes] = useState(500);
-  const [isLiked, setIsLiked] = useState(false);
-  const [isBookmarked, setIsBookmarked] = useState(false);
-  const handleLikeButton = (e) => {
-    if(!user)
-      navigate('/signin', {state: {from: location}});
-    if(isLiked) 
-      setLikes(likes-1);
-    else
-      setLikes(likes+1);
-    setIsLiked(!isLiked);
-  }
-  const handleBookmarkButton = (e) => {
-    if(!user)
-      navigate('/signin', {state: {from: location}});
-    setIsBookmarked(!isBookmarked);
-  }
+const LikeNBookmark = ({isLiked, likes, isBookmarked, handleClickLike, handleClickBookmark, postID}) => {
   const classes = useStyle();
+  const {user} = useContext(UserContext);
   return(
     <Box>
       <Grid container style={{ fontSize: 18}}>
           <Grid item className={classes.likeOrFollow} style={{ float: 'left', fontSize: 20}} >
             {
-              isLiked 
-              ? <i className="fas fa-heart" style={{marginRight: 6, color: 'rgb(219, 61, 61)'}} onClick={handleLikeButton}></i> 
-              : <i className="far fa-heart" style={{marginRight: 6}} onClick={handleLikeButton}></i>
+              isLiked
+              ? <i className="fas fa-heart" style={{marginRight: 6, color: 'rgb(219, 61, 61)'}} onClick={handleClickLike}></i> 
+              : <i className="far fa-heart" style={{marginRight: 6}} onClick={handleClickLike}></i>
             }
             {likes}
           </Grid>
-          <Grid item className={classes.likeOrFollow} style={{color: 'rgb(27,137,22)', fontSize: 20}}>
+          <Grid item className={classes.likeOrFollow} style={{fontSize: 20}}>
             {
-              isBookmarked 
-              ? <i className="fas fa-bookmark" style={{marginLeft: 40}} onClick={handleBookmarkButton}></i>
-              : <i className="far fa-bookmark" style={{marginLeft: 40}} onClick={handleBookmarkButton}></i>
+              user && user.bookmarks.includes(postID)
+              ? <i className="fas fa-bookmark" style={{marginLeft: 40, color: 'rgb(27,137,22)'}} onClick={handleClickBookmark}></i>
+              : <i className="far fa-bookmark" style={{marginLeft: 40, color: 'rgb(41,41,41)'}} onClick={handleClickBookmark}></i>
             }
           </Grid>
         </Grid> 
@@ -167,8 +284,18 @@ const LikeNBookmark = ({user, location}) => {
   );
 }
 
-const LeftSideBar = ({ isFollowing, handleFollowButton, user, location }) => {
+const LeftSideBar = (props) => {
   const classes = useStyle();
+  const { 
+    isLiked, 
+    likes, 
+    isFollowing, 
+    isBookmarked, 
+    handleFollowButton, 
+    handleClickLike, 
+    handleClickBookmark,
+    postID
+  } = props
   return(
     <Box>
       <Hidden xsDown smDown>
@@ -177,7 +304,14 @@ const LeftSideBar = ({ isFollowing, handleFollowButton, user, location }) => {
             {isFollowing ? 'Following' : 'Follow' }
           </Button>
           <Box style={{ marginTop: 15, borderTop: '1px solid rgb(240,240,241)', paddingTop: 10, paddingLeft: 6}}>
-            <LikeNBookmark user={user} location={location}/>
+            <LikeNBookmark 
+              likes={likes}
+              isLiked={isLiked}
+              isBookmarked={isBookmarked}
+              handleClickLike={handleClickLike}
+              handleClickBookmark={handleClickBookmark}
+              postID={postID}
+            />
           </Box>
         </Box>
       </Hidden>
@@ -185,25 +319,34 @@ const LeftSideBar = ({ isFollowing, handleFollowButton, user, location }) => {
   );
 }
 
-const RightSideBar = ({handleOpenDialogBox}) => {
-  const [isMyself, setIsMyself] = useState(true);
-  
+const RightSideBar = ({handleOpenDialogBox, categories, postsUsersId, title, description, postID, blogImg}) => {
+  const {user} = useContext(UserContext);
+  const navigate = useNavigate();
+  const handleEditPost = () => {
+    navigate('/write', {state: {
+      oldPostTitle: title,
+      oldPostDesc: description,
+      oldPostCategories: categories,
+      oldPostId: postID,
+      oldPostImg: PF+blogImg
+    }})
+  }
   return(
     <Box>
       {
-        isMyself && 
+        user && user._id===postsUsersId && 
         <Box style={{width: '90%',paddingLeft: 10, marginTop: 10, marginBottom: 50}}>
-          <Typography style={{marginBottom: 10, fontFamily: `'Raleway', 'sans-serif'`, fontSize: 22}}>
+          <Typography style={{paddingLeft: 10, marginBottom: 10, fontFamily: `'Raleway', 'sans-serif'`, fontSize: 22, color: 'rgb(61,61,61)'}}>
             Author Controls
           </Typography>
-          <Box style={{paddingTop: 20, borderTop: '1px solid rgb(227, 227, 228)'}}>
+          <Box style={{paddingTop: 20, borderTop: '1px solid rgb(227, 227, 228)', paddingLeft: 10}}>
             <Button variant="outlined" startIcon={<EditIcon />} style={{paddingTop: 5, paddingBottom: 5, borderRadius: 100, marginBottom: 25, width: 110, color: 'rgb(101, 116, 122)', border: '1px solid rgb(101, 116, 122)', textTransform: 'none'}}>
-              <Typography style={{fontSize: 14}}>Edit</Typography>
+              <Typography style={{fontSize: 14}} onClick={handleEditPost}>Edit</Typography>
             </Button><br />
             <Button 
               variant="outlined" 
               startIcon={<DeleteIcon />} 
-              style={{paddingTop: 5, paddingBottom: 5, borderRadius: 100, width: 110, color: 'rgb(216,63,53)', border: '1px solid rgb(216,63,53)', textTransform: 'none'}}
+              style={{ paddingTop: 5, paddingBottom: 5, borderRadius: 100, width: 110, color: 'rgb(216,63,53)', border: '1px solid rgb(216,63,53)', textTransform: 'none'}}
               onClick={handleOpenDialogBox}
             >
               <Typography style={{fontSize: 14}}>Delete</Typography>
@@ -213,38 +356,38 @@ const RightSideBar = ({handleOpenDialogBox}) => {
       }
         
       <Box style={{width: '90%', paddingLeft: 10, marginTop: 60}}>
-        <Typography style={{fontFamily: `'Raleway', 'sans-serif'`, fontSize: 22, marginBottom: 10}}>
+        <Typography style={{fontFamily: `'Raleway', 'sans-serif'`, fontSize: 22, marginBottom: 10, color: 'rgb(51,51,51)', paddingLeft: 10}}>
           Related:
         </Typography>
-        <Box style={{paddingTop: 20, borderTop: '1px solid rgb(227, 227, 228)'}}>
-          <RelatedPosts />
+        <Box style={{paddingTop: 20, borderTop: '1px solid rgb(227, 227, 228)', paddingLeft: 10}}>
+          <RelatedPosts categories={categories}/>
         </Box>
       </Box>
     </Box>
   );
 }
 
-const MiddleBanner = ({ isFollowing, handleFollowButton }) => {
+const MiddleBanner = ({ isFollowing, handleFollowButton, authorUsername, authorProfilePic, authorName, postUpdatedAt }) => {
   const classes = useStyle();
   return(
     <Box>
       <Grid container style={{height: 'auto'}}>
         <Grid item>
-          <Link to='/profile' style={{textDecoration: 'none', color: 'inherit'}}>
+          <Link to={`/profile/@${authorUsername}`} style={{textDecoration: 'none', color: 'inherit'}}>
             <Avatar
               alt="author avatar"
-              src='https://picsum.photos/200'
+              src={ authorProfilePic.length ? PF+authorProfilePic : defaultUserPic}
               style={{width: 53, height: 53}}
             />
           </Link>
         </Grid>
-        <Grid item style={{marginLeft: 13}}>
+        <Grid item style={{marginLeft: 8}}>
           <Table>
             <TableHead>
               <TableRow>
-                <Link to='/profile' style={{textDecoration: 'none', color: 'inherit'}}>
-                  <Typography style={{fontSize: 15, marginTop: 3, float: 'left'}}>
-                    Dev Bilaspure
+                <Link to={`/profile/@${authorUsername}`} style={{textDecoration: 'none', color: 'inherit'}}>
+                  <Typography style={{fontSize: 16, marginTop: 3, float: 'left'}}>
+                    {authorName} 
                   </Typography>
                 </Link>
                 <Button className={classes.smallFollowButton} onClick={handleFollowButton}>
@@ -252,7 +395,9 @@ const MiddleBanner = ({ isFollowing, handleFollowButton }) => {
                 </Button>
               </TableRow>
               <TableRow>
-                <Typography style={{fontSize: 15, color: 'rgb(117,117,117)'}}>Oct 23, 2021</Typography>
+                <Typography style={{fontSize: 15, color: 'rgb(117,117,117)', paddingTop: 3}}>
+                  {new Date(postUpdatedAt).toDateString()}
+                </Typography>
               </TableRow>
             </TableHead>
           </Table>

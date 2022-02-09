@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Button, Grid, TextareaAutosize, Typography, Hidden } from '@material-ui/core';
 import WebFont from 'webfontloader';
 import './settingsStyle.css'
@@ -6,21 +6,28 @@ import { Link } from 'react-router-dom';
 import useStyle from './settingsStyles';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import {UserContext} from './../../context/UserContext'
+import axios from 'axios'
 
-
-const name='Dev Bilaspure'; 
-const email='dev@mail.com';
-const username='dev8305';
-const shortBio='Hi I am a software engineer at Google';
+const PF = 'http://localhost:5000/images/'
+const defaultUserPic = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
+// const name='Dev Bilaspure'; 
+// const email='dev@mail.com';
+// const username='dev8305';
+// const shortBio='Hi I am a software engineer at Google';
 const photo = 'https://miro.medium.com/fit/c/131/131/2*1L5DSsWtYoQVm1TxThM4vQ.jpeg';
 const Settings = () => {
   const classes = useStyle();
-  const [newName, setNewName] = useState(name);
-  const [newEmail, setNewEmail] = useState(email);
-  const [newUsername, setNewUsername] = useState(username);
-  const [newShortBio, setNewShortBio] = useState(shortBio);
-  const [newPhoto, setNewPhoto] = useState(photo);
+  const {user} = useContext(UserContext);
+
+  const [newName, setNewName] = useState(user.name);
+  const [newEmail, setNewEmail] = useState(user.email);
+  const [newUsername, setNewUsername] = useState(user.username);
+  const [newShortBio, setNewShortBio] = useState(user.shortBio);
+  // const [newPhoto, setNewPhoto] = useState(PF + user.profilePic);
   const [newPassword, setNewPassword] = useState('');
+
+  
 
   const [emailEdit, setEmailEdit] = useState(false);
   const [nameEdit, setNameEdit] = useState(false);
@@ -29,52 +36,52 @@ const Settings = () => {
   const [passwordEdit, setPasswordEdit] = useState(false);
   const [photoEdit, setPhotoEdit] = useState(false);
 
-  const isValidName = (nm) => {
-    if(nm!=='')
-      return(true);
-    else {
-      setNameEdit(true);
-      return(false);
-    }
-  }
-  const isValidUsername = (usrnm) => {
-    let isValidUsername = (usrnm.indexOf(' ')===-1 && usrnm!=='' && usrnm.length>=3)
-    if(isValidUsername)
-      return(true);
-    else {
-      setUsernameEdit(true);
-      return(false);
-    }
-  }
-  const isValidEmail = (eml) => {
-    let isValidEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(eml);
-    if(isValidEmail)
-      return(true);
-    else {
-      setEmailEdit(true);
-      return(false);
-    }
-  }
-  const handleSave = (e) => {
-    const isEveryThingValid = (
-      isValidName(newName) && 
-      isValidUsername(newUsername) && 
-      isValidEmail(newEmail)
-    );
-    if(isEveryThingValid) {
-      const obj = {
-        name: newName,
-        email: newEmail,
-        username: newUsername,
-        shortBio: newShortBio
-      }
-      console.log('save btn clicked');
-      setNameEdit(false);
-      setUsernameEdit(false);
-      setShortBioEdit(false);
-      setPhotoEdit(false);
-    }
-  }
+  // const isValidName = (nm) => {
+  //   if(nm!=='')
+  //     return(true);
+  //   else {
+  //     setNameEdit(true);
+  //     return(false);
+  //   }
+  // }
+  // const isValidUsername = (usrnm) => {
+  //   let isValidUsername = (usrnm.indexOf(' ')===-1 && usrnm!=='' && usrnm.length>=3)
+  //   if(isValidUsername)
+  //     return(true);
+  //   else {
+  //     setUsernameEdit(true);
+  //     return(false);
+  //   }
+  // }
+  // const isValidEmail = (eml) => {
+  //   let isValidEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(eml);
+  //   if(isValidEmail)
+  //     return(true);
+  //   else {
+  //     setEmailEdit(true);
+  //     return(false);
+  //   }
+  // }
+  // const handleSave = (e) => {
+  //   const isEveryThingValid = (
+  //     isValidName(newName) && 
+  //     isValidUsername(newUsername) && 
+  //     isValidEmail(newEmail)
+  //   );
+  //   if(isEveryThingValid) {
+  //     const obj = {
+  //       name: newName,
+  //       email: newEmail,
+  //       username: newUsername,
+  //       shortBio: newShortBio
+  //     }
+  //     console.log('save btn clicked');
+  //     setNameEdit(false);
+  //     setUsernameEdit(false);
+  //     setShortBioEdit(false);
+  //     setPhotoEdit(false);
+  //   }
+  // }
   useEffect(() => {
     WebFont.load({
       google: {
@@ -100,7 +107,6 @@ const Settings = () => {
             {/* FOR NAME */}
             <div style={{marginTop: 30, marginBottom: 80}}>
               <NameEditPart 
-                handleSave={handleSave} 
                 setNameEdit={setNameEdit} 
                 nameEdit={nameEdit} 
                 newName={newName} 
@@ -111,7 +117,6 @@ const Settings = () => {
             {/* FOR SHORT BIO */}
             <div style={{marginTop: 30, marginBottom: 80}}>
               <ShortBioPart 
-                handleSave={handleSave} 
                 shortBioEdit={shortBioEdit}
                 setShortBioEdit={setShortBioEdit}
                 newShortBio={newShortBio}
@@ -124,8 +129,6 @@ const Settings = () => {
               <PhotoEditPart 
                 photoEdit={photoEdit}
                 setPhotoEdit={setPhotoEdit}
-                setNewPhoto={setNewPhoto}
-                handleSave={handleSave}
               />
             </div>
 
@@ -136,7 +139,6 @@ const Settings = () => {
                 setUsernameEdit={setUsernameEdit}
                 newUsername={newUsername}
                 setNewUsername={setNewUsername}
-                handleSave={handleSave}
               />
             </div>
 
@@ -147,7 +149,6 @@ const Settings = () => {
                 setEmailEdit={setEmailEdit}
                 newEmail={newEmail}
                 setNewEmail={setNewEmail}
-                handleSave={handleSave}
               />
             </div>
 
@@ -171,8 +172,36 @@ const Settings = () => {
   )
 }
 
-const NameEditPart = ({handleSave, setNameEdit, nameEdit, setNewName, newName}) => {
+const NameEditPart = ({setNameEdit, nameEdit, setNewName, newName}) => {
   const classes = useStyle();
+  const {user, loginSuccess} = useContext(UserContext);
+
+  const [nameError, setNameError] = useState(false);
+  const [nameServerError, setNameServerError] = useState(false);
+
+  const handleNameChangeSave = async() => {
+    setNameServerError(false);
+    setNameError(false);
+    if(newName.length<=20 && newName!=='') {
+      try {
+        const response = await axios.put(
+          `http://localhost:5000/api/users/${user._id}`,
+          {userId: user._id, name: newName}
+        ).then(res => {
+          console.log(res.data);
+          loginSuccess(res.data);
+        })
+        setNameEdit(false);
+      } catch(error) {
+        setNameServerError(true);
+        console.log(error);
+      }
+    } 
+    else {
+      setNameError(true);
+    }
+  }
+  
   const handleNewNameOnChange = (e) => {
     if(!(e.target.value.length>21))
       setNewName(e.target.value);
@@ -185,24 +214,37 @@ const NameEditPart = ({handleSave, setNameEdit, nameEdit, setNewName, newName}) 
           <Grid item > 
             <TextareaAutosize placeholder='Name' readOnly={!nameEdit} onChange={handleNewNameOnChange} value={newName} className={classes.nameField}/>
             <Typography style={{marginTop: 18,width: '440px', fontSize: 13, color: 'rgb(59, 59, 59)', marginBottom: 20}}>
-              Your name appears on your <Link style={{color: 'inherit'}} to='/profile'>Profile</Link> page, as your byline, and in your responses. It is a required field. Max 20 character.
+              Your name appears on your <Link style={{color: 'inherit'}} to='/profile'>Profile</Link> page, as your byline, and in your responses. 
+              <div style={{color: nameError ? 'rgb(244,66,55)' : 'rgb(59, 59, 59)'}}>
+                It is a required field. Max 20 character.
+              </div>
+              {
+                nameServerError &&
+                <div style={{color: 'rgb(244,66,55)'}}>
+                  Something went wrong. Please try again.
+                </div>
+              }
             </Typography>
             <Hidden mdUp>
               <NamePartButtonSet 
-                handleSave={handleSave}
                 setNameEdit={setNameEdit}
                 nameEdit={nameEdit}
                 setNewName={setNewName}
+                setNameError={setNameError}
+                setNameServerError={setNameServerError}
+                handleNameChangeSave={handleNameChangeSave}
               />
             </Hidden>
           </Grid>
           <Grid item >
             <Hidden smDown>
               <NamePartButtonSet 
-                handleSave={handleSave}
                 setNameEdit={setNameEdit}
                 nameEdit={nameEdit}
                 setNewName={setNewName}
+                setNameError={setNameError}
+                setNameServerError={setNameServerError}
+                handleNameChangeSave={handleNameChangeSave}
               />
             </Hidden>
             
@@ -212,8 +254,9 @@ const NameEditPart = ({handleSave, setNameEdit, nameEdit, setNewName, newName}) 
     </div>
   );
 }
-const NamePartButtonSet = ({handleSave, setNameEdit, nameEdit, setNewName}) => {
+const NamePartButtonSet = ({setNameEdit, nameEdit, setNewName, setNameError, setNameServerError, handleNameChangeSave}) => {
   const classes = useStyle();
+  const {user} = useContext(UserContext);
   return(
     <div>
       {
@@ -223,14 +266,16 @@ const NamePartButtonSet = ({handleSave, setNameEdit, nameEdit, setNewName}) => {
           </Button>
         : <Grid container>
             <Grid item>
-              <Button variant='outlined' onClick={handleSave} className={classes.saveBtn}>
+              <Button variant='outlined' onClick={handleNameChangeSave} className={classes.saveBtn}>
                 Save
               </Button>
             </Grid>
             <Grid item>
               <Button variant='outlined' className={classes.cancelEditBtn} onClick={e => {
-                setNewName(name);
+                setNewName(user.name);
                 setNameEdit(false);
+                setNameError(false);
+                setNameServerError(false);
               }}>
                 Cancel
               </Button>
@@ -241,8 +286,29 @@ const NamePartButtonSet = ({handleSave, setNameEdit, nameEdit, setNewName}) => {
   );
 }
 
-const ShortBioPart = ({handleSave, shortBioEdit, setShortBioEdit, newShortBio, setNewShortBio}) => {
+const ShortBioPart = ({ shortBioEdit, setShortBioEdit, newShortBio, setNewShortBio}) => {
   const classes = useStyle();
+  const {user, loginSuccess} = useContext(UserContext);
+
+  const [shortBioServerError, setShortBioServerError] = useState(false);
+
+  const handleShortBioChangeSave = async() => {
+    setShortBioServerError(false);
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/users/${user._id}`,
+        {userId: user._id, shortBio: newShortBio}
+      ).then(res => {
+        console.log(res.data);
+        loginSuccess(res.data);
+      })
+      setShortBioEdit(false);
+    } catch(error) {
+      console.log(error);
+      setShortBioServerError(true);
+    }
+  }
+
   const handleShortBioOnChange = (e) => {
     if(!(e.target.value.length>160))
       setNewShortBio(e.target.value);
@@ -256,23 +322,31 @@ const ShortBioPart = ({handleSave, shortBioEdit, setShortBioEdit, newShortBio, s
             <TextareaAutosize placeholder='Short Bio' readOnly={!shortBioEdit} onChange={handleShortBioOnChange} value={newShortBio} className={classes.nameField}/>
             <Typography style={{marginTop: 18,width: '440px', fontSize: 13, color: 'rgb(59, 59, 59)', marginBottom: 20}}>
               Your short bio appears on your <Link style={{color: 'inherit'}} to='/profile'>Profile</Link> and next to your stories. Max 160 characters.
+              {
+                shortBioServerError &&
+                <div style={{color: 'rgb(244,66,55)'}}>
+                  Something went wrong. Please try again.
+                </div>
+              }
             </Typography>
             <Hidden mdUp>
               <ShortBioPartButtonSet 
-                handleSave={handleSave}
                 shortBioEdit={shortBioEdit}
                 setShortBioEdit={setShortBioEdit}
                 setNewShortBio={setNewShortBio}
+                shortBioServerError={shortBioServerError}
+                handleShortBioChangeSave={handleShortBioChangeSave}
               />
             </Hidden>
           </Grid>
           <Grid item>
             <Hidden smDown>
               <ShortBioPartButtonSet 
-                handleSave={handleSave}
                 shortBioEdit={shortBioEdit}
                 setShortBioEdit={setShortBioEdit}
                 setNewShortBio={setNewShortBio}
+                shortBioServerError={shortBioServerError}
+                handleShortBioChangeSave={handleShortBioChangeSave}
               />
             </Hidden>
           </Grid>
@@ -283,8 +357,9 @@ const ShortBioPart = ({handleSave, shortBioEdit, setShortBioEdit, newShortBio, s
   );
 }
 
-const ShortBioPartButtonSet = ({handleSave, shortBioEdit, setShortBioEdit, setNewShortBio}) => {
+const ShortBioPartButtonSet = ({handleShortBioChangeSave, shortBioEdit, setShortBioEdit, setNewShortBio, shortBioServerError}) => {
   const classes= useStyle();
+  const {user} = useContext(UserContext);
   return(
     <div>
       {
@@ -294,14 +369,15 @@ const ShortBioPartButtonSet = ({handleSave, shortBioEdit, setShortBioEdit, setNe
           </Button>
         : <Grid container>
             <Grid item>
-              <Button variant='outlined' onClick={handleSave} className={classes.saveBtn}>
+              <Button variant='outlined' onClick={handleShortBioChangeSave} className={classes.saveBtn}>
                 Save
               </Button>
             </Grid>
             <Grid item>
               <Button variant='outlined' className={classes.cancelEditBtn} onClick={e => {
-                setNewShortBio(shortBio);
+                setNewShortBio(user.username);
                 setShortBioEdit(false);
+                shortBioServerError(false);
               }}>
                 Cancel
               </Button>
@@ -312,7 +388,7 @@ const ShortBioPartButtonSet = ({handleSave, shortBioEdit, setShortBioEdit, setNe
   );
 }
 
-const PhotoEditPart = ({photoEdit, setPhotoEdit, setNewPhoto, handleSave }) => {
+const PhotoEditPart = ({photoEdit, setPhotoEdit}) => {
   const classes = useStyle();
   return(
     <div>
@@ -330,8 +406,6 @@ const PhotoEditPart = ({photoEdit, setPhotoEdit, setNewPhoto, handleSave }) => {
               <PhotoPartImgNButtonSet 
                 photoEdit={photoEdit}
                 setPhotoEdit={setPhotoEdit}
-                setNewPhoto={setNewPhoto}
-                handleSave={handleSave}
               />
             </Hidden>
           </Grid>
@@ -340,8 +414,6 @@ const PhotoEditPart = ({photoEdit, setPhotoEdit, setNewPhoto, handleSave }) => {
               <PhotoPartImgNButtonSet 
                 photoEdit={photoEdit}
                 setPhotoEdit={setPhotoEdit}
-                setNewPhoto={setNewPhoto}
-                handleSave={handleSave}
               />
             </Hidden>
           </Grid>
@@ -352,14 +424,43 @@ const PhotoEditPart = ({photoEdit, setPhotoEdit, setNewPhoto, handleSave }) => {
   );
 }
 
-const PhotoPartImgNButtonSet = ({photoEdit, setPhotoEdit, setNewPhoto, handleSave}) => {
+const PhotoPartImgNButtonSet = ({photoEdit, setPhotoEdit}) => {
   const classes = useStyle();
+  const {user, loginSuccess} = useContext(UserContext);
+  const [editedProfilePicture, setEditedProfilePicture] = useState(null);
+  
+  const handlePhotoChangeSave = async() => {
+    const userObj = {};
+    if(editedProfilePicture) {
+      const data = new FormData();
+      let filename = Date.now() + editedProfilePicture.name;
+      data.append("name", filename);
+      data.append("file", editedProfilePicture);
+      userObj.img = filename;
+      try {
+        await axios.post("http://localhost:5000/api/upload", data);
+      } catch (err) {console.log(err)}
+    }
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/users/${user._id}`,
+        {userId: user._id, profilePicture: userObj.img}
+      ).then(res => {
+        console.log(res.data);
+        loginSuccess(res.data);
+        setEditedProfilePicture(null);
+      })
+      setPhotoEdit(false);
+    } catch(error) {
+      console.log(error);
+    }
+  }
   return(
     <div>
       <Grid container>
         <Grid item>
           <label htmlFor='fileInput'>
-            <div className={photoEdit && classes.uploadPhoto} style={{background: `url(${photo}) center/100%`,borderRadius: 100,  height: '92px', width: '92px'}}>
+            <div className={photoEdit && classes.uploadPhoto} style={{background: `url(${editedProfilePicture ? URL.createObjectURL(editedProfilePicture) : (user.profilePicture ? PF+user.profilePicture : defaultUserPic)}) center/100%`,borderRadius: 100,  height: '92px', width: '92px'}}>
               <div className={classes.uploadImageBtn} >
                 {photoEdit && <i className="fas fa-camera"></i>}
               </div>
@@ -371,6 +472,7 @@ const PhotoPartImgNButtonSet = ({photoEdit, setPhotoEdit, setNewPhoto, handleSav
               type='file' 
               id='fileInput' 
               style={{display: 'none'}}
+              onChange={(e) => setEditedProfilePicture(e.target.files[0])}
             />
           }
         </Grid>
@@ -382,14 +484,14 @@ const PhotoPartImgNButtonSet = ({photoEdit, setPhotoEdit, setNewPhoto, handleSav
               </Button>
             : <Grid container>
                 <Grid item>
-                  <Button variant='outlined' onClick={handleSave} className={classes.saveBtn}>
+                  <Button variant='outlined' onClick={handlePhotoChangeSave} className={classes.saveBtn}>
                     Save
                   </Button>
                 </Grid>
                 <Grid item>
                   <Button variant='outlined' className={classes.cancelEditBtn} onClick={e => {
-                    setNewPhoto(photo);
                     setPhotoEdit(false);
+                    setEditedProfilePicture(null);
                   }}>
                     Cancel
                   </Button>
@@ -402,10 +504,37 @@ const PhotoPartImgNButtonSet = ({photoEdit, setPhotoEdit, setNewPhoto, handleSav
   );
 }
 
-const UsernameEditPart = ({usernameEdit, setUsernameEdit, newUsername, setNewUsername, handleSave}) => {
+const UsernameEditPart = ({usernameEdit, setUsernameEdit, newUsername, setNewUsername}) => {
   const classes = useStyle();
+  const {user, loginSuccess} = useContext(UserContext);
+
+  const [usernameError, setUsernameError] = useState(false);
+  const [usernameServerError, setUsernameServerError] = useState(false);
+
   const handleUsernameOnChange = (e) => {
     setNewUsername(e.target.value)
+  }
+  const handleUsernameChangeSave =  async() => {
+    setUsernameError(false);
+    setUsernameServerError(false);
+    if(newUsername.length>=3) {
+      try { 
+        const response = await axios.put(
+          `http://localhost:5000/api/users/${user._id}`,
+          {userId: user._id, username: newUsername}
+        ).then(res => {
+          console.log(res.data);
+          loginSuccess(res.data);
+        })
+        setUsernameEdit(false);
+      } catch(error) {
+        setUsernameServerError(true)
+        console.log(error);
+      }
+    }
+    else {
+      setUsernameError(true);
+    }
   }
   return(
     <div>
@@ -418,7 +547,14 @@ const UsernameEditPart = ({usernameEdit, setUsernameEdit, newUsername, setNewUse
                 <Typography style={{ fontSize: 16, fontWeight: 'bold', marginRight: 15}} >Username</Typography>
               </Grid>
               <Grid item>
-                <TextareaAutosize placeholder='Username' readOnly={!usernameEdit} style={{width: '320px', paddingTop: 1}} onChange={handleUsernameOnChange} value={newUsername} className={classes.nameField}/>
+                <TextareaAutosize 
+                  placeholder='Username' 
+                  readOnly={!usernameEdit} 
+                  style={{width: '320px', paddingTop: 1}} 
+                  onChange={handleUsernameOnChange} 
+                  value={newUsername} 
+                  className={classes.nameField}
+                />
               </Grid>
             </Grid>
             <Grid container style={{marginTop: 10}}>
@@ -430,24 +566,37 @@ const UsernameEditPart = ({usernameEdit, setUsernameEdit, newUsername, setNewUse
               </Grid>
             </Grid>
             <Typography style={{marginTop: 18,width: '400px', fontSize: 13, color: 'rgb(59, 59, 59)', marginBottom: 20}}>
-              Your username is your address on Maadhyam. It is required field. Atleast 3 characters with no space. 
+              Your username is your address on Maadhyam. 
+              <div style={{color: usernameError ? 'rgb(244,66,55)' : 'rgb(59, 59, 59)'}}>
+                It is required field. Minimum 3 characters with no space. 
+              </div>
+              {
+                usernameServerError &&
+                <div style={{color: 'rgb(244,66,55)'}}>
+                  Something went wrong. Please try again.
+                </div>
+              }
             </Typography>
             <Hidden mdUp>
               <UsernameEditPartButtonSet 
-                handleSave={handleSave}
                 usernameEdit={usernameEdit}
                 setUsernameEdit={setUsernameEdit}
                 setNewUsername={setNewUsername}
+                handleUsernameChangeSave={handleUsernameChangeSave}
+                setUsernameError={setUsernameError}
+                setUsernameServerError={setUsernameServerError}
               />
             </Hidden>
           </Grid>
           <Grid item >
             <Hidden smDown>
               <UsernameEditPartButtonSet 
-                handleSave={handleSave}
                 usernameEdit={usernameEdit}
                 setUsernameEdit={setUsernameEdit}
                 setNewUsername={setNewUsername}
+                handleUsernameChangeSave={handleUsernameChangeSave}
+                setUsernameError={setUsernameError}
+                setUsernameServerError={setUsernameServerError}
               />
             </Hidden>
             
@@ -458,8 +607,9 @@ const UsernameEditPart = ({usernameEdit, setUsernameEdit, newUsername, setNewUse
   );
 }
 
-const UsernameEditPartButtonSet = ({usernameEdit, setUsernameEdit, setNewUsername, handleSave}) => {
+const UsernameEditPartButtonSet = ({setUsernameServerError, usernameEdit, setUsernameEdit, setNewUsername, handleUsernameChangeSave, setUsernameError}) => {
   const classes = useStyle();
+  const {user} = useContext(UserContext);
   return(
     <div>
       {
@@ -469,14 +619,16 @@ const UsernameEditPartButtonSet = ({usernameEdit, setUsernameEdit, setNewUsernam
           </Button>
         : <Grid container>
             <Grid item>
-              <Button variant='outlined' onClick={handleSave} className={classes.saveBtn}>
+              <Button variant='outlined' onClick={handleUsernameChangeSave} className={classes.saveBtn}>
                 Save
               </Button>
             </Grid>
             <Grid item>
               <Button variant='outlined' className={classes.cancelEditBtn} onClick={e => {
-                setNewUsername(username);
+                setNewUsername(user.username);
+                setUsernameError(false);
                 setUsernameEdit(false);
+                setUsernameServerError(false);
               }}>
                 Cancel
               </Button>
@@ -487,8 +639,35 @@ const UsernameEditPartButtonSet = ({usernameEdit, setUsernameEdit, setNewUsernam
   );
 }
 
-const EmailEditPart = ({emailEdit, setEmailEdit, newEmail, setNewEmail, handleSave}) => {
+const EmailEditPart = ({emailEdit, setEmailEdit, newEmail, setNewEmail}) => {
   const classes = useStyle();
+  const {user, loginSuccess} = useContext(UserContext);
+
+  const [emailError, setEmailError] = useState(false);
+  const [emailSrverError, setEmailServerError] = useState(false);
+
+  const handleEmailChangeSave = async () => {
+    setEmailError(false);
+    setEmailServerError(false);
+    if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(newEmail)) {
+      try { 
+        const response = await axios.put(
+          `http://localhost:5000/api/users/${user._id}`,
+          {userId: user._id, email: newEmail}
+        ).then(res => {
+          console.log(res.data);
+          loginSuccess(res.data);
+        })
+        setEmailEdit(false);
+      } catch(error) {
+        setEmailServerError(true)
+        console.log(error);
+      }
+    } 
+    else {
+      setEmailError(true);
+    }
+  }
   const handleEmailOnChange = (e) => {
     setNewEmail(e.target.value);
   }
@@ -498,28 +677,47 @@ const EmailEditPart = ({emailEdit, setEmailEdit, newEmail, setNewEmail, handleSa
       <div style={{paddingTop: 5}}>
         <Grid justifyContent='space-between' container spacing={12} >
           <Grid item > 
-            <TextareaAutosize placeholder='Email' readOnly={!emailEdit} onChange={handleEmailOnChange} value={newEmail} className={classes.nameField}/>
+            <TextareaAutosize 
+              placeholder='Email' 
+              readOnly={!emailEdit} 
+              onChange={handleEmailOnChange} 
+              value={newEmail} 
+              className={classes.nameField}
+            />
             <Typography style={{marginTop: 18,width: '440px', fontSize: 13, color: 'rgb(59, 59, 59)', marginBottom: 20}}>
-              You will recieve trending stories, announcements and audience related notification on this email address. It is required field. Must be a valid e-mail address.
+              You will recieve trending stories, announcements and audience related notification on this email address. 
+              <div style={{color: emailError ? 'rgb(244,66,55)' : 'rgb(59, 59, 59)'}}>
+                It is required field. Must be a valid e-mail address.
+              </div>
+              {
+                emailSrverError &&
+                <div style={{color: 'rgb(244,66,55)'}}>
+                  Something went wrong. Please try again.
+                </div>
+              }
             </Typography>
             <Hidden mdUp>
               <EmailPartButtonSet 
-                handleSave={handleSave}
                 emailEdit={emailEdit}
                 setEmailEdit={setEmailEdit}
                 newEmail={newEmail}
                 setNewEmail={setNewEmail}
+                handleEmailChangeSave={handleEmailChangeSave}
+                setEmailError={setEmailError}
+                setEmailServerError={setEmailServerError}
               />
             </Hidden>
           </Grid>
           <Grid item >
             <Hidden smDown>
               <EmailPartButtonSet
-                handleSave={handleSave}
                 emailEdit={emailEdit}
                 setEmailEdit={setEmailEdit}
                 newEmail={newEmail}
                 setNewEmail={setNewEmail}
+                handleEmailChangeSave={handleEmailChangeSave}
+                setEmailError={setEmailError}
+                setEmailServerError={setEmailServerError}
               />
             </Hidden>
             
@@ -530,8 +728,9 @@ const EmailEditPart = ({emailEdit, setEmailEdit, newEmail, setNewEmail, handleSa
   );
 }
 
-const EmailPartButtonSet = ({handleSave, emailEdit, setEmailEdit, newEmail, setNewEmail}) => {
+const EmailPartButtonSet = ({ emailEdit, setEmailEdit, setNewEmail, handleEmailChangeSave, setEmailError, setEmailServerError}) => {
   const classes = useStyle();
+  const {user} = useContext(UserContext);
   return(
     <div>
       {
@@ -541,14 +740,16 @@ const EmailPartButtonSet = ({handleSave, emailEdit, setEmailEdit, newEmail, setN
           </Button>
         : <Grid container>
             <Grid item>
-              <Button variant='outlined' onClick={handleSave} className={classes.saveBtn}>
+              <Button variant='outlined' onClick={handleEmailChangeSave} className={classes.saveBtn}>
                 Save
               </Button>
             </Grid>
             <Grid item>
               <Button variant='outlined' className={classes.cancelEditBtn} onClick={e => {
-                setNewEmail(email);
+                setNewEmail(user.email);
+                setEmailError(false)
                 setEmailEdit(false);
+                setEmailServerError(false);
               }}>
                 Cancel
               </Button>
@@ -561,6 +762,8 @@ const EmailPartButtonSet = ({handleSave, emailEdit, setEmailEdit, newEmail, setN
 
 const ResetPasswordPart = ({newPassword, setNewPassword, passwordEdit, setPasswordEdit}) => {
   const classes = useStyle();
+  const {user} = useContext(UserContext);
+
   const [showError, setShowError] = useState(false);
 
   const [visiblePassword, setVisiblePassword] = useState(false);
@@ -573,36 +776,28 @@ const ResetPasswordPart = ({newPassword, setNewPassword, passwordEdit, setPasswo
   const handleConfirmPasswordOnChange = (e) => {
     setConfirmPassword(e.target.value);
   }
+
   const isValidPassword = (newPswd) => {
     setShowError(false);
-    if(newPswd<8) {
+    if(newPswd.length<8 || confirmPassword!==newPassword) {
       setShowError(true);
       return(false);
     }
-    const specialCharArr = ['@', '#', '$', '%', '!', '*', '&', '*', '+', '-', '/', '>', '<', '/', '_'];
-    let specialChar = false;
-    let letterChar = false;
-    let numberChar = false;
-    for(let i=0;i<newPswd.length;i++) {
-      if(newPswd[i]>='a' && newPswd<='z')
-        letterChar = true;
-      if(newPswd[i]>='A' && newPswd<='Z')
-        letterChar = true;
-      if(specialCharArr.indexOf(newPswd[i])>-1)
-        specialChar = true;
-      if(newPswd[i]>='1' && newPswd[i]<='9')
-        numberChar = true
-    }
-    if(specialChar && letterChar && numberChar && newPswd===confirmPassword)
-      return(true);
-    else {
-      setShowError(true);
-      return(false);
-    }
+    return(true);
   }
-  const handleResetPassword = (e) => {
-    if(isValidPassword(newPassword)) {
 
+  const handleResetPassword = async(e) => {
+    setShowError(false);
+    if(isValidPassword(newPassword)) {
+      try {
+        const response = await axios.put(
+          `http://localhost:5000/api/users/${user._id}`,
+          {userId: user._id, password: newPassword, confirmPassword}
+        );
+      } catch(error) {
+        setShowError(true);
+        console.log(error);
+      }
     }
     console.log('password save clicked');
   }
@@ -653,7 +848,7 @@ const ResetPasswordPart = ({newPassword, setNewPassword, passwordEdit, setPasswo
               }
             </Grid>
             <Typography style={{marginTop: 18,width: '400px', fontSize: 13, color: showError ? 'rgb(244,66,55)' : 'rgb(59, 59, 59)', marginBottom: 20}}>
-              Must be 8 characters or more, needs at least one number, one letter and one special charater. New password should match confirm password.
+              Must be 8 characters or more. New password should match confirm password.
             </Typography>
           </Grid>
         </Grid>

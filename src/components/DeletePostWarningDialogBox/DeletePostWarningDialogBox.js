@@ -8,6 +8,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Avatar, Grid, Button, Typography} from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const useStyle = makeStyles({
   closeIcon: {
@@ -17,16 +18,21 @@ const useStyle = makeStyles({
   }
 })
 const DeletePostWarningDialogBox = (props) => {
-  const {openDialogBox, handleCloseDialogBox, postID} = props;
+  const {openDialogBox, handleCloseDialogBox, afterDeleteNavigateLocation, postId} = props;
   const classes = useStyle();
   const navigate = useNavigate();
-  const handleDeletePost = () => {
+
+  const handleDeletePost = async() => {
     // api to delete this post
-    
+    try {
+      const response = await axios.delete(`http://localhost:5000/api/posts/${postId}`);
+    } catch(error) {
+      console.log(error);
+    }
+
     handleCloseDialogBox();
-    
-    if(props.afterDeleteNavigateLocation)
-      navigate(props.afterDeleteNavigateLocation);
+    navigate(afterDeleteNavigateLocation);
+    window.location.reload();
   }
   return (
     <div >

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Button, makeStyles } from '@material-ui/core';
 import { Grid, Typography } from '@mui/material';
 import './bookmarkposts.css'
@@ -6,6 +6,9 @@ import Categories from '../../components/Categories/Categories';
 import Post from '../../components/Post/Post';
 import TagsRightSidebar from '../../components/TagsRightSidebar/TagsRightSidebar';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../context/UserContext';
+import axios from 'axios';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const useStyle = makeStyles({
   tagIconStyle: {
@@ -38,7 +41,31 @@ const useStyle = makeStyles({
 const BookmarkPosts = () => {
   const classes = useStyle();
   const navigate = useNavigate();
-  const bookmarksPostsArray = [1,2,3,4,5,6,7,8,9,10]
+  const {user} = useContext(UserContext);
+  // const bookmarkedPosts = [1,2,3,4,5,6,7,8,9,10]
+  const [bookmarkedPosts, setBookmarkedPosts] = useState([]);
+
+  const [isFetching, setIsFetching] = useState(false);
+  useEffect(() => {
+    // setBookmarkedPosts(user.bookmarks);
+    setIsFetching(true);
+    const fetchBookmarkedPosts = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/users/${user._id}/bookmark`
+        ).then(res => {
+          // console.log(res.data);
+          setIsFetching(false);
+          setBookmarkedPosts(res.data);
+          console.log(bookmarkedPosts);
+        })
+      } catch(error) {
+        setIsFetching(false);
+        console.log(error);
+      }
+    }
+    fetchBookmarkedPosts();
+  }, [user.bookmarks])
   return(
     <div className='bookmarkpostspage-wrapper'>
       <Grid container>
@@ -65,8 +92,12 @@ const BookmarkPosts = () => {
                 </div>
                 <div style={{paddingTop: 50}}>
                   {
-                    bookmarksPostsArray.length ?
-                    <BookmarkedPosts bookmarksPostsArray={bookmarksPostsArray}/> :
+                    isFetching ? 
+                    <div style={{textAlign: 'center'}}>
+                      <CircularProgress color="inherit" />
+                    </div> :
+                    (bookmarkedPosts.length>0 ?
+                    <BookmarkedPosts bookmarkedPosts={bookmarkedPosts}/> :
                     <div style={{width: 310, margin: 'auto'}}>
                       <Typography style={{color: 'rgb(51,51,51)', fontSize: 17}}>
                         Stories you bookmark will apprear here.
@@ -76,7 +107,7 @@ const BookmarkPosts = () => {
                           Browse recommended stories
                         </Button> 
                       </div>
-                    </div>
+                    </div>)
                   }
                   
                 </div>
@@ -107,12 +138,13 @@ const BookmarkPosts = () => {
   );
 };
 
-const BookmarkedPosts = ({bookmarksPostsArray}) => {
+const BookmarkedPosts = ({bookmarkedPosts}) => {
+  const {user} = useContext(UserContext);
   return(
     <div>
       {
-        bookmarksPostsArray.map(ele => (
-          <Post key={ele} />
+        bookmarkedPosts.map(post => (
+          <Post post={post} user={user} />
         ))
       }
     </div>

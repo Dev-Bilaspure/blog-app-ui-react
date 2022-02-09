@@ -2,28 +2,176 @@ import { Typography, Grid, TextareaAutosize, Button, Chip, Hidden } from '@mater
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import SaveAsIcon from '@mui/icons-material/SaveAs';
 import PublishIcon from '@mui/icons-material/Publish';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import useStyle from './writeStyles';
 import Box from '@mui/material/Box';
-
+import axios from 'axios';
+import {UserContext} from './../../context/UserContext'
 import './writeStyle.css';
 import SelectedCategory from '../../components/SelectCategory/SelectCategory';
+import {useLocation, useNavigate} from 'react-router-dom';
+
+
 const Write = () => {
   const classes = useStyle();
+  const {user} = useContext(UserContext)
+  const location = useLocation();
+  const navigate = useNavigate()
+
   const [title, setTitle] = useState('');
   const [discription, setDiscription] = useState('');
-  const blogImg = `https://miro.medium.com/max/1400/1*TVd_sNhpc7JDPBHAsAOQZg.jpeg`;
+  const [blogImg, setBlogImg] = useState(null);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+
+  const [oldBlogImg, setOldBlogImg] = useState('');
+
+  const [publishError, setPublishError] = useState(false);
+
+  useEffect(() => {
+    if(location.state) {
+      if(location.state.oldPostId) {
+        setTitle(location.state.oldPostTitle);
+        setDiscription(location.state.oldPostDesc);
+        setSelectedCategories(location.state.oldPostCategories);
+        setOldBlogImg(location.state.oldPostImg);
+      }
+    }
+  }, [])
+
+  const publishNewPost = async(postObj) => {
+    if(blogImg) {
+      const data = new FormData();
+      const filename = Date.now() + blogImg.name;
+      data.append("name", filename);
+      data.append("file", blogImg);
+      postObj.img = filename;
+      try {
+        await axios.post("http://localhost:5000/api/upload", data);
+      } catch (err) {}
+    }
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/api/posts/publish`,
+        postObj
+      ).then(res => {
+        navigate('/published');
+      })
+    } catch(error) {
+      console.log(error);
+    }
+  }
+  const updateAndPublishOldPost = async(postObj) => {
+    if(blogImg) {
+      const data = new FormData();
+      const filename = Date.now() + blogImg.name;
+      data.append("name", filename);
+      data.append("file", blogImg);
+      postObj.img = filename;
+      try {
+        await axios.post("http://localhost:5000/api/upload", data);
+      } catch (err) {}
+    }
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/posts/${location.state.oldPostId}/publish`,
+        postObj
+      ).then(res => {
+        navigate('/published');
+      })
+    } catch(error) {
+      console.log(error);
+    }
+  }
+  const draftNewPost = async(postObj) => {
+    if(blogImg) {
+      const data = new FormData();
+      const filename = Date.now() + blogImg.name;
+      data.append("name", filename);
+      data.append("file", blogImg);
+      postObj.img = filename;
+      try {
+        await axios.post("http://localhost:5000/api/upload", data);
+      } catch (err) {}
+    }
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/api/posts/draft`,
+        postObj
+      ).then(res => {
+        navigate('/draft');
+      })
+    } catch(error) {
+      console.log(error);
+    }
+  }
+  const updateAndDraftOldPost = async(postObj) => {
+    if(blogImg) {
+      const data = new FormData();
+      const filename = Date.now() + blogImg.name;
+      data.append("name", filename);
+      data.append("file", blogImg);
+      postObj.img = filename;
+      try {
+        await axios.post("http://localhost:5000/api/upload", data);
+      } catch (err) {console.log(err)}
+    }
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/posts/${location.state.oldPostId}/draft`,
+        postObj
+      ).then(res => {
+        navigate('/draft');
+      })
+    } catch(error) {
+      console.log(error);
+    }
+  }
+
+  const handlePublishClick = () => {
+    const postObj = {
+      userId: user._id,
+      title,
+      desc: discription,
+      tags: selectedCategories
+    }
+    setPublishError(false);
+    if(title!=='' && discription!=='') {
+      if(location.state) {
+        if(location.state.oldPostId)
+          updateAndPublishOldPost(postObj);
+      }
+      else
+        publishNewPost(postObj);
+    }
+    else  
+      setPublishError(true);
+  }
+
+  const handleDraftClick = () => {
+    const postObj = {
+      userId: user._id,
+      title,
+      desc: discription,
+      tags: selectedCategories
+    }
+    if(location.state) {
+      if(location.state.oldPostId)
+        updateAndDraftOldPost(postObj);
+    }
+    else
+      draftNewPost(postObj);
+  }
   return (
     <Box className='writeWrapper'>
       <Grid container style={{marginTop: 10, padding: 20, paddingRight: 0, marginBottom: 70, paddingLeft: 10}}>
         <Grid item lg={3} md={3} sm={12} xs={12}>
           <Hidden smDown>
             <div  style={{  marginTop: 5, paddingTop: 20, paddingBottom: 20, width: 201, marginLeft: 25, borderRadius: 5}}>
-              <PublishOrDraft />
+              <PublishOrDraft handlePublishClick={handlePublishClick} handleDraftClick={handleDraftClick} publishError={publishError}/>
             </div>
           </Hidden>
         </Grid>
-        <Grid item lg={6} md={6} sm={12} xs={12} style={{width: '100%', paddingRight: 10, paddingBottom: 20,marginBottom: 40, borderBottom: '1px solid rgb(227, 227, 228)'}} >
+        <Grid item lg={6} md={6} sm={12} xs={12} style={{width: '100%', paddingRight: 10, paddingBottom: 20,marginBottom: 40, borderBottom: '1px solid rgb(327, 327, 327)'}} >
           <TextareaAutosize 
             placeholder='Title' 
             className={classes.titleField} 
@@ -31,12 +179,21 @@ const Write = () => {
           />
           <Box style={{marginTop: 30}}>
             {
-              blogImg 
-              &&  <img 
-                    src={blogImg}
-                    alt="blog-post-image" 
-                    style={{objectFit: 'cover', width: '100%', marginBottom: 15}}
-                  />
+              blogImg ?  
+                <img 
+                  src={URL.createObjectURL(blogImg)}
+                  alt="blog-post-image" 
+                  style={{objectFit: 'cover', width: '100%', marginBottom: 15, borderRadius: 5}}
+                /> :
+              (
+                oldBlogImg &&
+                <img 
+                  src={oldBlogImg}
+                  alt="blog-post-image" 
+                  style={{objectFit: 'cover', width: '100%', marginBottom: 15, borderRadius: 5}}
+                />
+              )
+
             }
             <Grid container>
               <Grid item>
@@ -45,13 +202,14 @@ const Write = () => {
                 </label>
               </Grid>
               <Grid item className={classes.addOrChangeImg}>
-                {blogImg ? 'Change Image' : 'Add Image'}
+                {(blogImg || oldBlogImg.length) ? 'Change Image' : 'Add Image'}
               </Grid>
             </Grid>
             <input 
               type='file' 
               id='fileInput' 
               className={classes.imageUploadButton}
+              onChange={(e) => setBlogImg(e.target.files[0])}
             />
           </Box>
           <Box style={{marginTop: 10}}>
@@ -67,14 +225,20 @@ const Write = () => {
           </Box>
         </Grid>
         <Grid item lg={3}  md={3} sm={12} xs={12} style={{paddingLeft: 10}}>
-          <RightSideBar />
+          <RightSideBar 
+            selectedCategories={selectedCategories} 
+            setSelectedCategories={setSelectedCategories} 
+            handlePublishClick={handlePublishClick} 
+            handleDraftClick={handleDraftClick}
+            publishError={publishError}
+          />
         </Grid>
       </Grid>
     </Box>
   )
 }
-const AddCategories = () => {
-  const [selectedCategories, setSelectedCategories] = useState([]);
+const AddCategories = ({selectedCategories, setSelectedCategories}) => {
+  
   const [fakeSelectedCategories, setFakeSelectedCategories] = useState([]);
   useEffect(() => {
     if(fakeSelectedCategories.length<5)
@@ -107,17 +271,28 @@ const AddCategories = () => {
     </div>
   );
 }
-const PublishOrDraft = () => {
+const PublishOrDraft = ({handlePublishClick, handleDraftClick, publishError}) => {
   return(
     <div>
-      <Box style={{marginBottom: 30, paddingLeft: 0}}>
+      <Box style={{marginBottom: 30, paddingLeft: 0, overflowWrap: 'break-word', wordWrap: 'break-word'}}>
         <Button 
           variant="contained" 
           startIcon={<PublishIcon />} 
           style={{width: 160, color: '#ffff', background: 'rgb(26,136,22)', textTransform: 'none', borderRadius: 100}}
+          onClick={handlePublishClick}
         >
           Publish
         </Button>
+        {
+          publishError &&
+          <Typography style={{fontSize: 13, paddingLeft: 8, color: 'rgb(244,66,55)', width: 160, paddingTop: 10}}>
+            Story with empty title or description cannot be published. 
+            <div style={{paddingTop: 5}}>
+              You can always save changes you make on your stories to draft.
+            </div> 
+          </Typography>
+        }
+        
       </Box>
           <br/>
       <Box style={{ paddingTop: 0, paddingLeft: 0}}>
@@ -125,6 +300,7 @@ const PublishOrDraft = () => {
           variant="contained" 
           startIcon={<SaveAsIcon />}
           style={{width: 160, color: '#fff', background: 'rgb(133, 133, 133)', textTransform: 'none', borderRadius: 100}}
+          onClick={handleDraftClick}
         >
           Save To Drafts
         </Button>
@@ -132,17 +308,17 @@ const PublishOrDraft = () => {
     </div>
   );
 }
-const RightSideBar = () => {
+const RightSideBar = ({selectedCategories, setSelectedCategories,  handlePublishClick, handleDraftClick, publishError}) => {
   const classes = useStyle();
   return(
     <Box className={classes.rightSideBar}>
       <Box style={{paddingTop: 0}}>
         <div style={{ marginBottom: 40, borderBottom: '1px solid rgb(227, 227, 228)', paddingBottom: 35}}>
-          <AddCategories />
+          <AddCategories selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories}/>
         </div>
         <Hidden mdUp>
           <div style={{ paddingTop: 20, paddingBottom: 20, width: 201, marginLeft: 0, borderRadius: 5}}>
-            <PublishOrDraft />
+            <PublishOrDraft  handlePublishClick={handlePublishClick} handleDraftClick={handleDraftClick} publishError={publishError}/>
           </div>
         </Hidden>
       </Box>

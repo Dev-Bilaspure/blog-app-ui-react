@@ -20,7 +20,8 @@ const categoriesArray = [
     'stocks-market',
     'skills',
     'food',
-    'travel'
+    'travel',
+    'education'
 ]
 // const categoriesArray = [
 //     {name: 'World', value: 'world'},

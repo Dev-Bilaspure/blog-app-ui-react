@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, makeStyles } from '@material-ui/core';
 import { Grid, Typography } from '@mui/material';
 import Categories from '../../components/Categories/Categories';
@@ -6,6 +6,9 @@ import Post from '../../components/Post/Post';
 import TagsRightSidebar from '../../components/TagsRightSidebar/TagsRightSidebar';
 import './likedPostsPageStyle.css'
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import {UserContext} from './../../context/UserContext'
+import CircularProgress from '@mui/material/CircularProgress';
 
 const useStyle = makeStyles({
   tagIconStyle: {
@@ -38,7 +41,33 @@ const useStyle = makeStyles({
 const LikedPostsPage = () => {
   const classes = useStyle();
   const navigate = useNavigate();
-  const likedPostsArray = [1,2,3,4,5,6,7,8,9,10]
+  const {user} = useContext(UserContext);
+  // const likedPosts = [1,2,3,4,5,6,7,8,9,10]
+  const [likedPosts, setLikedPosts] = useState([]);
+
+  const [isFetching, setIsFetching] = useState(false);
+
+  useEffect(() => {
+    setIsFetching(true);
+    const fetchLikedPosts = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/users/${user._id}/liked`
+        ).then(res => {
+          setLikedPosts(res.data);
+          console.log(res.data);
+          setIsFetching(false);
+        }).catch(err => {
+          console.log(err);
+          setIsFetching(false);
+        })
+      } catch(error) {
+        console.log(error);
+        setIsFetching(false);
+      }
+    }
+    fetchLikedPosts();
+  }, [])
   return(
     <div className='likedpostspage-wrapper'>
       <Grid container>
@@ -65,8 +94,12 @@ const LikedPostsPage = () => {
                 </div>
                 <div style={{paddingTop: 50}}>
                   {
-                    likedPostsArray.length ?
-                    <LikedPosts likedPostsArray={likedPostsArray}/> :
+                    isFetching ? 
+                    <div style={{textAlign: 'center'}}>
+                      <CircularProgress color="inherit" />
+                    </div> :
+                    (likedPosts.length ?
+                    <LikedPosts likedPosts={likedPosts}/> :
                     <div style={{width: 256, margin: 'auto'}}>
                       <Typography style={{color: 'rgb(51,51,51)', fontSize: 17}}>
                         Stories you like will apprear here.
@@ -76,7 +109,7 @@ const LikedPostsPage = () => {
                           Browse recommended stories
                         </Button> 
                       </div>
-                    </div>
+                    </div>)
                   }
                   
                 </div>
@@ -107,12 +140,13 @@ const LikedPostsPage = () => {
   );
 };
 
-const LikedPosts = ({likedPostsArray}) => {
+const LikedPosts = ({likedPosts}) => {
+  const {user} = useContext(UserContext);
   return(
     <div>
       {
-        likedPostsArray.map(ele => (
-          <Post key={ele} />
+        likedPosts.map(post => (
+          <Post post={post} user={user}/>
         ))
       }
     </div>

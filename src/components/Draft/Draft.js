@@ -1,9 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Typography} from '@mui/material';
 import WebFont from 'webfontloader';
 import { Link } from 'react-router-dom';
 import { Button, Grid, makeStyles, Menu, MenuItem } from '@material-ui/core';
 import DeletePostWarningDialogBox from '../DeletePostWarningDialogBox/DeletePostWarningDialogBox';
+import { UserContext } from '../../context/UserContext';
+import axios from 'axios';
+import {useNavigate} from 'react-router-dom'
+import CircularProgress from '@mui/material/CircularProgress';
+
+const PF = 'http://localhost:5000/images/'
 
 const useStyle = makeStyles({
   moreBtn: {
@@ -30,14 +36,42 @@ const useStyle = makeStyles({
 
 const Draft = () => {
   const classes = useStyle();
-  const draftPosts = [1,2,3,4,5,6];
-  
+  const {user} = useContext(UserContext);
+  // const draftPosts = [1,2,3,4,5,6];
+  const [draftPosts, setDraftPosts] = useState([]);
+
+  const [isFetching, setIsFetching] = useState(false);
+
+  useEffect(() => {
+    setIsFetching(true);
+    const fetchDraftPosts = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/users/${user._id}/draft`
+        ).then(res => {
+          setDraftPosts(res.data);
+          setIsFetching(false);
+        }).catch(err => {
+          console.log(err);
+          setIsFetching(false);
+        })
+      } catch(error) {
+        console.log(error)
+        setIsFetching(false);
+      }
+    }
+    fetchDraftPosts();
+  }, [])
   return(
     <div>
       {
-        draftPosts.length 
+        isFetching ?
+        <div style={{textAlign: 'center'}}>
+          <CircularProgress color="inherit" size={60}/>
+        </div> :
+        (draftPosts.length 
         ? draftPosts.map(draftPost => (
-            <DraftPost key={draftPost}/>
+            <DraftPost draftPost={draftPost} />
           ))
         : <div style={{width: 315, margin: 'auto'}}>
             <Typography style={{color: 'rgb(81,81,81)', fontSize: 18, fontWeight: 'bold', width: 205, paddingBottom: 30, margin: 'auto'}}>
@@ -46,14 +80,15 @@ const Draft = () => {
             <Typography style={{color: 'rgb(81,81,81)', fontSize: 18, fontWeight: 'bold'}}>
               <Link to='/write' style={{color: 'inherit'}}>Write</Link> a story or <Link to='/' style={{color: 'inherit'}}>read</Link> on Maadhyam.
             </Typography>
-          </div>
+          </div>)
       }
     </div>
   );
 }
 
-const DraftPost = () => {
+const DraftPost = ({draftPost}) => {
   const classes = useStyle();
+  const navigate = useNavigate();
   const [openDialogBox, setOpenDialogBox] = useState(false);
   const handleOpenDialogBox = () => {
     setOpenDialogBox(true);
@@ -61,30 +96,38 @@ const DraftPost = () => {
   const handleCloseDialogBox = () => {
     setOpenDialogBox(false);
   }
+
+  const handleTitleClick = () => {
+    navigate('/write', {state: {
+      oldPostTitle: draftPost.title,
+      oldPostDesc: draftPost.desc,
+      oldPostCategories: draftPost.tags,
+      oldPostId: draftPost._id,
+      oldPostImg: PF+draftPost.img
+    }})
+  }
+
   const title = 'Untitled Story in the house';
   const description = `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quaerat quasi doloribus vero nemo quo tempore alias placeat reiciendis minus cum?`
-  const words = 10;
-  const postID = "postID of this particular post"
+  const words = draftPost.desc.length ? draftPost.desc.split(' ').length : 0;
   return(
     <div>
       <DeletePostWarningDialogBox
         openDialogBox={openDialogBox}
         handleCloseDialogBox={handleCloseDialogBox}
-        postID={postID}
+        postId={draftPost._id}
         afterDeleteNavigateLocation={'/draft'}
       />
       <div style={{overflowWrap: 'break-word', marginBottom: 50}}>
         <div style={{paddingBottom: 20, borderBottom: '1px solid #E6E6E6'}}>
-          <Typography style={{ fontSize: 19, color: 'rgb(41,41,41)', fontFamily: `'Outfit', 'sans-serif'`}}>
-            <Link to='/write' style={{color: 'inherit', textDecoration: 'none'}}>
-              {title}
-            </Link>
+          <Typography style={{ fontSize: 19, color: 'rgb(41,41,41)', fontFamily: `'Outfit', 'sans-serif'`}} onClick={handleTitleClick}> 
+            {draftPost.title}
           </Typography>
           {
-            description &&
+            draftPost.desc &&
             <Typography className={classes.draftPostDescription}>
               <Link to='/write' style={{color: 'inherit', textDecoration: 'none'}}>
-                {description}
+                {draftPost.desc}
               </Link>
             </Typography>
           }
@@ -95,7 +138,7 @@ const DraftPost = () => {
               </Typography>
             </Grid>
             <Grid item>
-              <DeleteEditMenu handleOpenDialogBox={handleOpenDialogBox} postID={postID}/>
+              <DeleteEditMenu handleOpenDialogBox={handleOpenDialogBox} postId={draftPost._id} draftPost={draftPost}/>
             </Grid>
           </Grid>
           
@@ -106,9 +149,11 @@ const DraftPost = () => {
   );
 }
 
-const DeleteEditMenu = ({handleOpenDialogBox}) => {
+const DeleteEditMenu = ({handleOpenDialogBox, postId, draftPost}) => {
   const classes = useStyle();
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -116,6 +161,16 @@ const DeleteEditMenu = ({handleOpenDialogBox}) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleEditClick = () => {
+    navigate('/write', {state: {
+      oldPostTitle: draftPost.title,
+      oldPostDesc: draftPost.desc,
+      oldPostCategories: draftPost.tags,
+      oldPostId: draftPost._id,
+      oldPostImg: PF+draftPost.img
+    }})
+    setAnchorEl(null);
+  }
 
   const handleDeleteClickInMenu = () => {
     handleOpenDialogBox();
@@ -136,7 +191,7 @@ const DeleteEditMenu = ({handleOpenDialogBox}) => {
         }}
         style={{marginTop: 40, marginLeft: 10}}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleEditClick}>
           <Typography style={{fontSize: 14}}>Edit Story</Typography>
         </MenuItem>
         <MenuItem onClick={handleDeleteClickInMenu}>

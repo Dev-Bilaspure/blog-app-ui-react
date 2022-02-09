@@ -18,7 +18,7 @@ const Navbar = ({user}) => {
     navigate('/signup', {state: {from: location}});
   }
   return (
-    (location.pathname!=='/profile' && location.pathname!=='/signin' && location.pathname!=='/signup') &&
+    (location.pathname.split('/')[1]!=='profile' && location.pathname!=='/signin' && location.pathname!=='/signup') &&
     <AppBar className={classes.navbar}>
       <Toolbar className='navbarWrapper'>
         <div className={classes.logoAndLogoText}>

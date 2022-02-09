@@ -42,8 +42,8 @@ const useStyle = makeStyles({
       border: 'none',
       '&:focus': {
         outline: 'none !important',
-        borderLeft: '1px solid rgb(158, 158, 158)',
-        borderRight: '1px solid rgb(158, 158, 158)',
+        borderLeft: '1px solid rgb(208, 208, 208)',
+        borderRight: '1px solid rgb(208, 208, 208)',
         width: '99%'
       },
       resize: 'none',

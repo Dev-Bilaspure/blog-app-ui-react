@@ -18,7 +18,7 @@ const useStyle = makeStyles({
       float: 'right',
       marginTop: 3,
       marginLeft: 10,
-      width: 73,
+      width: 90,
       height: 25,
       '&:hover': {
         background: 'rgb(26,136,22)',
@@ -38,7 +38,7 @@ const useStyle = makeStyles({
       borderRadius: 30, 
       color: '#fff', 
       width: 90, 
-      height: 45,
+      height: 38,
       '&:hover': {
         background: 'rgb(26,136,22)',
       },

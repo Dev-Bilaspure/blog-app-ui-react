@@ -1,11 +1,14 @@
-import * as React from 'react';
+import react, {useState, useContext} from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Avatar, Grid, Typography } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {useNavigate} from 'react-router-dom';
 import {makeStyles} from '@material-ui/core';
+import { UserContext } from '../../context/UserContext';
 
+const PF = 'http://localhost:5000/images/'
+const defaultUserPic = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
 const useStyle = makeStyles({
   basicMenuAvatar: {
     '&:hover': {
@@ -16,7 +19,8 @@ const useStyle = makeStyles({
 })
 const BasicMenu = () => {
   const classes = useStyle();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const {logout, user} = useContext(UserContext);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -24,9 +28,13 @@ const BasicMenu = () => {
   const navigate = useNavigate();
   const handleClose = () => {
     setAnchorEl(null);
+  }
+  const handleLogoutClick = () => {
+    logout();
+    setAnchorEl(null);
   };
   const handleProfileClick = () => {
-    navigate('/profile');
+    navigate(`/profile/@${user.username}`);
     setAnchorEl(null);
   };
   const handleWriteClick = () => {
@@ -66,7 +74,7 @@ const BasicMenu = () => {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
         alt="profilemenu avatar"
-        src='https://picsum.photos/200'
+        src={user.profilePicture ? PF + user.profilePicture : defaultUserPic}
         style={{width: 45, height: 45}}
         className={classes.basicMenuAvatar}
       /> 
@@ -85,16 +93,16 @@ const BasicMenu = () => {
             <Grid item>
               <Avatar
                 alt="profilemenu avatar"
-                src='https://picsum.photos/200'
+                src={user.profilePicture ? PF + user.profilePicture : defaultUserPic}
                 style={{height: 50, width: 50}}
               /> 
             </Grid>
             <Grid item>
               <Typography style={{paddingLeft: 12, fontSize: 16, paddingTop: 2}}>
-                Dev Bilaspure
+                {user.name}
               </Typography>
               <Typography style={{paddingLeft: 12, fontSize: 15, color: 'rgb(90, 90, 90)'}}>
-                @dev123
+                {`@${user.username}`}
               </Typography>
             </Grid>
           </Grid>
@@ -129,7 +137,7 @@ const BasicMenu = () => {
             Contact us
           </Typography>
         </MenuItem>
-        <MenuItem onClick={handleClose} style={{marginBottom: 20}}>
+        <MenuItem onClick={handleLogoutClick} style={{marginBottom: 20}}>
           <Typography style={{paddingLeft: 13, paddingTop: 6, paddingBottom: 3}}>
             Logout 
           </Typography>

@@ -13,6 +13,7 @@ import categoriesArray from '../../constants/categories';
 import Post from '../../components/Post/Post';
 import TagsRightSidebar from '../../components/TagsRightSidebar/TagsRightSidebar';
 import axios from 'axios';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const useStyles  = makeStyles({
   belowBanner: {
@@ -69,7 +70,7 @@ const Home = ({ user }) => {
 
               </Grid>
               <Grid item lg={10} md={12} sm={12} xs={12}>
-                <TagsRightSidebar />
+                <TagsRightSidebar user={user}/>
               </Grid>
               <Grid item lg={1} md={0} sm={12} xs={12}>
                 
@@ -140,9 +141,9 @@ const TabsAndContent = ({user}) => {
       </div>
       <div>
         {
-          value===1
-          ? <FollowingUsersPosts setValue={setValue} user={user} />
-          : <HomePagePosts user={user}/> 
+          value===1 && user
+          ? <FollowingUsersPosts user={user} setValue={setValue}/>
+          : <HomePagePosts user={user} /> 
         }
         
       </div>
@@ -151,12 +152,36 @@ const TabsAndContent = ({user}) => {
 }
 
 const HomePagePosts = ({user}) => {
-  const [generalPosts, setGeneralPosts] = useState([1,2,3,4,5,6]);
+  const [generalPosts, setGeneralPosts] = useState([]);
+
+  const [isFetching, setIsFetching] = useState(false);
+  useEffect(() => {
+    setIsFetching(false);
+    const fetchGeneralPosts = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/posts`
+        ).then(res => {
+          setGeneralPosts(res.data);
+          console.log(generalPosts);
+          setIsFetching(false);
+        })
+      } catch(error) {
+        console.log(error);
+        setIsFetching(false);
+      }
+    }
+    fetchGeneralPosts();
+  }, [])
   return(
     <div>
       {
-        generalPosts.map(ele => (
-          <Post user={user} key={ele}/>
+        isFetching ? 
+        <div style={{textAlign: 'center'}}>
+          <CircularProgress color="inherit" />
+        </div> :
+        generalPosts.map(post => (
+          <Post user={user} post={post}/>
         ))
       }
     </div>
@@ -164,18 +189,44 @@ const HomePagePosts = ({user}) => {
 }
 
 const FollowingUsersPosts = ({user, setValue}) => {
-  const classes = useStyles();
-  const followingPostArray = [1,2,3,4,5,6,7]
+  const classes = useStyles(); 
+  // const followingPostArray = [1,2,3,4,5,6,7]
+  const [followingsPost, setFollowingsPosts] = useState([]);
 
+  const [isFetching, setIsFetching] = useState(false);
+  useEffect(() => {
+    setIsFetching(true);
+    const fetchFollowingsPosts = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/posts/${user._id}/following`
+        ).then(res => {
+          setFollowingsPosts(res.data);
+          setIsFetching(false);
+        }).catch(err => {
+          console.log(err);
+          setIsFetching(false);
+        })
+      } catch(error) {
+        console.log(error);
+        setIsFetching(false);
+      }
+    } 
+    fetchFollowingsPosts();
+  }, [])
   return(
     <div>
       {
-        followingPostArray.length 
-        ? followingPostArray.map(ele => (
-            <Post user={user} key={ele}/>
+        isFetching ? 
+        <div style={{textAlign: 'center'}}>
+          <CircularProgress color="inherit" />
+        </div> :
+        (followingsPost.length 
+        ? followingsPost.map(post => (
+            <Post user={user} post={post}/>
           ))
         : <div>
-            <div style={{width: 370, margin: 'auto'}}>
+            <div style={{width: 380, margin: 'auto'}}>
               <Typography style={{color: 'rgb(51,51,51)', fontSize: 16}}>
                 Stories from the writers you follow will appear here.
               </Typography>
@@ -185,7 +236,7 @@ const FollowingUsersPosts = ({user, setValue}) => {
                 </Button>
               </div>
             </div>
-          </div>
+          </div>)
       }
     </div>
   );

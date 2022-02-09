@@ -1,8 +1,13 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Menu, MenuItem, Typography} from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import DeletePostWarningDialogBox from '../DeletePostWarningDialogBox/DeletePostWarningDialogBox';
 import { Grid, makeStyles } from '@material-ui/core';
+import axios from 'axios';
+import { UserContext } from '../../context/UserContext';
+import CircularProgress from '@mui/material/CircularProgress';
+
+const PF = 'http://localhost:5000/images/'
 
 const useStyle = makeStyles({
   moreBtn: {
@@ -25,27 +30,56 @@ const useStyle = makeStyles({
   }
 })
 const Published = () => {
-  const publishedPosts = [1,2,3,4,5,6,7]
+  const {user} = useContext(UserContext);
+  // const publishedPosts = [1,2,3,4,5,6,7]
+  const [publishedPosts, setPublishedPosts] = useState([]);
+
+  const [isFetching, setIsFetching] = useState(false);
+
+  useEffect(() => {
+    setIsFetching(true);
+    const fetchPublishedPosts = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/users/${user._id}/published`
+        ).then(res => {
+          setPublishedPosts(res.data);
+          setIsFetching(false);
+        }).catch(err => {
+          console.log(err);
+          setIsFetching(false);
+        })
+      } catch(error) {
+        console.log(error);
+        setIsFetching(false);
+      }
+    }
+    fetchPublishedPosts();
+  }, [])
   return(
     <div>
       {
-        publishedPosts.length
+        isFetching ?
+        <div style={{textAlign: 'center'}}>
+          <CircularProgress color="inherit" size={60}/>
+        </div> :
+        (publishedPosts.length
         ? publishedPosts.map(publishedPost => (
-            <PublishedPost key={publishedPost} />
+            <PublishedPost publishedPost={publishedPost} />
           ))
         : 
           <div style={{width: 335, margin: 'auto'}}>
             <Typography style={{color: 'rgb(81,81,81)', fontSize: 18, fontWeight: 'bold'}}>
               You haven't published any stories yet.
             </Typography>
-          </div>
+          </div>)
       }
     </div>
   );
 }
 
 
-const PublishedPost = () => {
+const PublishedPost = ({publishedPost}) => {
   const classes = useStyle();
   const [openDialogBox, setOpenDialogBox] = useState(false);
   const handleOpenDialogBox = () => {
@@ -63,21 +97,21 @@ const PublishedPost = () => {
       <DeletePostWarningDialogBox
         openDialogBox={openDialogBox}
         handleCloseDialogBox={handleCloseDialogBox}
-        postID={postID}
+        postId={publishedPost._id}
         afterDeleteNavigateLocation={'/published'}
       />
       <div style={{overflowWrap: 'break-word', marginBottom: 50}}>
         <div style={{paddingBottom: 20, borderBottom: '1px solid #E6E6E6'}}>
           <Typography style={{  fontSize: 19, color: 'rgb(41,41,41)', fontFamily: `'Outfit', 'sans-serif'`}}>
-            <Link to='/blog/1' style={{color: 'inherit', textDecoration: 'none'}}>
-              {title}
+            <Link to={`/blog/${publishedPost}`} style={{color: 'inherit', textDecoration: 'none'}}>
+              {publishedPost.title}
             </Link>
           </Typography>
           {
             description &&
             <Typography className={classes.publishPostDescription}>
               <Link to='/blog/1' style={{color: 'inherit', textDecoration: 'none'}}>
-                {description}
+                {publishedPost.desc}
               </Link>
             </Typography>
           }
@@ -88,7 +122,7 @@ const PublishedPost = () => {
               </Typography>
             </Grid>
             <Grid item>
-              <DeleteEditMenu handleOpenDialogBox={handleOpenDialogBox} postID={postID}/>
+              <DeleteEditMenu handleOpenDialogBox={handleOpenDialogBox} postId={publishedPost._id} publishedPost={publishedPost}/>
             </Grid>
           </Grid>
         </div>
@@ -99,8 +133,9 @@ const PublishedPost = () => {
 }
 
 
-const DeleteEditMenu = ({handleOpenDialogBox}) => {
+const DeleteEditMenu = ({handleOpenDialogBox, publishedPost}) => {
   const classes = useStyle();
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -109,7 +144,16 @@ const DeleteEditMenu = ({handleOpenDialogBox}) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const handleEditClick = () => {
+    navigate('/write', {state: {
+      oldPostTitle: publishedPost.title,
+      oldPostDesc: publishedPost.desc,
+      oldPostCategories: publishedPost.tags,
+      oldPostId: publishedPost._id,
+      oldPostImg: PF+publishedPost.img
+    }})
+    setAnchorEl(null);
+  }
   const handleDeleteClickInMenu = () => {
     handleOpenDialogBox();
     setAnchorEl(null);
@@ -129,7 +173,7 @@ const DeleteEditMenu = ({handleOpenDialogBox}) => {
         }}
         style={{marginTop: 0, marginLeft: 10}}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleEditClick}>
           <Typography style={{fontSize: 14}}>Edit Story</Typography>
         </MenuItem>
         <MenuItem onClick={handleDeleteClickInMenu}>

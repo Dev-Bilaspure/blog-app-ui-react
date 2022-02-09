@@ -28,7 +28,7 @@ const useStyle = makeStyles({
     }
   },
   postByUserWrapper: {
-    paddingBottom: 50, 
+    paddingBottom: 30, 
     marginRight: 20, 
     borderBottom: '1px solid rgb(194, 194, 194)', 
     marginBottom: 70,
@@ -54,7 +54,7 @@ const useStyle = makeStyles({
     fontFamily: `'Roboto Condensed', 'sans-serif'`, 
     wordWrap: 'break-word', 
     paddingRight: 140, 
-    fontSize: 18
+    fontSize: 20
   },
   leftBarFollowBnt: {
     color: '#fff', 

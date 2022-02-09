@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { Grid, Paper, styled } from '@mui/material';
@@ -7,7 +7,7 @@ import SignUp from '../../components/SignUp/SignUp';
 import { makeStyles } from '@material-ui/styles';
 import { Typography } from '@material-ui/core';
 import './signinsignupStyle.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const useStyle = makeStyles({
   reverseTxt: {
@@ -26,6 +26,15 @@ const SignInAndSignUp = ({val, setUser}) => {
   const classes = useStyle();
   const [value, setValue] = useState(val);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const path = location.pathname.split('/')[1];
+  useEffect(() => {
+    if(path==='signup')
+      setValue(1);
+    else
+      setValue(0);
+  }, [path])
 
   const handleTabChange = (event, newValue) => {
     console.log(newValue);
@@ -73,10 +82,10 @@ const SignInAndSignUp = ({val, setUser}) => {
         <Grid item lg={4} lg={4} md={3} sm={12} xs={12}> 
 
         </Grid>
-        <Grid item lg={4} lg={4} md={6} sm={12} xs={12} style={{height: '100vh', paddingTop: 30, paddingBottom: 30}}>
-          <Paper style={{ margin: 'auto',paddingTop: 15, width: 340, background: '#fff'}}  elevation={10}>
+        <Grid item lg={4} lg={4} md={6} sm={12} xs={12} style={{height: '100vh', paddingTop: 30, paddingBottom: 30, marginBotom: 50}}>
+          <Paper style={{ margin: 'auto',paddingTop: 15, width: 340, background: '#fff'}}  elevation={5}>
             <div style={{width: '280px', margin: 'auto'}}>
-              <div style={{color: 'rgb(51,51,51)', textAlign: 'center', paddingBottom: 0, margin: 'auto', width: 230, paddingTop: 10, borderBottom: '1px solid rgb(71,71,71)', marginBottom: 20}}>
+              <div style={{color: 'rgb(41,41,41)', textAlign: 'center', paddingBottom: 0, margin: 'auto', width: 230, paddingTop: 10, borderBottom: '1px solid rgb(71,71,71)', marginBottom: 20}}>
                 <Grid container style={{width: 173, margin: 'auto'}}>
                   <Grid item>
                     <Typography className={classes.reverseTxt}>

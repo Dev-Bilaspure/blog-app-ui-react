@@ -1,6 +1,8 @@
 import { Avatar, Button, Grid, makeStyles, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import {useLocation, useNavigate} from 'react-router-dom'
 import Categories from '../Categories/Categories';
+import axios from 'axios';
 
 const useStyle = makeStyles({
   tagsHeading: {
@@ -34,7 +36,7 @@ const useStyle = makeStyles({
     lineHeight: 1.3
   }
 })
-const TagsRightSidebar = () => {
+const TagsRightSidebar = ({user}) => {
   const classes = useStyle();
   return(
     <div>
@@ -56,23 +58,44 @@ const TagsRightSidebar = () => {
   );
 }
 
-const RankedUsers = () => {
+const RankedUsers = ({user}) => {
   const arr = [1,2,3,4,5];
+  const [rankedUsers, setRankedUsers] = useState([]);
+  useEffect(() => {
+    const fetchRankedUsers = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/users/ranked`
+        ).then(res => {
+          setRankedUsers(res.data);
+        }).catch(err => {
+          console.log(err);
+        })
+      } catch(error) {
+        console.log(error);
+      }
+    }
+    fetchRankedUsers();
+  }, [])
   return(
     <div>
       {
-        arr.map(ele => (
-          <RankedUser key={ele} />
+        rankedUsers.map(rankedUser => (
+          <RankedUser rankedUser={rankedUser} user={user}/>
         ))
       }
     </div>
   );
 }
 
-const RankedUser = () => {
+const RankedUser = ({rankedUser, user}) => {
   const classes = useStyle(); 
+  const location = useLocation();
+  const navigate = useNavigate();
   const [isFollowing, setIsFollowing] = useState(false);
   const handleClickFollowBtn = () => {
+    if(!user)
+      navigate('/signin', {state: {from: location}})
     setIsFollowing(!isFollowing);
   }
   return(
@@ -81,16 +104,16 @@ const RankedUser = () => {
         <Grid item style={{marginBottom: 10}}>
           <Avatar
             alt="author avatar"
-            src='https://picsum.photos/200'
+            src={rankedUser.profilePicture || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
             style={{width: 47, height: 47}}
           />
         </Grid>
         <Grid item style={{paddingLeft: 10, paddingTop: 2}}>
           <Typography className={classes.userName}>
-            Devaditya Bilaspure J
+            {rankedUser.name}
           </Typography>
           <Typography style={{color: 'rgb(91,91,91)', fontSize: 14}}>
-            10.12K followers
+            {rankedUser.followersCount} Followers
           </Typography>
         </Grid>
         <Grid item>

@@ -1,6 +1,6 @@
 import { makeStyles, Button } from '@material-ui/core';
 import { Grid, Typography } from '@mui/material';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import Categories from '../../components/Categories/Categories';
 import Post from '../../components/Post/Post';
@@ -8,6 +8,8 @@ import './tagpageStyle.css'
 import categoriesArray from './../../constants/categories'
 import TagsRightSidebar from '../../components/TagsRightSidebar/TagsRightSidebar';
 import {useNavigate} from 'react-router-dom'
+import axios from 'axios';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const useStyle = makeStyles({
   tagIconStyle: {
@@ -39,11 +41,33 @@ const useStyle = makeStyles({
 const TagPage = () => {
   const classes = useStyle();
   const {category} = useParams();
-  console.log(category); 
-  const categoryRelatedPostsArray = [1,2,3,4,5,6,7,8,9,10] 
+  const location = useLocation();
+  const tagName = location.pathname.split(('/'))[2];
+  const [tagRelatedPosts, setTagRelatedPosts] = useState([]);
 
+  const [isFetching, setIsFetching] = useState(false);
+  useEffect(() => {
+    setIsFetching(true);
+    const fetchTagRelatedPosts = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/posts/${tagName}/tag`
+        ).then(res => {
+          setTagRelatedPosts(res.data);
+          setIsFetching(false);
+          // console.log(res.data);
+        }).catch(err => {
+          console.log(err);
+          setIsFetching(false);
+        })
+      } catch(error) {
+        console.log(error);
+        setIsFetching(false);
+      }
+    }
+    fetchTagRelatedPosts();
+  }, [tagName])
   const categoryText = category[0].toUpperCase()+category.slice(1)
-  console.log(categoriesArray);
   return(
     <div className='tagpage-wrapper'>
       <Grid container>
@@ -70,13 +94,20 @@ const TagPage = () => {
                 </div>
                 <div style={{paddingTop: 50}}>
                   {
-                    categoriesArray.indexOf(category)>-1 ?
-                    <CategoryRelatedPosts categoryRelatedPostsArray={categoryRelatedPostsArray} categoryText={categoryText}/> :
+                    isFetching ? 
+                    <div style={{textAlign: 'center'}}>
+                      <CircularProgress color="inherit" />
+                    </div> :
+                    (categoriesArray.indexOf(category)>-1 ?
+                    <CategoryRelatedPosts 
+                      tagRelatedPosts={tagRelatedPosts} 
+                      categoryText={categoryText}
+                    /> :
                     <div style={{width: 111, margin: 'auto'}}>
                       <Typography style={{color: 'rgb(81,81,81)', fontSize: 19, fontWeight: 'bold'}}>
                         No such tag
                       </Typography>
-                    </div>
+                    </div>)
                   }
                   
                 </div>
@@ -109,17 +140,18 @@ const TagPage = () => {
 
 
 
-const CategoryRelatedPosts = ({categoryRelatedPostsArray, categoryText}) => {
+const CategoryRelatedPosts = ({tagRelatedPosts, categoryText}) => {
   const classes = useStyle();
   const navigate = useNavigate();
   return(
 
     <div>
       {
-        categoryRelatedPostsArray.length
-        ? categoryRelatedPostsArray.map(ele => (
-          <Post key={ele} /> 
-        ))
+        tagRelatedPosts.length
+        ? tagRelatedPosts.map(post => {
+          console.log(post);
+          return(<Post post={post}/>)
+        })
         :
         <div style={{width: '60%', margin: 'auto'}}>
           <Typography style={{color: 'rgb(51,51,51)', fontSize: 17}}>
