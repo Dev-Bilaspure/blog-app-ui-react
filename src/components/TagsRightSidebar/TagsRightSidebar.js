@@ -1,8 +1,13 @@
 import { Avatar, Button, Grid, makeStyles, Typography } from '@material-ui/core';
-import React, { useState, useEffect } from 'react';
-import {useLocation, useNavigate} from 'react-router-dom'
+import React, { useState, useEffect, useContext } from 'react';
+import {useLocation, useNavigate, Link} from 'react-router-dom'
 import Categories from '../Categories/Categories';
 import axios from 'axios';
+import { UserContext } from '../../context/UserContext';
+
+
+const PF = 'http://localhost:5000/images/'
+const defaultUserPic = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
 
 const useStyle = makeStyles({
   tagsHeading: {
@@ -38,28 +43,7 @@ const useStyle = makeStyles({
 })
 const TagsRightSidebar = ({user}) => {
   const classes = useStyle();
-  return(
-    <div>
-      <div>
-        <div>
-          <Typography className={classes.tagsHeading}>
-            Tags
-          </Typography>
-        </div>
-        <Categories />
-      </div>
-      <div style={{marginTop: 30, paddingTop: 50, borderTop: '1px solid #E6E6E6'}}>
-        <Typography style={{fontFamily: `'IBM Plex Sans', 'sans-serif'`, fontSize: 20, marginBottom: 25}}>
-          Recommended
-        </Typography>
-        <RankedUsers />
-      </div>
-    </div>
-  );
-}
 
-const RankedUsers = ({user}) => {
-  const arr = [1,2,3,4,5];
   const [rankedUsers, setRankedUsers] = useState([]);
   useEffect(() => {
     const fetchRankedUsers = async () => {
@@ -79,11 +63,26 @@ const RankedUsers = ({user}) => {
   }, [])
   return(
     <div>
-      {
-        rankedUsers.map(rankedUser => (
-          <RankedUser rankedUser={rankedUser} user={user}/>
-        ))
-      }
+      <div>
+        <div>
+          <Typography className={classes.tagsHeading}>
+            Tags
+          </Typography>
+        </div>
+        <Categories />
+      </div>
+      <div style={{marginTop: 30, paddingTop: 50, borderTop: '1px solid #E6E6E6'}}>
+        <Typography style={{fontFamily: `'IBM Plex Sans', 'sans-serif'`, fontSize: 20, marginBottom: 25}}>
+          Recommended
+        </Typography>
+        <div>
+          {
+            rankedUsers.map(rankedUser => (
+              <RankedUser rankedUser={rankedUser} user={user}/>
+            ))
+          }
+        </div>
+      </div>
     </div>
   );
 }
@@ -92,28 +91,49 @@ const RankedUser = ({rankedUser, user}) => {
   const classes = useStyle(); 
   const location = useLocation();
   const navigate = useNavigate();
-  const [isFollowing, setIsFollowing] = useState(false);
-  const handleClickFollowBtn = () => {
+  const {loginSuccess} = useContext(UserContext);
+
+
+  // console.log(user.followings.includes(rankedUser._id))
+  const [isFollowing, setIsFollowing] = useState(user && user.followings.includes(rankedUser._id));
+
+  const handleClickFollowBtn = async() => {
     if(!user)
-      navigate('/signin', {state: {from: location}})
-    setIsFollowing(!isFollowing);
+      navigate('/signin', { state: {from: location}});
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/users/${rankedUser._id}/follow`,
+        {userId: user._id}
+      ).then(res => {
+        loginSuccess(res.data);
+        console.log(res.data);
+        setIsFollowing(!isFollowing);
+      })
+    } catch(error) {
+      console.log(error);
+    }
   }
+
   return(
     <div style={{marginBottom: 35, wordBreak: 'break-all'}}>
       <Grid container>
         <Grid item style={{marginBottom: 10}}>
-          <Avatar
-            alt="author avatar"
-            src={rankedUser.profilePicture || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
-            style={{width: 47, height: 47}}
-          />
+          <Link to={`/profile/@${rankedUser.username}`} style={{color: 'inherit', textDecoration: 'none'}}>
+            <Avatar
+              alt="author avatar"
+              src={rankedUser.profilePicture ? PF+rankedUser.profilePicture : defaultUserPic}
+              style={{width: 47, height: 47}}
+            />
+          </Link>
         </Grid>
         <Grid item style={{paddingLeft: 10, paddingTop: 2}}>
           <Typography className={classes.userName}>
-            {rankedUser.name}
+            <Link to={`/profile/@${rankedUser.username}`} style={{color: 'inherit', textDecoration: 'none'}}>
+              {rankedUser.name}
+            </Link>
           </Typography>
           <Typography style={{color: 'rgb(91,91,91)', fontSize: 14}}>
-            {rankedUser.followersCount} Followers
+            {rankedUser.followers.length} Followers
           </Typography>
         </Grid>
         <Grid item>
@@ -122,7 +142,7 @@ const RankedUser = ({rankedUser, user}) => {
             className={classes.followBtn}
             onClick={handleClickFollowBtn}
           >
-            {!isFollowing ? 'Follow' : 'Following'}
+            {isFollowing ? 'Following' : 'Follow'}
           </Button>
         </Grid>
       </Grid>

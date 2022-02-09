@@ -74,6 +74,7 @@ const Blog = ({user}) => {
           setAuthorProfilePic(res.data.profilePicture);
           setAuthorUsername(res.data.username);
 
+          user &&
           setIsFollowing(user.followings.indexOf(userId)>-1);  
         })
       } catch(error) {
