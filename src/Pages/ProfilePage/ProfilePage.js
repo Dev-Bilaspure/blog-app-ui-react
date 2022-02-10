@@ -1,7 +1,7 @@
 import { Box, Grid, Typography, Button, Hidden } from '@material-ui/core'
 import React, { useContext, useEffect, useState } from 'react'
 import './profilePageStyle.css';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import useStyle from './profilePageStyles';
 import {CategoryTags} from './../Blog/Blog'
 import BasicMenu from './../../components/BasicMenu/BasicMenu';
@@ -18,16 +18,17 @@ const PF = 'http://localhost:5000/images/'
 const ProfilePage = ({user}) => {
   const navigate = useNavigate();
   const location = useLocation();
-  
+
+  const params = useParams();
+  console.log(params);
   const {loginSuccess} = useContext(UserContext);
 
   const username = location.pathname.split('/')[2].substr(1);
-  console.log(username);
 
   const [usersname, setUsersname] = useState('');
   const [shortBio, setShortBio] = useState('');
-  const [followings, setFollowings] = useState([1,2]);
-  const [followers, setFollowers] = useState([1,2]); 
+  const [followings, setFollowings] = useState([]);
+  const [followers, setFollowers] = useState([]); 
   const [profilePic, setProfilePic] = useState('');
   const [profileUsersId, setProfileUsersId] = useState('');
   const [usersPosts, setUsersPosts] = useState([]);
@@ -58,9 +59,11 @@ const ProfilePage = ({user}) => {
           fetchUsersPosts(res);
         }).catch(err => {
           console.log(err);
+          setIsFetchingUsersPosts(false);
         })
       } catch(error) {
         console.log(error);
+        setIsFetchingUsersPosts(false);
       }
     }
     fetchUsersInfo();
@@ -288,8 +291,8 @@ const PostByUser = ({user, post}) => {
   const {loginSuccess} = useContext(UserContext);
 
   const [likes, setLikes] = useState(post.likes.length);
-  const [isLiked, setIsLiked] = useState(post.likes.includes(user._id));
-  const [isBookmarked, setIsBookmarked] = useState(user.bookmarks.includes(post._id));
+  const [isLiked, setIsLiked] = useState(user && post.likes.includes(user._id));
+  const [isBookmarked, setIsBookmarked] = useState(user && user.bookmarks.includes(post._id));
   const [categories, setCategories] = useState(['Lifestyle', 'Health', 'Food']);
 
   const handleClickLike = async () => {

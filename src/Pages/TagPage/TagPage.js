@@ -102,9 +102,9 @@ const TagPage = () => {
                       tagRelatedPosts={tagRelatedPosts} 
                       categoryText={categoryText}
                     /> :
-                    <div style={{width: 111, margin: 'auto'}}>
+                    <div style={{width: 138, margin: 'auto'}}>
                       <Typography style={{color: 'rgb(81,81,81)', fontSize: 19, fontWeight: 'bold'}}>
-                        No such tag
+                        No story found
                       </Typography>
                     </div>)
                   }

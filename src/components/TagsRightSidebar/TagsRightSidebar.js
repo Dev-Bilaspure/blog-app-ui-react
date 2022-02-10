@@ -75,7 +75,7 @@ const TagsRightSidebar = ({user}) => {
         <Typography style={{fontFamily: `'IBM Plex Sans', 'sans-serif'`, fontSize: 20, marginBottom: 25}}>
           Recommended
         </Typography>
-        <div>
+        <div style={{paddingBottom: 100}}>
           {
             rankedUsers.map(rankedUser => (
               <RankedUser rankedUser={rankedUser} user={user}/>

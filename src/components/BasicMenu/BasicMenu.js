@@ -74,7 +74,7 @@ const BasicMenu = () => {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
         alt="profilemenu avatar"
-        src={user.profilePicture ? PF + user.profilePicture : defaultUserPic}
+        src={ PF + user.profilePicture || defaultUserPic}
         style={{width: 45, height: 45}}
         className={classes.basicMenuAvatar}
       /> 

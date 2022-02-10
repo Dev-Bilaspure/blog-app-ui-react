@@ -226,7 +226,7 @@ const FollowingUsersPosts = ({user, setValue}) => {
             <Post user={user} post={post}/>
           ))
         : <div>
-            <div style={{width: 380, margin: 'auto'}}>
+            <div style={{width: 380, margin: 'auto', textAlign: 'center', overflowWrap: 'break-word'}}>
               <Typography style={{color: 'rgb(51,51,51)', fontSize: 16}}>
                 Stories from the writers you follow will appear here.
               </Typography>

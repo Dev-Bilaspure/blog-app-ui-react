@@ -58,6 +58,7 @@ const SignIn = ({handleTabChange, setUser}) => {
         // res.data && 
         if(res.data) {
           loginSuccess(obj);
+          console.log(res.data);
           setServerError(false);
           navigate(location.state.from || '/');
         }

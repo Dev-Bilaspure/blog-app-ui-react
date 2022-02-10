@@ -99,7 +99,7 @@ const PublishedPost = ({publishedPost}) => {
       <div style={{overflowWrap: 'break-word', marginBottom: 50}}>
         <div style={{paddingBottom: 20, borderBottom: '1px solid #E6E6E6'}}>
           <Typography style={{  fontSize: 19, color: 'rgb(41,41,41)', fontFamily: `'Outfit', 'sans-serif'`}}>
-            <Link to={`/blog/${publishedPost}`} style={{color: 'inherit', textDecoration: 'none'}}>
+            <Link to={`/blog/${publishedPost._id}`} style={{color: 'inherit', textDecoration: 'none'}}>
               {publishedPost.title}
             </Link>
           </Typography>

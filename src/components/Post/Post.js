@@ -131,7 +131,7 @@ const Post = ({user, post}) => {
                     {
                       isBookmarked ?
                       <i className="fas fa-bookmark" style={{color: 'rgb(26,136,22)'}}></i> :
-                      <i className="far fa-bookmark" style={{color: 'rgb(117,117,117)'}}></i>
+                      <i className="far fa-bookmark" style={{color: 'rgb(77,77,77)'}}></i>
                     }
                   </div>
                 </Grid>

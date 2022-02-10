@@ -271,7 +271,7 @@ const LikeNBookmark = ({isLiked, likes, isBookmarked, handleClickLike, handleCli
               ? <i className="fas fa-heart" style={{marginRight: 6, color: 'rgb(219, 61, 61)'}} onClick={handleClickLike}></i> 
               : <i className="far fa-heart" style={{marginRight: 6}} onClick={handleClickLike}></i>
             }
-            {likes}
+            {likes} likes
           </Grid>
           <Grid item className={classes.likeOrFollow} style={{fontSize: 20}}>
             {
@@ -356,7 +356,7 @@ const RightSideBar = ({handleOpenDialogBox, categories, postsUsersId, title, des
         </Box>
       }
         
-      <Box style={{width: '90%', paddingLeft: 10, marginTop: 60}}>
+      <Box style={{width: '90%', paddingLeft: 10, marginTop: 60, paddingBottom: 100}}>
         <Typography style={{fontFamily: `'Raleway', 'sans-serif'`, fontSize: 22, marginBottom: 10, color: 'rgb(51,51,51)', paddingLeft: 10}}>
           Related:
         </Typography>
