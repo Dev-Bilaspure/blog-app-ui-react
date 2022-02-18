@@ -352,7 +352,7 @@ const PostByUser = ({user, post}) => {
           {
             post.img && 
             <img 
-              src={PF+post.img} 
+              src={post.img} 
               alt="post image"
               style={{objectFit: 'cover', backgroungSize: 'cover', width: '100%', borderRadius: 7}}
             />
@@ -495,7 +495,7 @@ const LeftSideBar = ({ usersname, shortBio, profilePic, handleFollowButton, isFo
     <Box>
       <Box>
         <img 
-          src={profilePic.length ? PF+profilePic : defaultUserPic} 
+          src={profilePic.length ? profilePic : defaultUserPic} 
           alt="person image"
           style={{objectFit: 'cover', backgroungSize: 'cover', width: 150, borderRadius: 6, height: 160}}
         />

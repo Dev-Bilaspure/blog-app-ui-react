@@ -376,23 +376,28 @@ const PhotoPartImgNButtonSet = ({photoEdit, setPhotoEdit}) => {
   const classes = useStyle();
   const {user, loginSuccess} = useContext(UserContext);
   const [editedProfilePicture, setEditedProfilePicture] = useState(null);
+  const [imagePreview, setImagePreview] = useState('');
+  const [fileInputState, setFileInputState] = useState('');
+
+  const previewFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+        setImagePreview(reader.result);
+    };
+  }
+  const handleSelectPic = (e) => {
+    const file = e.target.files[0];
+    setEditedProfilePicture(file);
+    previewFile(file);
+    setFileInputState(e.target.value);
+  }
   
-  const handlePhotoChangeSave = async() => {
-    const userObj = {};
-    if(editedProfilePicture) {
-      const data = new FormData();
-      let filename = Date.now() + editedProfilePicture.name;
-      data.append("name", filename);
-      data.append("file", editedProfilePicture);
-      userObj.img = filename;
-      try {
-        await axios.post("http://localhost:5000/api/upload", data);
-      } catch (err) {console.log(err)}
-    }
+  const updateProfilePic = async(imgURL) => {
     try {
       const response = await axios.put(
         `http://localhost:5000/api/users/${user._id}`,
-        {userId: user._id, profilePicture: userObj.img}
+        {userId: user._id, profilePicture: imgURL}
       ).then(res => {
         console.log(res.data);
         loginSuccess(res.data);
@@ -403,12 +408,37 @@ const PhotoPartImgNButtonSet = ({photoEdit, setPhotoEdit}) => {
       console.log(error);
     }
   }
+  const handlePhotoChangeSave = async() => {
+    if(editedProfilePicture) {
+      const reader = new FileReader();
+      reader.readAsDataURL(editedProfilePicture);
+      reader.onloadend = async() => {
+          // console.log(reader.result);
+          try {
+            await axios.post(
+              'http://localhost:5000/api/upload',
+              {base64EncodedImage: reader.result}
+            ).then(res => {
+              console.log(res.data.imageURL)
+              updateProfilePic(res.data.imageURL)
+            })
+          } catch (err) {
+            console.error(err);
+          }
+      };
+      reader.onerror = () => {
+          console.error('AHHHHHHHH!!');
+      };
+    }
+    else
+      setPhotoEdit(false);
+  }
   return(
     <div>
       <Grid container>
         <Grid item>
           <label htmlFor='fileInput'>
-            <div className={photoEdit && classes.uploadPhoto} style={{background: `url(${editedProfilePicture ? URL.createObjectURL(editedProfilePicture) : (user.profilePicture ? PF+user.profilePicture : defaultUserPic)}) center/100%`,borderRadius: 100,  height: '92px', width: '92px'}}>
+            <div className={photoEdit && classes.uploadPhoto} style={{background: `url(${editedProfilePicture ? imagePreview : (user.profilePicture ? user.profilePicture : defaultUserPic)}) center/100%`,borderRadius: 100,  height: '92px', width: '92px'}}>
               <div className={classes.uploadImageBtn} >
                 {photoEdit && <i className="fas fa-camera"></i>}
               </div>
@@ -419,8 +449,9 @@ const PhotoPartImgNButtonSet = ({photoEdit, setPhotoEdit}) => {
             <input 
               type='file' 
               id='fileInput' 
+              value={fileInputState}
               style={{display: 'none'}}
-              onChange={(e) => setEditedProfilePicture(e.target.files[0])}
+              onChange={handleSelectPic}
             />
           }
         </Grid>

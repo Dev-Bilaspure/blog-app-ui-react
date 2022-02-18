@@ -164,7 +164,7 @@ const DeleteEditMenu = ({handleOpenDialogBox, postId, draftPost}) => {
       oldPostDesc: draftPost.desc,
       oldPostCategories: draftPost.tags,
       oldPostId: draftPost._id,
-      oldPostImg: PF+draftPost.img
+      oldPostImg: draftPost.img
     }})
     setAnchorEl(null);
   }

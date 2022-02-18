@@ -78,7 +78,7 @@ const Post = ({user, post}) => {
         <Grid item>
           <Link to={`/profile/@${authorUsername}`} style={{color: 'inherit', textDecoration: 'none'}}>
             <img 
-              src={profilePic ? PF+profilePic : defaultUserPic} 
+              src={profilePic ? profilePic : defaultUserPic} 
               alt="person image"
               style={{width: 25, height: 25, paddingLeft: 0, borderRadius: 7, objectFit: 'cover'}}
             /> 
@@ -145,7 +145,7 @@ const Post = ({user, post}) => {
             {
               post.img &&
               <img 
-                src={PF+post.img}
+                src={post.img}
                 alt="blog-post-image" 
                 style={{ width:'100%', height: 141, borderRadius: 4}}
               />

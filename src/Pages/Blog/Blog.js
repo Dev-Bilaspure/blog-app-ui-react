@@ -195,7 +195,7 @@ const Blog = ({user}) => {
               {
                 blogImg 
                 && <img 
-                    src={PF+blogImg}
+                    src={blogImg}
                     alt="blog-post-image" 
                     style={{objectFit: 'cover', width: '100%', borderRadius: 5}}
                   />
@@ -329,7 +329,7 @@ const RightSideBar = ({handleOpenDialogBox, categories, postsUsersId, title, des
       oldPostDesc: description,
       oldPostCategories: categories,
       oldPostId: postID,
-      oldPostImg: PF+blogImg
+      oldPostImg: blogImg
     }})
   }
   return(
@@ -377,7 +377,7 @@ const MiddleBanner = ({ isFollowing, handleFollowButton, authorUsername, authorP
           <Link to={`/profile/@${authorUsername}`} style={{textDecoration: 'none', color: 'inherit'}}>
             <Avatar
               alt="author avatar"
-              src={ authorProfilePic.length ? PF+authorProfilePic : defaultUserPic}
+              src={ authorProfilePic.length ? authorProfilePic : defaultUserPic}
               style={{width: 53, height: 53}}
             />
           </Link>

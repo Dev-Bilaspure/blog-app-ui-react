@@ -21,6 +21,8 @@ const Write = () => {
   const [title, setTitle] = useState('');
   const [discription, setDiscription] = useState('');
   const [blogImg, setBlogImg] = useState(null);
+  const [imagePreview, setImagePreview] = useState('');
+  const [fileInputState, setFileInputState] = useState('');
   const [selectedCategories, setSelectedCategories] = useState([]);
 
   const [oldBlogImg, setOldBlogImg] = useState('');
@@ -38,92 +40,175 @@ const Write = () => {
     }
   }, [])
 
+  const previewFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+        setImagePreview(reader.result);
+    };
+  }
+
+  const handleSelectImage = (e) => {
+    const file = e.target.files[0];
+    setBlogImg(file);
+    previewFile(file);
+    setFileInputState(e.target.value);
+  }
+
   const publishNewPost = async(postObj) => {
-    if(blogImg) {
-      const data = new FormData();
-      const filename = Date.now() + blogImg.name;
-      data.append("name", filename);
-      data.append("file", blogImg);
-      postObj.img = filename;
+    const uploadPostNow = async(postObj) => {
       try {
-        await axios.post("http://localhost:5000/api/upload", data);
-      } catch (err) {}
+        const response = await axios.post(
+          `http://localhost:5000/api/posts/publish`,
+          postObj
+        ).then(res => {
+          navigate('/published');
+        })
+      } catch(error) {
+        console.log(error);
+      }
     }
-    try {
-      const response = await axios.post(
-        `http://localhost:5000/api/posts/publish`,
-        postObj
-      ).then(res => {
-        navigate('/published');
-      })
-    } catch(error) {
-      console.log(error);
+    if(blogImg) {
+      const reader = new FileReader();
+      reader.readAsDataURL(blogImg);
+      reader.onloadend = async() => {
+          // console.log(reader.result);
+          try {
+            await axios.post(
+              'http://localhost:5000/api/upload',
+              {base64EncodedImage: reader.result}
+            ).then(res => {
+              console.log(res.data.imageURL)
+              postObj.img = res.data.imageURL;
+              uploadPostNow(postObj);
+            })
+          } catch (err) {
+              console.error(err);
+          }
+      };
+      reader.onerror = () => {
+          console.error('AHHHHHHHH!!');
+      };
+    }
+    else {
+      uploadPostNow(postObj);
     }
   }
   const updateAndPublishOldPost = async(postObj) => {
-    if(blogImg) {
-      const data = new FormData();
-      const filename = Date.now() + blogImg.name;
-      data.append("name", filename);
-      data.append("file", blogImg);
-      postObj.img = filename;
+    const uploadPostNow = async(postObj) => {
       try {
-        await axios.post("http://localhost:5000/api/upload", data);
-      } catch (err) {}
+        const response = await axios.post(
+          `http://localhost:5000/api/posts/publish`,
+          postObj
+        ).then(res => {
+          navigate('/published');
+        })
+      } catch(error) {
+        console.log(error);
+      }
     }
-    try {
-      const response = await axios.put(
-        `http://localhost:5000/api/posts/${location.state.oldPostId}/publish`,
-        postObj
-      ).then(res => {
-        navigate('/published');
-      })
-    } catch(error) {
-      console.log(error);
+    if(blogImg) {
+      const reader = new FileReader();
+      reader.readAsDataURL(blogImg);
+      reader.onloadend = async() => {
+          // console.log(reader.result);
+          try {
+            await axios.post(
+              'http://localhost:5000/api/upload',
+              {base64EncodedImage: reader.result}
+            ).then(res => {
+              console.log(res.data.imageURL)
+              postObj.img = res.data.imageURL;
+              uploadPostNow(postObj);
+            })
+          } catch (err) {
+              console.error(err);
+          }
+      };
+      reader.onerror = () => {
+          console.error('AHHHHHHHH!!');
+      };
+    }
+    else {
+      uploadPostNow(postObj);
     }
   }
   const draftNewPost = async(postObj) => {
-    if(blogImg) {
-      const data = new FormData();
-      const filename = Date.now() + blogImg.name;
-      data.append("name", filename);
-      data.append("file", blogImg);
-      postObj.img = filename;
+    const uploadPostNow = async(postObj) => {
       try {
-        await axios.post("http://localhost:5000/api/upload", data);
-      } catch (err) {}
+        const response = await axios.post(
+          `http://localhost:5000/api/posts/publish`,
+          postObj
+        ).then(res => {
+          navigate('/draft');
+        })
+      } catch(error) {
+        console.log(error);
+      }
     }
-    try {
-      const response = await axios.post(
-        `http://localhost:5000/api/posts/draft`,
-        postObj
-      ).then(res => {
-        navigate('/draft');
-      })
-    } catch(error) {
-      console.log(error);
+    if(blogImg) {
+      const reader = new FileReader();
+      reader.readAsDataURL(blogImg);
+      reader.onloadend = async() => {
+          // console.log(reader.result);
+          try {
+            await axios.post(
+              'http://localhost:5000/api/upload',
+              {base64EncodedImage: reader.result}
+            ).then(res => {
+              console.log(res.data.imageURL)
+              postObj.img = res.data.imageURL;
+              uploadPostNow(postObj);
+            })
+          } catch (err) {
+              console.error(err);
+          }
+      };
+      reader.onerror = () => {
+          console.error('AHHHHHHHH!!');
+      };
+    }
+    else {
+      uploadPostNow(postObj);
     }
   }
   const updateAndDraftOldPost = async(postObj) => {
-    if(blogImg) {
-      const data = new FormData();
-      const filename = Date.now() + blogImg.name;
-      data.append("name", filename);
-      data.append("file", blogImg);
-      postObj.img = filename;
+    const uploadPostNow = async(postObj) => {
       try {
-        await axios.post("http://localhost:5000/api/upload", data);
-      } catch (err) {console.log(err)}
+        const response = await axios.post(
+          `http://localhost:5000/api/posts/publish`,
+          postObj
+        ).then(res => {
+          navigate('/draft');
+        })
+      } catch(error) {
+        console.log(error);
+      }
     }
-    try {
-      const response = await axios.put(
-        `http://localhost:5000/api/posts/${location.state.oldPostId}/draft`,
-        postObj
-      ).then(res => {
-        navigate('/draft');
-      })
-    } catch(error) {
-      console.log(error);
+    if(blogImg) {
+      const reader = new FileReader();
+      reader.readAsDataURL(blogImg);
+      reader.onloadend = async() => {
+          // console.log(reader.result);
+          try {
+            await axios.post(
+              'http://localhost:5000/api/upload',
+              {base64EncodedImage: reader.result}
+            ).then(res => {
+              console.log(res.data.imageURL)
+              postObj.img = res.data.imageURL;
+              uploadPostNow(postObj);
+            })
+          } catch (err) {
+              console.error(err);
+          }
+      };
+      reader.onerror = () => {
+          console.error('AHHHHHHHH!!');
+      };
+    }
+    else {
+      uploadPostNow(postObj);
     }
   }
 
@@ -181,7 +266,7 @@ const Write = () => {
             {
               blogImg ?  
                 <img 
-                  src={URL.createObjectURL(blogImg)}
+                  src={imagePreview}
                   alt="blog-post-image" 
                   style={{objectFit: 'cover', width: '100%', marginBottom: 15, borderRadius: 5}}
                 /> :
@@ -209,7 +294,8 @@ const Write = () => {
               type='file' 
               id='fileInput' 
               className={classes.imageUploadButton}
-              onChange={(e) => setBlogImg(e.target.files[0])}
+              onChange={handleSelectImage}
+              value={fileInputState}
             />
           </Box>
           <Box style={{marginTop: 10}}>
