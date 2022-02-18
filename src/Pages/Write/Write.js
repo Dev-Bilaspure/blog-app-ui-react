@@ -97,8 +97,8 @@ const Write = () => {
   const updateAndPublishOldPost = async(postObj) => {
     const uploadPostNow = async(postObj) => {
       try {
-        const response = await axios.post(
-          `http://localhost:5000/api/posts/publish`,
+        const response = await axios.put(
+          `http://localhost:5000/api/posts/${location.state.oldPostId}/publish`,
           postObj
         ).then(res => {
           navigate('/published');
@@ -137,7 +137,7 @@ const Write = () => {
     const uploadPostNow = async(postObj) => {
       try {
         const response = await axios.post(
-          `http://localhost:5000/api/posts/publish`,
+          `http://localhost:5000/api/posts/draft`,
           postObj
         ).then(res => {
           navigate('/draft');
@@ -175,8 +175,8 @@ const Write = () => {
   const updateAndDraftOldPost = async(postObj) => {
     const uploadPostNow = async(postObj) => {
       try {
-        const response = await axios.post(
-          `http://localhost:5000/api/posts/publish`,
+        const response = await axios.put(
+          `http://localhost:5000/api/posts/${location.state.oldPostId}/publish`,
           postObj
         ).then(res => {
           navigate('/draft');
